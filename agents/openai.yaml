@@ -1,0 +1,4 @@
+interface:
+  display_name: "WorkBuddy Dream Skin"
+  short_description: "安装、定制、验证和恢复 WorkBuddy Windows 外置主题"
+  default_prompt: "使用本目录脚本安全管理 WorkBuddy Dream Skin，不修改官方应用文件。"

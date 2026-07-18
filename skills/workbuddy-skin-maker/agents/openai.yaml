@@ -1,0 +1,4 @@
+interface:
+  display_name: "WorkBuddy Skin Maker"
+  short_description: "Build and strictly audit adaptive WorkBuddy skins"
+  default_prompt: "Use $workbuddy-skin-maker to create or refine a WorkBuddy theme and complete the strict visual audit."

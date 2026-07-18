@@ -1,0 +1,16 @@
+{
+  "name": "workbuddy-dream-skin",
+  "version": "0.7.3",
+  "private": true,
+  "description": "WorkBuddy 桌面端图片驱动的自适应 UI 换肤系统（外置 CDP 注入 + PowerShell 工具箱）。",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "preflight": "node scripts/preflight.mjs",
+    "check-payload": "node scripts/injector.mjs --check-payload",
+    "check-node": "node --check assets/renderer-inject.js && node --check scripts/injector.mjs && node --check scripts/preflight.mjs",
+    "verify": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify-workbuddy-skin.ps1"
+  }
+}

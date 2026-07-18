@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 2,
+  "id": "deep-sea-watch",
+  "style": "deep-sea",
+  "appearance": "dark",
+  "name": "深海夜航",
+  "eyebrow": "WORKBUDDY NIGHT WATCH",
+  "tagline": "让思绪下潜，让成果浮出水面。",
+  "status": "LOCAL LINK ACTIVE",
+  "images": {
+    "background": "deep-sea-hero.svg",
+    "hero": "deep-sea-hero.svg",
+    "character": null
+  },
+  "layout": {
+    "backgroundPosition": "50% 50%",
+    "backgroundSize": "cover",
+    "heroPosition": "50% 50%",
+    "heroSize": "cover",
+    "characterPosition": "right 28px bottom 86px",
+    "characterSize": "360px auto"
+  },
+  "effects": {
+    "backgroundOverlay": 0.86,
+    "heroOverlay": 0.72,
+    "characterOpacity": 1,
+    "panelOpacity": 0.96
+  },
+  "decoration": {
+    "mode": "off",
+    "style": "deep-sea",
+    "source": "none",
+    "variant": "none"
+  },
+  "colors": {
+    "background": "#071318",
+    "panel": "#0B2025",
+    "panelAlt": "#102B30",
+    "accent": "#58E6C2",
+    "accentAlt": "#8BF3D8",
+    "secondary": "#2F96A3",
+    "highlight": "#F2B866",
+    "text": "#E8F7F3",
+    "muted": "#91AAA5",
+    "line": "rgba(88, 230, 194, .22)"
+  }
+}

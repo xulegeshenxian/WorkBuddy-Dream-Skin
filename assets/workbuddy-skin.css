@@ -1,0 +1,2303 @@
+@font-face {
+  font-family: "WBDS Assistant";
+  src: local("Microsoft YaHei UI");
+  font-display: swap;
+}
+
+html.workbuddy-dream-skin {
+  color-scheme: dark;
+  background: var(--wbds-background) !important;
+  --vscode-editor-background: var(--wbds-background) !important;
+  --vscode-editor-foreground: var(--wbds-text) !important;
+  --vscode-sideBar-background: color-mix(in srgb, var(--wbds-panel) 94%, transparent) !important;
+  --vscode-sideBar-foreground: var(--wbds-text) !important;
+  --vscode-panel-background: var(--wbds-panel) !important;
+  --vscode-input-background: color-mix(in srgb, var(--wbds-panel-alt) 88%, transparent) !important;
+  --vscode-input-foreground: var(--wbds-text) !important;
+  --vscode-focusBorder: var(--wbds-accent) !important;
+  --vscode-button-background: var(--wbds-accent) !important;
+  --vscode-button-foreground: #061714 !important;
+  --vscode-list-hoverBackground: color-mix(in srgb, var(--wbds-accent) 11%, transparent) !important;
+  --vscode-list-activeSelectionBackground: color-mix(in srgb, var(--wbds-accent) 18%, transparent) !important;
+  --vscode-scrollbarSlider-background: color-mix(in srgb, var(--wbds-accent) 26%, transparent) !important;
+  --cb-text-primary: var(--wbds-text) !important;
+  --cb-text-primary-strong: var(--wbds-text) !important;
+  --cb-text-title: var(--wbds-text) !important;
+  --cb-text-color-primary: var(--wbds-text) !important;
+  --cb-foreground: var(--wbds-text) !important;
+  --cb-text-secondary: var(--wbds-muted) !important;
+  --cb-text-secondary-strong: color-mix(in srgb, var(--wbds-text) 82%, var(--wbds-muted)) !important;
+  --cb-text-tertiary: color-mix(in srgb, var(--wbds-muted) 86%, var(--wbds-text)) !important;
+  --cb-text-tertiary-strong: var(--wbds-muted) !important;
+  --cb-text-muted: var(--wbds-muted) !important;
+  --cb-text-placeholder: color-mix(in srgb, var(--wbds-muted) 78%, transparent) !important;
+  --cb-description-foreground: var(--wbds-muted) !important;
+  --cb-input-button-foreground: var(--wbds-text) !important;
+  --cb-ring-track: color-mix(in srgb, var(--wbds-accent) 18%, transparent) !important;
+  --cb-ring-progress: var(--wbds-accent-alt) !important;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-appearance="light"] {
+  color-scheme: light;
+  --vscode-button-foreground: #fff !important;
+  --vscode-list-hoverBackground: color-mix(in srgb, var(--wbds-accent) 10%, white) !important;
+  --vscode-list-activeSelectionBackground: color-mix(in srgb, var(--wbds-accent) 17%, white) !important;
+}
+
+html.workbuddy-dream-skin :is(.cb-shining-text, [class*="_cb-shining-text_"], .cb-message-queue [class*="_mainText_"]) {
+  color: var(--wbds-text) !important;
+  background: linear-gradient(110deg,
+    color-mix(in srgb, var(--wbds-muted) 82%, transparent) 0 35%,
+    var(--wbds-text) 50%,
+    color-mix(in srgb, var(--wbds-muted) 82%, transparent) 65% 100%) !important;
+  background-size: 200% 100% !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  opacity: 1 !important;
+}
+
+html.workbuddy-dream-skin .cb-message-queue :is([class*="_mainText_"], .cb-shining-text, [class*="shining" i]) *,
+html.workbuddy-dream-skin :is(.cb-shining-text, [class*="_cb-shining-text_"]) * {
+  color: var(--wbds-text) !important;
+  -webkit-text-fill-color: currentColor !important;
+  opacity: 1 !important;
+}
+
+html.workbuddy-dream-skin :is(.loading-text, .text-primary) {
+  color: var(--wbds-text) !important;
+}
+
+html.workbuddy-dream-skin :is(.text-secondary, .text-tertiary) {
+  color: var(--wbds-muted) !important;
+}
+
+html.workbuddy-dream-skin .cb-message-queue {
+  color: var(--wbds-text) !important;
+  border: 1px solid var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-panel-alt) 94%, transparent) !important;
+}
+
+html.workbuddy-dream-skin .cb-message-queue :is([class*="_label_"], [class*="_secondaryText_"], [class*="_description_"]) {
+  color: var(--wbds-muted) !important;
+}
+
+html.workbuddy-dream-skin button[class*="_buttonToolbar_"] [class*="_label_"] {
+  color: var(--wbds-muted) !important;
+}
+
+html.workbuddy-dream-skin,
+html.workbuddy-dream-skin body,
+html.workbuddy-dream-skin #root {
+  background:
+    radial-gradient(circle at 80% 8%, color-mix(in srgb, var(--wbds-secondary) 20%, transparent), transparent 32%),
+    linear-gradient(145deg, color-mix(in srgb, var(--wbds-background) 84%, black), var(--wbds-background) 62%, color-mix(in srgb, var(--wbds-background) 90%, var(--wbds-secondary))) !important;
+  color: var(--wbds-text) !important;
+  font-family: "WBDS Assistant", "Segoe UI Variable", "Segoe UI", sans-serif !important;
+}
+
+html.workbuddy-dream-skin body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: .5;
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--wbds-accent-alt) 3%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--wbds-accent-alt) 3%, transparent) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: linear-gradient(105deg, transparent, #000 45%, transparent 92%);
+}
+
+html.workbuddy-dream-skin * {
+  scrollbar-color: color-mix(in srgb, var(--wbds-accent) 34%, transparent) transparent;
+}
+
+html.workbuddy-dream-skin ::selection {
+  color: #031512;
+  background: var(--wbds-accent-alt);
+}
+
+html.workbuddy-dream-skin :focus-visible {
+  outline-color: var(--wbds-accent) !important;
+  outline-offset: 2px;
+}
+
+html.workbuddy-dream-skin .claw-workspace,
+html.workbuddy-dream-skin .teams-content-wrapper,
+html.workbuddy-dream-skin .teams-container,
+html.workbuddy-dream-skin .colleague-chat-page,
+html.workbuddy-dream-skin .colleague-chat-page__shell,
+html.workbuddy-dream-skin .colleagues-chat-float {
+  background: transparent !important;
+  color: var(--wbds-text) !important;
+}
+
+html.workbuddy-dream-skin .teams-container {
+  background: var(--wbds-background) !important;
+}
+
+html.workbuddy-dream-skin [class*="_gridViewItem_"] {
+  background: transparent !important;
+  color: var(--wbds-text) !important;
+}
+
+html.workbuddy-dream-skin .conversation-list {
+  color: var(--wbds-text) !important;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--wbds-panel) 98%, transparent), color-mix(in srgb, var(--wbds-background) 98%, black)) !important;
+  border-color: var(--wbds-line) !important;
+}
+
+html.workbuddy-dream-skin .conversation-list * {
+  color: inherit !important;
+}
+
+html.workbuddy-dream-skin .conversation-list.conversation-list [class*="_title_"][class*="_title_"] {
+  color: var(--wbds-text) !important;
+}
+
+html.workbuddy-dream-skin .conversation-list.conversation-list [class*="_time_"][class*="_time_"] {
+  color: var(--wbds-muted) !important;
+}
+
+html.workbuddy-dream-skin .conversation-list [class*="_header_"],
+html.workbuddy-dream-skin .conversation-list .collapsible-section-header {
+  background: transparent !important;
+}
+
+/* Conversation search */
+html.workbuddy-dream-skin .conversation-search-modal-overlay {
+  background: color-mix(in srgb, var(--wbds-background) 76%, transparent) !important;
+  backdrop-filter: blur(10px) saturate(.82) !important;
+}
+
+html.workbuddy-dream-skin .conversation-search-modal {
+  color: var(--wbds-text) !important;
+  border: 1px solid color-mix(in srgb, var(--wbds-accent) 30%, transparent) !important;
+  background: linear-gradient(150deg, color-mix(in srgb, var(--wbds-panel-alt) 98%, transparent), color-mix(in srgb, var(--wbds-background) 98%, transparent)) !important;
+  box-shadow: 0 34px 90px rgba(0, 0, 0, .52), inset 0 1px rgba(255, 255, 255, .06) !important;
+}
+
+html.workbuddy-dream-skin :is(.conversation-search-modal__header, .conversation-search-modal__body, .conversation-search-modal__list) {
+  color: var(--wbds-text) !important;
+  background: transparent !important;
+}
+
+html.workbuddy-dream-skin .conversation-search-modal__input-wrapper {
+  color: var(--wbds-text) !important;
+  border: 1px solid color-mix(in srgb, var(--wbds-accent) 22%, transparent) !important;
+  background: color-mix(in srgb, var(--wbds-panel) 88%, transparent) !important;
+}
+
+html.workbuddy-dream-skin .conversation-search-modal__input-wrapper:focus-within {
+  border-color: var(--wbds-accent) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--wbds-accent) 11%, transparent) !important;
+}
+
+html.workbuddy-dream-skin :is(.conversation-search-modal__input, .conversation-search-modal__item-title) {
+  color: var(--wbds-text) !important;
+}
+
+html.workbuddy-dream-skin :is(.conversation-search-modal__count, .conversation-search-modal__item-meta, .conversation-search-modal__item-meta-text) {
+  color: var(--wbds-muted) !important;
+}
+
+html.workbuddy-dream-skin :is(.conversation-search-modal__close, .conversation-search-modal__item) {
+  color: var(--wbds-text) !important;
+  border-color: transparent !important;
+  background: transparent !important;
+}
+
+html.workbuddy-dream-skin :is(.conversation-search-modal__close, .conversation-search-modal__item):is(:hover, :focus-visible, :active) {
+  color: var(--wbds-accent-alt) !important;
+  border-color: color-mix(in srgb, var(--wbds-accent) 22%, transparent) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 13%, var(--wbds-panel)) !important;
+}
+
+html.workbuddy-dream-skin .conversation-search-modal__item:is(:hover, :focus-visible, :active) * {
+  color: inherit !important;
+}
+
+html.workbuddy-dream-skin .conversation-show-more-button,
+html.workbuddy-dream-skin .conversation-section-label:is(.conversation-section-label-tasks, .conversation-section-label-groups) {
+  color: var(--wbds-text) !important;
+  border: 1px solid transparent !important;
+  background: transparent !important;
+}
+
+html.workbuddy-dream-skin .conversation-show-more-button:is(:hover, :focus-visible, :active),
+html.workbuddy-dream-skin .conversation-section-label:is(.conversation-section-label-tasks, .conversation-section-label-groups):is(:hover, :focus-within) {
+  color: var(--wbds-accent-alt) !important;
+  border-color: color-mix(in srgb, var(--wbds-accent) 24%, transparent) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 13%, var(--wbds-panel)) !important;
+  box-shadow: inset 3px 0 var(--wbds-accent), 0 8px 18px rgba(0, 0, 0, .16) !important;
+}
+
+html.workbuddy-dream-skin .conversation-show-more-button:is(:hover, :focus-visible, :active) *,
+html.workbuddy-dream-skin .conversation-section-label:is(.conversation-section-label-tasks, .conversation-section-label-groups):is(:hover, :focus-within) * {
+  color: inherit !important;
+  background: transparent !important;
+}
+
+html.workbuddy-dream-skin .main-content {
+  color: var(--wbds-text) !important;
+  background:
+    linear-gradient(105deg, var(--wbds-hero-overlay-strong), var(--wbds-hero-overlay) 58%, var(--wbds-hero-overlay-strong)),
+    var(--wbds-hero-art) var(--wbds-hero-position) / var(--wbds-hero-size) no-repeat fixed !important;
+}
+
+html.workbuddy-dream-skin .main-content--chat {
+  background:
+    linear-gradient(105deg, var(--wbds-background-overlay-strong), var(--wbds-background-overlay) 62%, var(--wbds-background-overlay-strong)),
+    var(--wbds-background-art) var(--wbds-background-position) / var(--wbds-background-size) no-repeat fixed !important;
+}
+
+/* Task handoff overlay */
+html.workbuddy-dream-skin .workspace-preparing {
+  color: var(--wbds-text) !important;
+  background-color: var(--wbds-background) !important;
+  background:
+    radial-gradient(circle at 76% 24%, color-mix(in srgb, var(--wbds-accent) 15%, transparent), transparent 30%),
+    linear-gradient(120deg, color-mix(in srgb, var(--wbds-background) 94%, transparent), color-mix(in srgb, var(--wbds-background) 84%, transparent) 56%, color-mix(in srgb, var(--wbds-background) 94%, transparent)),
+    var(--wbds-background-art) var(--wbds-background-position) / var(--wbds-background-size) no-repeat fixed !important;
+  backdrop-filter: blur(10px) saturate(.88) !important;
+}
+
+html.workbuddy-dream-skin .workspace-preparing__content {
+  min-width: min(420px, calc(100vw - 80px));
+  padding: 34px 52px 38px !important;
+  border: 1px solid color-mix(in srgb, var(--wbds-accent) 30%, transparent) !important;
+  border-radius: 28px !important;
+  background: linear-gradient(145deg, color-mix(in srgb, var(--wbds-panel) 94%, transparent), color-mix(in srgb, var(--wbds-background) 90%, transparent)) !important;
+  box-shadow: 0 32px 90px rgba(0, 0, 0, .46), inset 0 1px rgba(255, 255, 255, .08) !important;
+}
+
+html.workbuddy-dream-skin .workspace-preparing__icon {
+  filter: drop-shadow(0 18px 24px rgba(0, 0, 0, .36));
+}
+
+html.workbuddy-dream-skin .workspace-preparing__title {
+  color: var(--wbds-text) !important;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, .42);
+}
+
+html.workbuddy-dream-skin .workspace-preparing__description {
+  color: var(--wbds-muted) !important;
+}
+
+html.workbuddy-dream-skin .workspace-preparing__progress-track {
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--wbds-accent) 20%, transparent) !important;
+  background: color-mix(in srgb, var(--wbds-background) 76%, transparent) !important;
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, .38) !important;
+}
+
+html.workbuddy-dream-skin .workspace-preparing__progress-bar {
+  background: linear-gradient(90deg, var(--wbds-secondary), var(--wbds-accent), var(--wbds-highlight)) !important;
+  box-shadow: 0 0 16px color-mix(in srgb, var(--wbds-accent) 58%, transparent) !important;
+}
+
+/* Completed task markdown */
+html.workbuddy-dream-skin .cb-markdown :is(.cb-markdown-pre, pre.cb-markdown-pre) {
+  color: #e5f5ef !important;
+  border: 1px solid color-mix(in srgb, var(--wbds-accent) 24%, transparent) !important;
+  background: color-mix(in srgb, var(--wbds-background) 96%, transparent) !important;
+  box-shadow: 0 16px 34px rgba(0, 0, 0, .28) !important;
+}
+
+html.workbuddy-dream-skin .cb-markdown .cb-markdown-pre__header {
+  color: var(--wbds-muted) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-panel-alt) 98%, transparent) !important;
+}
+
+html.workbuddy-dream-skin .cb-markdown .cb-markdown-pre code {
+  color: #e5f5ef !important;
+  background: transparent !important;
+}
+
+html.workbuddy-dream-skin .cb-markdown table {
+  overflow: hidden;
+  color: var(--wbds-text) !important;
+  border: 1px solid color-mix(in srgb, var(--wbds-accent) 22%, transparent) !important;
+  border-radius: 16px !important;
+  background: color-mix(in srgb, var(--wbds-background) 96%, transparent) !important;
+  box-shadow: 0 16px 34px rgba(0, 0, 0, .24) !important;
+}
+
+html.workbuddy-dream-skin .cb-markdown :is(th, td) {
+  color: inherit !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-background) 96%, transparent) !important;
+}
+
+html.workbuddy-dream-skin .cb-markdown th {
+  color: var(--wbds-accent-alt) !important;
+  background: color-mix(in srgb, var(--wbds-panel-alt) 98%, transparent) !important;
+}
+
+html.workbuddy-dream-skin .main-content * {
+  color: inherit;
+}
+
+html.workbuddy-dream-skin [class*="_mainArea_"] {
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+  background: linear-gradient(145deg, color-mix(in srgb, var(--wbds-panel-alt) var(--wbds-panel-weight), transparent), color-mix(in srgb, var(--wbds-panel) var(--wbds-panel-weight), transparent)) !important;
+  box-shadow: 0 22px 56px rgba(0, 0, 0, .3), inset 0 1px color-mix(in srgb, var(--wbds-accent-alt) 8%, transparent) !important;
+}
+
+html.workbuddy-dream-skin .wb-home-composer__input-slot {
+  border: 1px solid color-mix(in srgb, var(--wbds-accent) 28%, transparent) !important;
+  border-radius: 20px !important;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--wbds-panel) 96%, transparent), color-mix(in srgb, var(--wbds-background) 96%, transparent)) !important;
+  box-shadow: 0 26px 64px rgba(0, 0, 0, .28) !important;
+}
+
+/* Composer controls use light-theme component tokens even inside the dark skin. */
+html.workbuddy-dream-skin [class*="_trigger_qeqjw_"] {
+  color: var(--wbds-text) !important;
+  border-color: transparent !important;
+  background: transparent !important;
+}
+
+html.workbuddy-dream-skin [class*="_trigger_qeqjw_"]:is(:hover, :focus-visible, :active),
+html.workbuddy-dream-skin [class*="_trigger_qeqjw_"][class*="_triggerOpen_qeqjw_"] {
+  color: var(--wbds-accent-alt) !important;
+  border-color: color-mix(in srgb, var(--wbds-accent) 34%, transparent) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 12%, var(--wbds-panel)) !important;
+}
+
+html.workbuddy-dream-skin [class*="_trigger_qeqjw_"] * {
+  color: inherit !important;
+}
+
+html.workbuddy-dream-skin [class*="_chip_fxx2z_"] {
+  color: var(--wbds-muted) !important;
+  border-color: transparent !important;
+  background: transparent !important;
+}
+
+html.workbuddy-dream-skin [class*="_chip_fxx2z_"]:is(:hover, :focus-visible),
+html.workbuddy-dream-skin [class*="_chip_fxx2z_"][class*="_chipOpen_fxx2z_"] {
+  color: var(--wbds-accent-alt) !important;
+  border-color: color-mix(in srgb, var(--wbds-accent) 30%, transparent) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 10%, var(--wbds-panel)) !important;
+}
+
+html.workbuddy-dream-skin [class*="_chip_fxx2z_"] * {
+  color: inherit !important;
+}
+
+html.workbuddy-dream-skin .wb-home-composer [class*="_button_18jez_"] {
+  color: var(--wbds-muted) !important;
+  border-color: transparent !important;
+  background: transparent !important;
+}
+
+html.workbuddy-dream-skin .wb-home-composer [class*="_button_18jez_"]:is(:hover, :focus-visible),
+html.workbuddy-dream-skin .wb-home-composer [class*="_button_18jez_"][class*="_buttonOpen_18jez_"] {
+  color: var(--wbds-accent-alt) !important;
+  border-color: color-mix(in srgb, var(--wbds-accent) 30%, transparent) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 10%, var(--wbds-panel)) !important;
+}
+
+html.workbuddy-dream-skin .wb-home-composer [class*="_button_18jez_"] * {
+  color: inherit !important;
+}
+
+html.workbuddy-dream-skin [class*="_popover_qeqjw_"] {
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-background) 98.5%, transparent) !important;
+}
+
+html.workbuddy-dream-skin [class*="_popover_qeqjw_"] :is(
+  [class*="_autoModeSection_qeqjw_"],
+  [class*="_groupLabel_qeqjw_"]
+) {
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-background) 98.5%, transparent) !important;
+}
+
+html.workbuddy-dream-skin [class*="_popover_qeqjw_"] [class*="_modelItem_"]:hover,
+html.workbuddy-dream-skin [class*="_popover_qeqjw_"] [class*="_footerActionItem_"]:hover {
+  color: var(--wbds-accent-alt) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 12%, var(--wbds-panel)) !important;
+}
+
+html.workbuddy-dream-skin [class*="_popover_qeqjw_"] [class*="_slider_qeqjw_"] {
+  background: color-mix(in srgb, var(--wbds-muted) 38%, var(--wbds-panel)) !important;
+}
+
+html.workbuddy-dream-skin [class*="_popover_qeqjw_"] input:checked + [class*="_slider_qeqjw_"] {
+  background: var(--wbds-accent) !important;
+}
+
+html.workbuddy-dream-skin [class*="_subMenu_gtbqm_"] {
+  color: var(--wbds-text) !important;
+  border: 1px solid var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-background) 98.5%, transparent) !important;
+  box-shadow: 0 18px 46px rgba(0, 0, 0, .42) !important;
+}
+
+html.workbuddy-dream-skin [class*="_subMenu_gtbqm_"] [class*="_modelName_gtbqm_"],
+html.workbuddy-dream-skin [class*="_subMenu_gtbqm_"] [class*="_metaLabel_gtbqm_"],
+html.workbuddy-dream-skin [class*="_subMenu_gtbqm_"] [class*="_actionLabel_gtbqm_"] {
+  color: var(--wbds-text) !important;
+}
+
+html.workbuddy-dream-skin [class*="_subMenu_gtbqm_"] :is(
+  [class*="_description_gtbqm_"],
+  [class*="_metaValue_gtbqm_"],
+  [class*="_actionValue_gtbqm_"]
+) {
+  color: var(--wbds-muted) !important;
+}
+
+html.workbuddy-dream-skin [class*="_subMenu_gtbqm_"] [class*="_divider_gtbqm_"] {
+  background: var(--wbds-line) !important;
+}
+
+html.workbuddy-dream-skin .wb-scene-tabs {
+  border: 1px solid var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-panel) 90%, transparent) !important;
+}
+
+html.workbuddy-dream-skin .wb-scene-tabs > * {
+  color: var(--wbds-muted) !important;
+  background: transparent !important;
+}
+
+html.workbuddy-dream-skin .wb-scene-tabs > .active,
+html.workbuddy-dream-skin .wb-scene-tabs > [aria-selected="true"] {
+  color: #041713 !important;
+  background: var(--wbds-accent) !important;
+}
+
+html.workbuddy-dream-skin .update-toast-card {
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-panel) 97%, transparent) !important;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, .28) !important;
+}
+
+html.workbuddy-dream-skin .workbuddy-topbar {
+  color: var(--wbds-text) !important;
+  border-bottom: 1px solid var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-background) 96%, transparent) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .18) !important;
+  backdrop-filter: blur(18px) saturate(120%);
+}
+
+html.workbuddy-dream-skin .workbuddy-topbar * {
+  color: inherit !important;
+}
+
+html.workbuddy-dream-skin .conversation-list .conversation-agent-card[class*="_selected_"] {
+  color: var(--wbds-text) !important;
+  border: 1px solid color-mix(in srgb, var(--wbds-accent) 34%, transparent) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 13%, var(--wbds-panel)) !important;
+  box-shadow: inset 3px 0 var(--wbds-accent) !important;
+}
+
+html.workbuddy-dream-skin .conversation-list .conversation-agent-card:hover,
+html.workbuddy-dream-skin .conversation-list [class*="_card_"]:hover {
+  color: var(--wbds-text) !important;
+  border-color: color-mix(in srgb, var(--wbds-accent) 28%, transparent) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 10%, var(--wbds-panel)) !important;
+  box-shadow: inset 2px 0 color-mix(in srgb, var(--wbds-accent) 70%, transparent) !important;
+}
+
+html.workbuddy-dream-skin .conversation-list .conversation-list-tab-button:hover,
+html.workbuddy-dream-skin .conversation-list .conversation-list-tab-button-more:hover {
+  color: var(--wbds-accent-alt) !important;
+  border-color: color-mix(in srgb, var(--wbds-accent) 30%, transparent) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 10%, var(--wbds-panel)) !important;
+}
+
+html.workbuddy-dream-skin .conversation-list :is(.conversation-list-tab-row.active, .conversation-list-tab-row:hover, .conversation-list-tab-button.active) {
+  color: var(--wbds-accent-alt) !important;
+  border-color: color-mix(in srgb, var(--wbds-accent) 30%, transparent) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 12%, var(--wbds-panel)) !important;
+}
+
+html.workbuddy-dream-skin .conversation-list :is(.conversation-list-tab-row.active, .conversation-list-tab-row:hover, .conversation-list-tab-button.active) * {
+  color: inherit !important;
+  background-color: transparent !important;
+}
+
+html.workbuddy-dream-skin .conversation-list :is(.conversation-list-tab-button, .conversation-list-tab-button-more):is(:hover, :focus, :active) *,
+html.workbuddy-dream-skin .conversation-list :is(.conversation-list-tab-button, .conversation-list-tab-button-more):is(:hover, :focus, :active)::before,
+html.workbuddy-dream-skin .conversation-list :is(.conversation-list-tab-button, .conversation-list-tab-button-more):is(:hover, :focus, :active)::after {
+  color: inherit !important;
+  background-color: transparent !important;
+}
+
+html.workbuddy-dream-skin .growth-plan-entry {
+  color: var(--wbds-text) !important;
+  border: 1px solid color-mix(in srgb, var(--wbds-accent) 28%, transparent) !important;
+  background: color-mix(in srgb, var(--wbds-panel) 90%, transparent) !important;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, .2) !important;
+}
+
+html.workbuddy-dream-skin .growth-plan-entry:hover {
+  color: #041713 !important;
+  background: var(--wbds-accent) !important;
+}
+
+html.workbuddy-dream-skin .quick-actions__item {
+  color: var(--wbds-muted) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-panel) 88%, transparent) !important;
+}
+
+html.workbuddy-dream-skin .quick-actions__item:hover {
+  color: var(--wbds-accent-alt) !important;
+  border-color: color-mix(in srgb, var(--wbds-accent) 48%, transparent) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 12%, var(--wbds-panel)) !important;
+}
+
+html.workbuddy-dream-skin .quick-actions-sub__item {
+  color: var(--wbds-muted) !important;
+  border: 1px solid var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-panel) 92%, transparent) !important;
+  box-shadow: inset 0 1px color-mix(in srgb, var(--wbds-accent-alt) 4%, transparent) !important;
+}
+
+html.workbuddy-dream-skin .quick-actions-sub__item:is(:hover, :focus-visible, :active) {
+  color: var(--wbds-accent-alt) !important;
+  border-color: color-mix(in srgb, var(--wbds-accent) 48%, transparent) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 13%, var(--wbds-panel)) !important;
+}
+
+html.workbuddy-dream-skin .quick-actions-sub__item * {
+  color: inherit !important;
+  background-color: transparent !important;
+}
+
+html.workbuddy-dream-skin .quick-actions-sub-wrapper--fade-left::before {
+  background: linear-gradient(to right, color-mix(in srgb, var(--wbds-background) 98%, transparent), transparent) !important;
+}
+
+html.workbuddy-dream-skin .quick-actions-sub-wrapper--fade-right::after {
+  background: linear-gradient(to right, transparent, color-mix(in srgb, var(--wbds-background) 98%, transparent)) !important;
+}
+
+html.workbuddy-dream-skin :is([role="tooltip"], .ant-tooltip-inner, [class*="tooltip" i]) {
+  color: var(--wbds-text) !important;
+  border: 1px solid var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-background) 98%, transparent) !important;
+  box-shadow: 0 12px 34px rgba(0, 0, 0, .34) !important;
+}
+
+html.workbuddy-dream-skin :is([role="tooltip"], .ant-tooltip-inner, [class*="tooltip" i]) * {
+  color: inherit !important;
+}
+
+html.workbuddy-dream-skin :is(
+  [role="menu"],
+  [role="listbox"],
+  .ant-popover-inner,
+  .ant-dropdown-menu,
+  [class*="popover" i],
+  [class*="dropdown-menu" i]
+) {
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-background) 98%, transparent) !important;
+  box-shadow: 0 18px 46px rgba(0, 0, 0, .38) !important;
+}
+
+html.workbuddy-dream-skin :is(
+  [role="menu"],
+  [role="listbox"],
+  .ant-popover-inner,
+  .ant-dropdown-menu,
+  [class*="popover" i],
+  [class*="dropdown-menu" i]
+) > div {
+  color: inherit !important;
+  background-color: transparent !important;
+}
+
+html.workbuddy-dream-skin :is(
+  [role="menu"],
+  [role="listbox"],
+  .ant-popover-inner,
+  .ant-dropdown-menu,
+  [class*="popover" i],
+  [class*="dropdown-menu" i]
+) * {
+  color: inherit !important;
+}
+
+html.workbuddy-dream-skin :is(
+  [role="menu"],
+  [role="listbox"],
+  .ant-popover-inner,
+  .ant-dropdown-menu,
+  [class*="popover" i],
+  [class*="dropdown-menu" i]
+) :is(button, [role="menuitem"], [role="option"]):hover {
+  color: var(--wbds-accent-alt) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 12%, var(--wbds-panel)) !important;
+}
+
+html.workbuddy-dream-skin .conversation-sidebar :is([role="menuitem"], [role="option"], [class*="menu-item" i], [class*="submenu-item" i]):is(:hover, .active, [aria-selected="true"]) {
+  color: var(--wbds-accent-alt) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 12%, var(--wbds-panel)) !important;
+}
+
+html.workbuddy-dream-skin .conversation-sidebar :is([role="menuitem"], [role="option"], [class*="menu-item" i], [class*="submenu-item" i]):is(:hover, .active, [aria-selected="true"]) * {
+  color: inherit !important;
+  background-color: transparent !important;
+}
+
+html.workbuddy-dream-skin :is(
+  [class*="skeleton" i],
+  [class*="shimmer" i],
+  .ant-skeleton-title,
+  .ant-skeleton-paragraph > li,
+  .ant-skeleton-avatar,
+  .ant-skeleton-button
+) {
+  border-color: transparent !important;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--wbds-accent) 8%, transparent), color-mix(in srgb, var(--wbds-accent-alt) 20%, transparent), color-mix(in srgb, var(--wbds-accent) 8%, transparent)) !important;
+  background-size: 220% 100% !important;
+}
+
+html.workbuddy-dream-skin body:not(:has(.main-content--welcome)) #workbuddy-dream-skin-chrome :is(.wbds-brand, .wbds-status, .wbds-coordinate, .wbds-character) {
+  display: none !important;
+}
+
+html.workbuddy-dream-skin body:has(.settings-modal) #workbuddy-dream-skin-chrome {
+  display: none !important;
+}
+
+/* Assistant workspace */
+html.workbuddy-dream-skin .claw-workspace [class*="_label_"] {
+  color: var(--wbds-muted) !important;
+}
+
+/* Projects */
+html.workbuddy-dream-skin :is(.main-content--projects, .workbuddy-collab, .landing) {
+  color: var(--wbds-text) !important;
+  background: transparent !important;
+}
+
+html.workbuddy-dream-skin :is(.landing-main, .project-grid) {
+  color: var(--wbds-text) !important;
+}
+
+html.workbuddy-dream-skin :is(.landing-title, .project-grid__section-title, .project-grid__card-name, .landing-template-card strong) {
+  color: var(--wbds-text) !important;
+}
+
+html.workbuddy-dream-skin :is(.landing-subtitle, .project-grid__card-desc, .landing-template-card small) {
+  color: var(--wbds-muted) !important;
+}
+
+html.workbuddy-dream-skin :is(.project-grid__card, .landing-template-card, .landing-new-btn) {
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-panel) 90%, transparent) !important;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, .22) !important;
+}
+
+html.workbuddy-dream-skin :is(.project-grid__card, .landing-template-card, .landing-new-btn):hover {
+  border-color: color-mix(in srgb, var(--wbds-accent) 48%, transparent) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 10%, var(--wbds-panel)) !important;
+}
+
+/* Expert center */
+html.workbuddy-dream-skin :is(.expert-center-page, .ec-page-layout, .ec-main-content, .ec-main-scroll) {
+  color: var(--wbds-text) !important;
+  background: transparent !important;
+}
+
+html.workbuddy-dream-skin .expert-center-page :is(h1, h2, h3, h4, p, span, div, button) {
+  color: inherit;
+}
+
+html.workbuddy-dream-skin :is(.ec-featured-scene-card, .ec-expert-card) {
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-panel) 92%, transparent) !important;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, .2) !important;
+}
+
+html.workbuddy-dream-skin .ec-featured-scene-overlay {
+  background: linear-gradient(transparent, color-mix(in srgb, var(--wbds-background) 98%, transparent)) !important;
+}
+
+html.workbuddy-dream-skin :is(.ec-featured-scene-card, .ec-expert-card):hover {
+  border-color: color-mix(in srgb, var(--wbds-accent) 46%, transparent) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 9%, var(--wbds-panel)) !important;
+}
+
+html.workbuddy-dream-skin :is(.ec-sort-group, .ec-card-tag, .wb-tag, .ec-card-operational-tag) {
+  color: var(--wbds-muted) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-panel-alt) 86%, transparent) !important;
+}
+
+html.workbuddy-dream-skin :is(.ec-list-tab, .ec-category-tab, .ec-sort-btn) {
+  color: var(--wbds-muted) !important;
+  border-color: transparent !important;
+  background: transparent !important;
+}
+
+html.workbuddy-dream-skin :is(.ec-list-tab.is-active, .ec-category-tab.is-active, .ec-sort-btn.is-active) {
+  color: var(--wbds-accent-alt) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 12%, var(--wbds-panel)) !important;
+}
+
+html.workbuddy-dream-skin .ec-avatar-sq-fallback {
+  color: #041713 !important;
+  background: var(--wbds-accent) !important;
+}
+
+html.workbuddy-dream-skin .ec-card-summon-btn::before {
+  background: linear-gradient(to right, transparent, color-mix(in srgb, var(--wbds-panel) 98%, transparent)) !important;
+}
+
+html.workbuddy-dream-skin :is(.ec-modal-overlay, .ec-modal-card, .ec-modal-footer) {
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+}
+
+html.workbuddy-dream-skin .ec-modal-overlay {
+  background: color-mix(in srgb, var(--wbds-background) 74%, transparent) !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+html.workbuddy-dream-skin :is(.ec-modal-card, .ec-modal-footer) {
+  background: color-mix(in srgb, var(--wbds-background) 98%, transparent) !important;
+}
+
+html.workbuddy-dream-skin :is(.ec-modal-category-badge, .ec-modal-tag-chip) {
+  color: var(--wbds-muted) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-panel-alt) 92%, transparent) !important;
+}
+
+html.workbuddy-dream-skin :is(.ec-modal-role, .ec-modal-name, .ec-modal-desc) {
+  color: var(--wbds-text) !important;
+}
+
+html.workbuddy-dream-skin :is(.ec-modal-use-count, .ec-modal-section-title) {
+  color: var(--wbds-muted) !important;
+}
+
+html.workbuddy-dream-skin :is(.ec-modal-quick-prompt, .ec-modal-quick-prompt-text) {
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-panel) 92%, transparent) !important;
+}
+
+html.workbuddy-dream-skin .ec-modal-quick-prompt:hover {
+  border-color: color-mix(in srgb, var(--wbds-accent) 48%, transparent) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 10%, var(--wbds-panel)) !important;
+}
+
+html.workbuddy-dream-skin :is(.ec-modal-summon-btn, .ec-modal-footer button) {
+  color: #041713 !important;
+  border-color: transparent !important;
+  background: var(--wbds-accent) !important;
+}
+
+/* Project dialog */
+html.workbuddy-dream-skin .collab-modal__overlay {
+  color: var(--wbds-text) !important;
+  background: color-mix(in srgb, var(--wbds-background) 74%, transparent) !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+html.workbuddy-dream-skin :is(.collab-modal__container, .collab-modal__header, .collab-modal__body, .collab-modal__footer) {
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-background) 98%, transparent) !important;
+}
+
+html.workbuddy-dream-skin :is(.cp-field__input, .cp-field__textarea, .cp-row, .cp-template-select) {
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-panel-alt) 94%, transparent) !important;
+}
+
+html.workbuddy-dream-skin :is(.collab-modal__title, .collab-modal__container label, .collab-modal__container span, .cp-row__action) {
+  color: var(--wbds-text) !important;
+}
+
+html.workbuddy-dream-skin :is(.cp-template-select__label, .cp-field__hint, .cp-row__tag, .create-project-dialog__version-note) {
+  color: var(--wbds-muted) !important;
+}
+
+html.workbuddy-dream-skin .create-project-dialog__action-btn {
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-panel-alt) 94%, transparent) !important;
+}
+
+html.workbuddy-dream-skin .create-project-dialog__action-btn:last-child {
+  color: #041713 !important;
+  border-color: transparent !important;
+  background: var(--wbds-accent) !important;
+}
+
+html.workbuddy-dream-skin .create-project-dialog__action-btn:last-child * {
+  color: inherit !important;
+}
+
+/* Skills and connectors */
+html.workbuddy-dream-skin :is(.skills-view, .skills-content, .skills-discover-section, .skills-discover-content, .connector-panel, .connector-panel-content) {
+  color: var(--wbds-text) !important;
+  background: transparent !important;
+}
+
+html.workbuddy-dream-skin :is(.skills-featured-title, .skills-view h1, .skills-view h2, .skills-view h3, .connector-panel h1, .connector-panel h2, .connector-panel h3) {
+  color: var(--wbds-text) !important;
+}
+
+html.workbuddy-dream-skin :is(.skill-card, .connector-card) {
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-panel) 92%, transparent) !important;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .2) !important;
+}
+
+html.workbuddy-dream-skin :is(.skill-card, .connector-card):hover {
+  border-color: color-mix(in srgb, var(--wbds-accent) 46%, transparent) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 9%, var(--wbds-panel)) !important;
+}
+
+html.workbuddy-dream-skin :is(.skills-segment-item, .category-chip-label, .skill-card span, .connector-card span) {
+  color: var(--wbds-muted) !important;
+}
+
+html.workbuddy-dream-skin .skills-view span {
+  color: var(--wbds-muted) !important;
+  background-color: transparent !important;
+}
+
+html.workbuddy-dream-skin .skill-card-desc {
+  color: var(--wbds-muted) !important;
+}
+
+html.workbuddy-dream-skin :is(.skills-segment-item--active, .category-chip.is-active, .category-chip--active) {
+  color: var(--wbds-accent-alt) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 12%, var(--wbds-panel)) !important;
+}
+
+html.workbuddy-dream-skin :is(.skills-segment-item--active, .category-chip.is-active, .category-chip--active) span {
+  color: var(--wbds-accent-alt) !important;
+}
+
+html.workbuddy-dream-skin .connector-card-name {
+  color: var(--wbds-text) !important;
+}
+
+html.workbuddy-dream-skin .connector-card-desc {
+  color: var(--wbds-muted) !important;
+}
+
+html.workbuddy-dream-skin .connector-card :is(button, [role="button"]) {
+  color: var(--wbds-accent-alt) !important;
+  border-color: color-mix(in srgb, var(--wbds-accent) 42%, transparent) !important;
+  background: color-mix(in srgb, var(--wbds-panel-alt) 96%, transparent) !important;
+}
+
+html.workbuddy-dream-skin .connector-card :is(button, [role="button"]):hover {
+  color: #041713 !important;
+  background: var(--wbds-accent) !important;
+}
+
+html.workbuddy-dream-skin .skillhub-categories::before,
+html.workbuddy-dream-skin .skillhub-categories::after {
+  background: linear-gradient(to right, transparent, var(--wbds-background)) !important;
+}
+
+/* Settings */
+html.workbuddy-dream-skin .settings-modal-overlay {
+  background: color-mix(in srgb, var(--wbds-background) 72%, transparent) !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+html.workbuddy-dream-skin :is(.settings-modal, .settings-modal__content, .settings-modal__panel, .settings-modal__body, .settings-modal__layout, .general-settings-panel, .general-settings-panel__list) {
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-background) 98%, transparent) !important;
+}
+
+html.workbuddy-dream-skin :is(.settings-modal__sidebar, .settings-modal__navigation, .settings-modal__nav, .settings-navigation) {
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-panel) 98%, transparent) !important;
+}
+
+html.workbuddy-dream-skin :is(.settings-navigation__item, .settings-navigation__label) {
+  color: var(--wbds-muted) !important;
+  background: transparent !important;
+}
+
+html.workbuddy-dream-skin :is(.settings-navigation__item:hover, .settings-navigation__item--active, .settings-navigation__item.active) {
+  color: var(--wbds-accent-alt) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 12%, var(--wbds-panel)) !important;
+}
+
+html.workbuddy-dream-skin :is(.settings-navigation__item:hover, .settings-navigation__item--active, .settings-navigation__item.active) * {
+  color: inherit !important;
+  background-color: transparent !important;
+}
+
+html.workbuddy-dream-skin :is(.general-settings-panel__section, .general-settings-panel__row, .general-settings-panel__item) {
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-panel) 90%, transparent) !important;
+}
+
+html.workbuddy-dream-skin :is(.settings-modal h1, .settings-modal h2, .settings-modal h3, .general-settings-panel__section-title) {
+  color: var(--wbds-text) !important;
+}
+
+html.workbuddy-dream-skin :is(.general-settings-panel__section-desc, .font-size-slider__label) {
+  color: var(--wbds-muted) !important;
+}
+
+html.workbuddy-dream-skin :is(.custom-dropdown__trigger, .general-settings-panel__path-input, .settings-modal input, .settings-modal select) {
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-panel-alt) 96%, transparent) !important;
+}
+
+html.workbuddy-dream-skin .general-settings-panel__inline-link {
+  color: var(--wbds-accent-alt) !important;
+}
+
+html.workbuddy-dream-skin .settings-modal :is(button, [role="button"]):not([class*="switch"]) {
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+  background-color: color-mix(in srgb, var(--wbds-panel-alt) 94%, transparent) !important;
+}
+
+html.workbuddy-dream-skin .settings-modal :is(button, [role="button"]):not([class*="switch"]):hover {
+  color: var(--wbds-accent-alt) !important;
+  background-color: color-mix(in srgb, var(--wbds-accent) 12%, var(--wbds-panel)) !important;
+}
+
+html.workbuddy-dream-skin .avatar-fold-status {
+  color: var(--wbds-muted) !important;
+}
+
+/* Settings account */
+html.workbuddy-dream-skin :is(.account-panel__header, .account-panel__credits-section) {
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-panel) 92%, transparent) !important;
+}
+
+html.workbuddy-dream-skin .account-panel__avatar-placeholder {
+  color: #041713 !important;
+  background: var(--wbds-accent) !important;
+}
+
+html.workbuddy-dream-skin .account-panel__plan-usage-value--low {
+  color: #ff9a9a !important;
+}
+
+html.workbuddy-dream-skin .account-panel__header .account-panel__avatar-placeholder {
+  color: #041713 !important;
+}
+
+html.workbuddy-dream-skin :is(.account-panel__username-text, .account-panel__edition-label, .account-panel__credits-number, .account-panel__plan-name, .account-panel__plan-usage-value) {
+  color: var(--wbds-text) !important;
+}
+
+html.workbuddy-dream-skin :is(.account-panel__email, .account-panel__edition-expiry, .account-panel__credits-hint, .account-panel__plan-date, .account-panel__plan-usage-label) {
+  color: var(--wbds-muted) !important;
+}
+
+html.workbuddy-dream-skin :is(.account-panel__header, .account-panel__credits-section) > span {
+  color: var(--wbds-text) !important;
+}
+
+html.workbuddy-dream-skin :is(.account-panel__header, .account-panel__credits-section) span {
+  color: var(--wbds-text) !important;
+}
+
+html.workbuddy-dream-skin .account-panel__plan-usage-value--low {
+  color: #ff9a9a !important;
+}
+
+/* Settings shortcuts */
+html.workbuddy-dream-skin .keyboard-shortcuts-panel__column-header {
+  color: var(--wbds-muted) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-panel-alt) 96%, transparent) !important;
+}
+
+html.workbuddy-dream-skin :is(.keyboard-shortcuts-panel__count, .shortcut-item__actions-placeholder) {
+  color: var(--wbds-muted) !important;
+}
+
+html.workbuddy-dream-skin :is(.keyboard-shortcuts-panel__col-command, .keyboard-shortcuts-panel__col-binding, .keyboard-shortcuts-panel__col-action) {
+  color: var(--wbds-muted) !important;
+}
+
+html.workbuddy-dream-skin .shortcut-item__label {
+  color: var(--wbds-text) !important;
+}
+
+html.workbuddy-dream-skin .shortcut-item__key {
+  color: var(--wbds-accent-alt) !important;
+  border: 1px solid color-mix(in srgb, var(--wbds-accent) 40%, transparent) !important;
+  background: color-mix(in srgb, var(--wbds-panel-alt) 98%, transparent) !important;
+  box-shadow: inset 0 -1px color-mix(in srgb, var(--wbds-accent) 22%, transparent) !important;
+}
+
+/* Settings memory */
+html.workbuddy-dream-skin :is(.memory-settings-panel__generate-memory-group, .memory-settings-panel__chat-memory-card, .memory-settings-panel__chat-memory-preview, .memory-settings-panel__import-section) {
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-panel) 92%, transparent) !important;
+}
+
+html.workbuddy-dream-skin :is(.memory-settings-panel__privacy-prefix, .memory-settings-panel__privacy-suffix) {
+  color: var(--wbds-muted) !important;
+}
+
+html.workbuddy-dream-skin .memory-settings-panel__privacy-link {
+  color: var(--wbds-accent-alt) !important;
+}
+
+html.workbuddy-dream-skin :is(.memory-settings-panel__setting-name, .memory-settings-panel__chat-memory-title, .memory-settings-panel__import-title) {
+  color: var(--wbds-text) !important;
+}
+
+html.workbuddy-dream-skin :is(.memory-settings-panel__setting-desc, .memory-settings-panel__preview-content, .memory-settings-panel__meta-text, .memory-settings-panel__meta-hover, .memory-settings-panel__import-desc) {
+  color: var(--wbds-muted) !important;
+}
+
+/* Settings models */
+html.workbuddy-dream-skin :is(.models-settings-panel__card, .models-settings-panel__empty) {
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-panel) 92%, transparent) !important;
+}
+
+html.workbuddy-dream-skin :is(.models-settings-panel__card-label, .models-settings-panel__empty-title) {
+  color: var(--wbds-text) !important;
+}
+
+/* Settings assistant */
+html.workbuddy-dream-skin :is(.claw-settings-panel__card, .claw-wechatkf-link-row, .claw-wechatkf-bound-info) {
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-panel) 92%, transparent) !important;
+}
+
+html.workbuddy-dream-skin .claw-settings-panel__section-link {
+  color: var(--wbds-accent-alt) !important;
+}
+
+html.workbuddy-dream-skin :is(.claw-recommended-badge, .claw-status-badge--connected, .claw-wechatkf-bound-info__status) {
+  color: var(--wbds-accent-alt) !important;
+  border-color: color-mix(in srgb, var(--wbds-accent) 34%, transparent) !important;
+  background: color-mix(in srgb, var(--wbds-panel-alt) 96%, transparent) !important;
+}
+
+html.workbuddy-dream-skin .claw-toggle__slider::before {
+  background: var(--wbds-accent-alt) !important;
+}
+
+html.workbuddy-dream-skin .claw-settings-panel__card-label {
+  color: var(--wbds-text) !important;
+}
+
+html.workbuddy-dream-skin :is(.claw-settings-panel__card-desc, .claw-wechatkf-link-row__hint, .claw-wechatkf-link-row__expires) {
+  color: var(--wbds-muted) !important;
+}
+
+/* Settings personalization */
+html.workbuddy-dream-skin .personalization-panel__textarea {
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-panel-alt) 96%, transparent) !important;
+}
+
+html.workbuddy-dream-skin .personalization-panel__textarea::placeholder {
+  color: var(--wbds-muted) !important;
+}
+
+html.workbuddy-dream-skin .personalization-panel__setting-name {
+  color: var(--wbds-text) !important;
+}
+
+html.workbuddy-dream-skin :is(.personalization-panel__setting-desc, .personalization-panel__input-hint, .personalization-panel__char-count) {
+  color: var(--wbds-muted) !important;
+}
+
+/* Settings data */
+html.workbuddy-dream-skin .data-management-panel__item {
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-panel) 92%, transparent) !important;
+}
+
+html.workbuddy-dream-skin .data-management-panel__item-label {
+  color: var(--wbds-text) !important;
+}
+
+/* Settings security */
+html.workbuddy-dream-skin :is(.security-center-panel__card, .security-center-panel__support-badge) {
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-panel) 92%, transparent) !important;
+}
+
+html.workbuddy-dream-skin :is(.security-center-panel__row, .security-center-panel__runtime-row) {
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-panel-alt) 94%, transparent) !important;
+}
+
+html.workbuddy-dream-skin :is(.security-center-panel__card h3, .security-center-panel__row span, .security-center-panel__runtime-row span) {
+  color: var(--wbds-text) !important;
+}
+
+html.workbuddy-dream-skin :is(.security-center-panel__subtitle, .security-center-panel__description, .security-center-panel__entry-arrow) {
+  color: var(--wbds-muted) !important;
+}
+
+html.workbuddy-dream-skin .security-center-panel__badge--safe {
+  color: var(--wbds-accent-alt) !important;
+  background: color-mix(in srgb, var(--wbds-panel-alt) 98%, transparent) !important;
+}
+
+html.workbuddy-dream-skin .security-center-panel__card .wb-select__caret {
+  color: var(--wbds-text) !important;
+}
+
+html.workbuddy-dream-skin .security-center-panel__card p {
+  color: var(--wbds-muted) !important;
+}
+
+/* Settings help */
+html.workbuddy-dream-skin .help-feedback-panel__card-label {
+  color: var(--wbds-text) !important;
+}
+
+html.workbuddy-dream-skin .help-feedback-panel__footer-divider {
+  color: var(--wbds-muted) !important;
+}
+
+/* Automation */
+html.workbuddy-dream-skin :is(.main-content--automation, .automation-main-page, .automation-panel, .atm-task-list) {
+  color: var(--wbds-text) !important;
+  background: transparent !important;
+}
+
+html.workbuddy-dream-skin :is(.atm-detail-page, .atm-detail-content, .atm-modal-body, .atm-modal-tags, .atm-detail-page [class*="_content_"]) {
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-background) 98%, transparent) !important;
+}
+
+html.workbuddy-dream-skin :is(.atm-detail-header, .atm-detail-footer) {
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-panel) 96%, transparent) !important;
+}
+
+html.workbuddy-dream-skin :is(.atm-modal-input, .atm-custom-select-trigger, .atm-time-picker-trigger, .atm-validity-trigger, .atm-detail-page input, .atm-detail-page textarea, .atm-detail-page select) {
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-panel-alt) 96%, transparent) !important;
+}
+
+html.workbuddy-dream-skin :is(.atm-modal-label, .wb-breadcrumb__link, .wb-breadcrumb__separator, .wb-breadcrumb__text, .atm-custom-select-trigger-text, .atm-time-picker-value, .atm-toggle-text, .skill-selector__label, [class*="_triggerLabel_"]) {
+  color: var(--wbds-text) !important;
+}
+
+html.workbuddy-dream-skin :is(.expert-selector__label, .automation-permission-picker__label, .connector-selector-field__trigger-text) {
+  color: var(--wbds-text) !important;
+}
+
+html.workbuddy-dream-skin :is(.atm-modal-hint, .atm-validity-placeholder) {
+  color: var(--wbds-muted) !important;
+}
+
+html.workbuddy-dream-skin .atm-schedule-tabs {
+  border: 1px solid var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-panel) 94%, transparent) !important;
+}
+
+html.workbuddy-dream-skin .atm-detail-btn--secondary {
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-panel-alt) 94%, transparent) !important;
+}
+
+html.workbuddy-dream-skin .atm-detail-btn:not(.atm-detail-btn--secondary) {
+  color: #041713 !important;
+  border-color: transparent !important;
+  background-color: var(--wbds-accent) !important;
+}
+
+html.workbuddy-dream-skin .atm-detail-btn:not(.atm-detail-btn--secondary) * {
+  color: inherit !important;
+}
+
+/* Tencent Docs authorization */
+html.workbuddy-dream-skin :is(.tencent-docs-auth-guide, .tencent-docs-auth-guide__content) {
+  color: var(--wbds-text) !important;
+  background: color-mix(in srgb, var(--wbds-background) 98%, transparent) !important;
+}
+
+html.workbuddy-dream-skin :is(.tencent-docs-auth-guide__title, .tencent-docs-auth-guide__permission-label) {
+  color: var(--wbds-text) !important;
+}
+
+html.workbuddy-dream-skin :is(.tencent-docs-auth-guide__desc, .tencent-docs-auth-guide__permissions-title, .tencent-docs-auth-guide__permission-desc, .tencent-docs-auth-guide__footer) {
+  color: var(--wbds-muted) !important;
+}
+
+html.workbuddy-dream-skin :is(.tencent-docs-auth-guide__permissions, .tencent-docs-auth-guide__permission-item) {
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-panel) 92%, transparent) !important;
+}
+
+html.workbuddy-dream-skin .tencent-docs-auth-guide__permission-icon {
+  color: var(--wbds-accent-alt) !important;
+}
+
+html.workbuddy-dream-skin .tencent-docs-auth-guide__btn {
+  color: #041713 !important;
+  border-color: transparent !important;
+  background: var(--wbds-accent) !important;
+  box-shadow: 0 10px 28px color-mix(in srgb, var(--wbds-accent) 18%, transparent) !important;
+}
+
+html.workbuddy-dream-skin .tencent-docs-auth-guide__btn * {
+  color: inherit !important;
+}
+
+html.workbuddy-dream-skin :is(.tencent-docs-auth-guide__brand-icon, .tencent-docs-auth-guide__error) {
+  border-color: var(--wbds-line) !important;
+  background-color: color-mix(in srgb, var(--wbds-panel-alt) 94%, transparent) !important;
+}
+
+html.workbuddy-dream-skin .quick-actions--fade-right::after,
+html.workbuddy-dream-skin .quick-actions--fade-left::before {
+  background: linear-gradient(to right, transparent, var(--wbds-background)) !important;
+}
+
+html.workbuddy-dream-skin :is(.atm-tabs, .atm-toolbar-btn, .wb-segmented__item) {
+  color: var(--wbds-muted) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-panel) 90%, transparent) !important;
+}
+
+html.workbuddy-dream-skin .wb-segmented__item--active {
+  color: var(--wbds-accent-alt) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 13%, var(--wbds-panel)) !important;
+}
+
+html.workbuddy-dream-skin :is(.atm-task-group-label, .atm-row-name, .atm-row-project, .atm-row-schedule) {
+  color: var(--wbds-text) !important;
+}
+
+html.workbuddy-dream-skin :is(.atm-row-paused-label, .atm-row-display-status) {
+  color: var(--wbds-muted) !important;
+}
+
+/* User menu */
+html.workbuddy-dream-skin :is([class*="user-menu"], .daily-checkin-card, .daily-checkin-info, .daily-checkin-actions) {
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-background) 98%, transparent) !important;
+}
+
+html.workbuddy-dream-skin :is([class*="user-menu"], .daily-checkin-card) span {
+  color: inherit !important;
+}
+
+html.workbuddy-dream-skin :is(.daily-checkin-period-tag, .daily-checkin-btn-secondary) {
+  color: var(--wbds-muted) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-panel-alt) 92%, transparent) !important;
+}
+
+html.workbuddy-dream-skin :is(.daily-checkin-btn-primary, .daily-checkin-actions button:not(.daily-checkin-btn-secondary)) {
+  color: #041713 !important;
+  border-color: color-mix(in srgb, var(--wbds-accent) 70%, white) !important;
+  background: var(--wbds-accent) !important;
+}
+
+html.workbuddy-dream-skin :is(.daily-checkin-credit, .daily-checkin-accent) {
+  color: var(--wbds-accent-alt) !important;
+  background: transparent !important;
+}
+
+html.workbuddy-dream-skin .user-menu-theme-switcher-thumb {
+  border-color: var(--wbds-accent) !important;
+  background: var(--wbds-accent) !important;
+}
+
+html.workbuddy-dream-skin .user-menu-footer::before {
+  background: var(--wbds-line) !important;
+}
+
+html.workbuddy-dream-skin .conversation-sidebar,
+html.workbuddy-dream-skin .claw-secondary-sidebar,
+html.workbuddy-dream-skin .claw-sidebar-drawer,
+html.workbuddy-dream-skin .colleagues-chat-float__sidebar,
+html.workbuddy-dream-skin .colleagues-chat-float__task-list,
+html.workbuddy-dream-skin .colleague-detail-sidebar,
+html.workbuddy-dream-skin .bind-channel-sidebar {
+  position: relative;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--wbds-panel) 97%, transparent), color-mix(in srgb, var(--wbds-background) 95%, transparent)) !important;
+  border-color: var(--wbds-line) !important;
+  box-shadow: inset -1px 0 color-mix(in srgb, var(--wbds-accent-alt) 5%, transparent), 18px 0 46px rgba(0, 0, 0, .18) !important;
+  backdrop-filter: blur(18px) saturate(125%);
+}
+
+html.workbuddy-dream-skin .conversation-sidebar::before,
+html.workbuddy-dream-skin .claw-sidebar-drawer::before,
+html.workbuddy-dream-skin .colleagues-chat-float__sidebar::before {
+  content: "NIGHT WATCH / 01";
+  display: block;
+  margin: 10px 12px 4px;
+  color: color-mix(in srgb, var(--wbds-accent) 72%, var(--wbds-muted));
+  font: 650 9px/1.2 "Cascadia Mono", Consolas, monospace;
+  letter-spacing: .18em;
+  opacity: .72;
+}
+
+html.workbuddy-dream-skin .claw-sidebar-drawer__titlebar,
+html.workbuddy-dream-skin .colleagues-chat-float__topbar,
+html.workbuddy-dream-skin .colleague-chat-page__topbar,
+html.workbuddy-dream-skin .claw-agent-chat-topbar,
+html.workbuddy-dream-skin [class*="header"] {
+  border-color: var(--wbds-line) !important;
+}
+
+html.workbuddy-dream-skin .claw-sidebar-drawer__title,
+html.workbuddy-dream-skin .colleagues-chat-float__title,
+html.workbuddy-dream-skin .colleague-chat-hero__main,
+html.workbuddy-dream-skin .colleague-chat-empty-profile__title {
+  color: var(--wbds-text) !important;
+  letter-spacing: -.015em;
+}
+
+html.workbuddy-dream-skin .claw-sidebar-drawer__create-btn,
+html.workbuddy-dream-skin .claw-sidebar-drawer__create-entry,
+html.workbuddy-dream-skin .colleagues-chat-float__task-list-new,
+html.workbuddy-dream-skin button[class*="primary"] {
+  color: #041713 !important;
+  border-color: color-mix(in srgb, var(--wbds-accent) 70%, white) !important;
+  background: linear-gradient(135deg, var(--wbds-accent-alt), var(--wbds-accent)) !important;
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--wbds-accent) 19%, transparent), inset 0 1px rgba(255,255,255,.42) !important;
+}
+
+html.workbuddy-dream-skin button,
+html.workbuddy-dream-skin [role="button"] {
+  transition: border-color .18s ease, background-color .18s ease, color .18s ease, transform .18s ease, box-shadow .18s ease;
+}
+
+html.workbuddy-dream-skin button:hover,
+html.workbuddy-dream-skin [role="button"]:hover {
+  border-color: color-mix(in srgb, var(--wbds-accent) 42%, transparent) !important;
+}
+
+html.workbuddy-dream-skin .claw-sidebar-drawer__normal-tabs > *,
+html.workbuddy-dream-skin .claw-sidebar-drawer__enterprise-tabs > *,
+html.workbuddy-dream-skin .claw-sidebar-drawer__primary-tabs > *,
+html.workbuddy-dream-skin .colleagues-chat-float__task-list-item,
+html.workbuddy-dream-skin .colleague-detail-nav-item {
+  border-radius: 10px !important;
+}
+
+html.workbuddy-dream-skin [aria-current="page"],
+html.workbuddy-dream-skin [aria-selected="true"],
+html.workbuddy-dream-skin .colleagues-chat-float__task-list-item:hover,
+html.workbuddy-dream-skin .colleague-detail-nav-item:hover {
+  color: var(--wbds-accent-alt) !important;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--wbds-accent) 15%, transparent), transparent) !important;
+  box-shadow: inset 2px 0 var(--wbds-accent) !important;
+}
+
+html.workbuddy-dream-skin .claw-workspace__main,
+html.workbuddy-dream-skin .claw-workspace__pane,
+html.workbuddy-dream-skin .teams-main-content,
+html.workbuddy-dream-skin .colleague-chat-page__workspace-body,
+html.workbuddy-dream-skin .colleagues-chat-float__main,
+html.workbuddy-dream-skin .colleague-detail-content {
+  background:
+    linear-gradient(180deg, var(--wbds-background-overlay), var(--wbds-background-overlay-strong)),
+    var(--wbds-background-art) var(--wbds-background-position) / var(--wbds-background-size) no-repeat fixed !important;
+}
+
+html.workbuddy-dream-skin .cbChat,
+html.workbuddy-dream-skin [class*="_cbChat_"],
+html.workbuddy-dream-skin .colleague-chat-cb-chat,
+html.workbuddy-dream-skin .colleague-chat-messages {
+  color: var(--wbds-text) !important;
+  background: transparent !important;
+}
+
+html.workbuddy-dream-skin .cb-chat-message--user .cb-chat-message-bubble,
+html.workbuddy-dream-skin .user-message,
+html.workbuddy-dream-skin [class*="_userMessageBubble_"] {
+  color: var(--wbds-text) !important;
+  border: 1px solid color-mix(in srgb, var(--wbds-secondary) 32%, transparent) !important;
+  border-radius: 16px 16px 5px 16px !important;
+  background: linear-gradient(145deg, color-mix(in srgb, var(--wbds-panel-alt) 90%, transparent), color-mix(in srgb, var(--wbds-panel) 90%, transparent)) !important;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .14) !important;
+}
+
+html.workbuddy-dream-skin .cb-chat-message--assistant,
+html.workbuddy-dream-skin .cb-assistant-message,
+html.workbuddy-dream-skin [class*="_assistantMessage_"] {
+  color: var(--wbds-text) !important;
+}
+
+html.workbuddy-dream-skin .cb-chat-tool-renderer,
+html.workbuddy-dream-skin .cb-task-list-wrapper,
+html.workbuddy-dream-skin .cb-file-content,
+html.workbuddy-dream-skin .card-content,
+html.workbuddy-dream-skin .detail-content {
+  border-color: var(--wbds-line) !important;
+  border-radius: 14px !important;
+  background: color-mix(in srgb, var(--wbds-panel) 82%, transparent) !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.025), 0 12px 30px rgba(0,0,0,.12) !important;
+}
+
+html.workbuddy-dream-skin .input-area-container,
+html.workbuddy-dream-skin [class*="_input-area-container_"],
+html.workbuddy-dream-skin .wb-input-wrapper,
+html.workbuddy-dream-skin .colleagues-cloud-assistant-prompt {
+  border: 1px solid color-mix(in srgb, var(--wbds-accent) 32%, transparent) !important;
+  border-radius: 18px !important;
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--wbds-panel-alt) 96%, transparent), color-mix(in srgb, var(--wbds-background) 96%, transparent)) !important;
+  box-shadow: 0 20px 46px rgba(0, 0, 0, .24), inset 0 1px color-mix(in srgb, var(--wbds-accent-alt) 8%, transparent) !important;
+  backdrop-filter: blur(18px) saturate(125%);
+}
+
+html.workbuddy-dream-skin .input-area-container:focus-within,
+html.workbuddy-dream-skin [class*="_input-area-container_"]:focus-within,
+html.workbuddy-dream-skin .wb-input-wrapper:focus-within {
+  border-color: var(--wbds-accent) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--wbds-accent) 11%, transparent), 0 24px 50px rgba(0, 0, 0, .28) !important;
+}
+
+html.workbuddy-dream-skin :is(.input-area-container, [class*="_input-area-container_"])::before {
+  background: linear-gradient(transparent, color-mix(in srgb, var(--wbds-background) 98%, transparent)) !important;
+}
+
+html.workbuddy-dream-skin [data-cb-chat-input-toolbar-right] > [role="button"],
+html.workbuddy-dream-skin .voice-mic-trigger,
+html.workbuddy-dream-skin :is([data-track-name*="提示"], [aria-label*="提示"], [title*="提示"], [data-track-name*="语音"], [aria-label*="语音"], [title*="语音"]) {
+  color: var(--wbds-text) !important;
+  border: 1px solid transparent !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+  opacity: 1 !important;
+}
+
+html.workbuddy-dream-skin [data-cb-chat-input-toolbar-right] > [role="button"]:is(:hover, :focus-visible, [aria-expanded="true"]),
+html.workbuddy-dream-skin .voice-mic-trigger:is(:hover, :focus-visible, :active),
+html.workbuddy-dream-skin :is([data-track-name*="提示"], [aria-label*="提示"], [title*="提示"], [data-track-name*="语音"], [aria-label*="语音"], [title*="语音"]):is(:hover, :focus-visible, [aria-expanded="true"]) {
+  color: var(--wbds-accent-alt) !important;
+  border-color: color-mix(in srgb, var(--wbds-accent) 30%, transparent) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 15%, var(--wbds-panel)) !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, .22), 0 0 0 3px color-mix(in srgb, var(--wbds-accent) 8%, transparent) !important;
+}
+
+html.workbuddy-dream-skin :is([data-track-name*="提示"], [aria-label*="提示"], [title*="提示"], [data-track-name*="语音"], [aria-label*="语音"], [title*="语音"]) :is(svg, path) {
+  color: currentColor !important;
+  opacity: 1 !important;
+}
+
+html.workbuddy-dream-skin .voice-mic-trigger :is(svg, path) {
+  color: currentColor !important;
+  opacity: 1 !important;
+}
+
+html.workbuddy-dream-skin input,
+html.workbuddy-dream-skin textarea,
+html.workbuddy-dream-skin [contenteditable="true"] {
+  color: var(--wbds-text) !important;
+  caret-color: var(--wbds-accent) !important;
+}
+
+html.workbuddy-dream-skin input::placeholder,
+html.workbuddy-dream-skin textarea::placeholder {
+  color: color-mix(in srgb, var(--wbds-muted) 82%, transparent) !important;
+}
+
+html.workbuddy-dream-skin .detail-panel-container,
+html.workbuddy-dream-skin .colleague-chat-artifact-drawer,
+html.workbuddy-dream-skin .colleague-detail-panel,
+html.workbuddy-dream-skin [class*="artifact"] {
+  border-color: var(--wbds-line) !important;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--wbds-panel-alt) 98%, transparent), color-mix(in srgb, var(--wbds-background) 98%, transparent)) !important;
+}
+
+/* Artifact and design workspace shell */
+html.workbuddy-dream-skin :is(.sidebar-next, .sidebar-next-body, .detail-panel, .detail-layout, .detail-layout__top, .detail-layout__content, .detail-main, .detail-main__body) {
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--wbds-panel-alt) 98%, transparent), color-mix(in srgb, var(--wbds-background) 98%, transparent)) !important;
+}
+
+html.workbuddy-dream-skin :is(.sidebar-next-main-header, [class*="_mediaPreviewHeader_"]) {
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-panel) 96%, transparent) !important;
+  box-shadow: 0 1px color-mix(in srgb, var(--wbds-accent) 16%, transparent) !important;
+}
+
+html.workbuddy-dream-skin :is(.sidebar-next-top-button, .sidebar-next-collapse-toggle, .artifact-tab__close, [class*="_mediaPreviewActionsButton_"]) {
+  color: var(--wbds-muted) !important;
+  border: 1px solid transparent !important;
+  background: transparent !important;
+}
+
+html.workbuddy-dream-skin :is(.sidebar-next-top-button, .sidebar-next-collapse-toggle, .artifact-tab__close, [class*="_mediaPreviewActionsButton_"]):is(:hover, :focus-visible, :active) {
+  color: var(--wbds-accent-alt) !important;
+  border-color: color-mix(in srgb, var(--wbds-accent) 24%, transparent) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 13%, var(--wbds-panel)) !important;
+}
+
+html.workbuddy-dream-skin :is(.artifact-tab, [class*="_mediaPreviewTitle_"]) {
+  color: var(--wbds-text) !important;
+}
+
+html.workbuddy-dream-skin .artifact-tab--active {
+  color: var(--wbds-accent-alt) !important;
+  border-color: color-mix(in srgb, var(--wbds-accent) 34%, transparent) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 14%, var(--wbds-panel)) !important;
+}
+
+html.workbuddy-dream-skin :is([class*="_mediaPreview_"], [class*="_mediaPreviewContent_"], .artifact-content, .artifact-body) {
+  color: var(--wbds-text) !important;
+  background: color-mix(in srgb, var(--wbds-background) 94%, transparent) !important;
+}
+
+html.workbuddy-dream-skin .colleague-chat-empty,
+html.workbuddy-dream-skin .claw-empty-tab-pane__content,
+html.workbuddy-dream-skin .colleagues-panel-state {
+  position: relative;
+  color: var(--wbds-text) !important;
+}
+
+html.workbuddy-dream-skin .colleague-chat-empty::before,
+html.workbuddy-dream-skin .claw-empty-tab-pane__content::before {
+  content: "";
+  position: absolute;
+  width: min(62vw, 760px);
+  aspect-ratio: 1.8;
+  left: 50%;
+  top: 44%;
+  z-index: -1;
+  transform: translate(-50%, -50%);
+  border: 1px solid color-mix(in srgb, var(--wbds-accent) 20%, transparent);
+  border-radius: 32px;
+  background:
+    radial-gradient(circle at 76% 43%, color-mix(in srgb, var(--wbds-accent) 28%, transparent), transparent 24%),
+    linear-gradient(90deg, var(--wbds-hero-overlay-strong), var(--wbds-hero-overlay)),
+    var(--wbds-hero-art) var(--wbds-hero-position) / var(--wbds-hero-size);
+  box-shadow: 0 36px 90px rgba(0, 0, 0, .32), inset 0 1px rgba(255,255,255,.06);
+  opacity: .75;
+}
+
+#workbuddy-dream-skin-chrome {
+  --wbds-shell-left: 0px;
+  --wbds-shell-top: 0px;
+  --wbds-shell-width: 100vw;
+  --wbds-shell-height: 100vh;
+  position: fixed;
+  left: var(--wbds-shell-left);
+  top: var(--wbds-shell-top);
+  z-index: 2147483000;
+  width: var(--wbds-shell-width);
+  height: var(--wbds-shell-height);
+  overflow: hidden;
+  pointer-events: none;
+  color: var(--wbds-text);
+}
+
+#workbuddy-dream-skin-chrome .wbds-grain {
+  position: absolute;
+  inset: 0;
+  opacity: .18;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.08'/%3E%3C/svg%3E");
+  mix-blend-mode: soft-light;
+}
+
+#workbuddy-dream-skin-chrome .wbds-character {
+  --wbds-decoration-tilt: 0deg;
+  position: absolute;
+  right: var(--wbds-decoration-right);
+  top: var(--wbds-decoration-top);
+  width: var(--wbds-decoration-width);
+  max-height: 238px;
+  opacity: var(--wbds-character-opacity);
+  transform-origin: 52% 12%;
+  animation: wbds-decoration-float 6.8s cubic-bezier(.45, 0, .35, 1) infinite;
+}
+
+#workbuddy-dream-skin-chrome .wbds-character-card {
+  position: relative;
+  padding: 7px;
+  overflow: visible;
+  border: 1px solid color-mix(in srgb, var(--wbds-accent-alt) 46%, transparent);
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--wbds-panel) 90%, transparent);
+  box-shadow: 0 22px 42px rgba(0, 0, 0, .34), inset 0 1px rgba(255, 255, 255, .12);
+  backdrop-filter: blur(12px) saturate(1.08);
+  transform: rotate(var(--wbds-decoration-tilt));
+  transform-origin: 52% 8%;
+  animation: wbds-decoration-sway 5.6s ease-in-out infinite;
+}
+
+#workbuddy-dream-skin-chrome .wbds-charm-orbit,
+#workbuddy-dream-skin-chrome .wbds-sparkles {
+  position: absolute;
+  inset: -20px;
+  z-index: 3;
+  pointer-events: none;
+}
+
+#workbuddy-dream-skin-chrome .wbds-charm-orbit {
+  z-index: -1;
+  border: 1px dashed color-mix(in srgb, var(--wbds-accent) 28%, transparent);
+  border-radius: 46% 54% 52% 48%;
+  opacity: .76;
+  animation: wbds-orbit-turn 18s linear infinite;
+}
+
+#workbuddy-dream-skin-chrome .wbds-charm-orbit i,
+#workbuddy-dream-skin-chrome .wbds-sparkles i {
+  position: absolute;
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--wbds-highlight);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--wbds-highlight) 70%, transparent);
+}
+
+#workbuddy-dream-skin-chrome .wbds-charm-orbit i:nth-child(1) { left: 4%; top: 25%; }
+#workbuddy-dream-skin-chrome .wbds-charm-orbit i:nth-child(2) { right: 7%; top: 10%; width: 5px; height: 5px; background: var(--wbds-accent); }
+#workbuddy-dream-skin-chrome .wbds-charm-orbit i:nth-child(3) { right: 1%; bottom: 23%; width: 11px; height: 11px; background: var(--wbds-accent-alt); }
+
+#workbuddy-dream-skin-chrome .wbds-sparkles i {
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+  background: var(--wbds-accent-alt);
+  clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+  animation: wbds-sparkle 3.2s ease-in-out infinite;
+}
+
+#workbuddy-dream-skin-chrome .wbds-sparkles i:nth-child(1) { left: -2px; top: 9%; animation-delay: -.4s; }
+#workbuddy-dream-skin-chrome .wbds-sparkles i:nth-child(2) { right: -7px; top: 34%; width: 12px; height: 12px; animation-delay: -1.9s; }
+#workbuddy-dream-skin-chrome .wbds-sparkles i:nth-child(3) { left: 5%; bottom: -4px; width: 10px; height: 10px; animation-delay: -2.6s; }
+#workbuddy-dream-skin-chrome .wbds-sparkles i:nth-child(4) { right: 16%; bottom: -10px; width: 5px; height: 5px; animation-delay: -1.1s; }
+
+#workbuddy-dream-skin-chrome .wbds-character-card img {
+  display: block;
+  width: 100%;
+  max-height: 220px;
+  object-fit: contain;
+  border-radius: 12px;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-style="pink-dream"] #workbuddy-dream-skin-chrome .wbds-character {
+  --wbds-decoration-tilt: 5deg;
+  animation-duration: 5.4s;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-style="pink-dream"] #workbuddy-dream-skin-chrome .wbds-charm-orbit i {
+  border-radius: 70% 30% 65% 35%;
+  background: var(--wbds-secondary);
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-style="pink-dream"] #workbuddy-dream-skin-chrome .wbds-character-card {
+  padding: 8px 8px 12px;
+  border: 2px solid color-mix(in srgb, var(--wbds-accent-alt) 72%, transparent);
+  border-radius: 20px 11px 22px 14px;
+  background: linear-gradient(145deg, color-mix(in srgb, var(--wbds-accent-alt) 28%, var(--wbds-panel)), color-mix(in srgb, var(--wbds-panel) 94%, transparent));
+  box-shadow: 0 24px 46px rgba(32, 8, 20, .4), 0 0 0 4px color-mix(in srgb, var(--wbds-accent) 14%, transparent), inset 0 1px rgba(255, 255, 255, .2);
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-style="pink-dream"] #workbuddy-dream-skin-chrome .wbds-character-card::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  left: 12px;
+  top: -11px;
+  width: 52px;
+  height: 19px;
+  border: 1px solid rgba(255, 255, 255, .32);
+  background: repeating-linear-gradient(90deg, rgba(255,255,255,.1) 0 7px, transparent 7px 11px), color-mix(in srgb, var(--wbds-accent) 70%, transparent);
+  box-shadow: 0 4px 12px rgba(42, 12, 26, .24);
+  transform: rotate(-11deg);
+  clip-path: polygon(4% 8%, 98% 0, 94% 92%, 0 100%);
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-style="pink-dream"] #workbuddy-dream-skin-chrome .wbds-character-card::after {
+  content: "✦";
+  position: absolute;
+  z-index: 2;
+  right: -13px;
+  bottom: 13px;
+  width: 29px;
+  height: 29px;
+  border: 1px solid color-mix(in srgb, var(--wbds-accent-alt) 60%, transparent);
+  border-radius: 68% 32% 70% 30%;
+  background: color-mix(in srgb, var(--wbds-accent) 76%, var(--wbds-panel));
+  box-shadow: -12px 16px 0 -7px color-mix(in srgb, var(--wbds-accent-alt) 78%, transparent), 0 8px 18px rgba(42, 12, 26, .3);
+  color: var(--wbds-accent-alt);
+  font-size: 13px;
+  line-height: 29px;
+  text-align: center;
+  transform: rotate(23deg);
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-style="mint-bloom"] #workbuddy-dream-skin-chrome .wbds-character {
+  --wbds-decoration-tilt: -4deg;
+  animation-duration: 7.6s;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-style="mint-bloom"] #workbuddy-dream-skin-chrome .wbds-charm-orbit {
+  border-style: dotted;
+  border-radius: 58% 42% 64% 36%;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-style="mint-bloom"] #workbuddy-dream-skin-chrome .wbds-character-card {
+  border: 2px solid color-mix(in srgb, var(--wbds-accent-alt) 58%, transparent);
+  border-radius: 26px 12px 28px 14px;
+  background: linear-gradient(155deg, color-mix(in srgb, var(--wbds-accent) 22%, var(--wbds-panel)), color-mix(in srgb, var(--wbds-panel) 92%, transparent));
+  box-shadow: 0 24px 44px rgba(3, 28, 24, .38), 0 0 0 3px color-mix(in srgb, var(--wbds-accent) 12%, transparent);
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-style="mint-bloom"] #workbuddy-dream-skin-chrome .wbds-character-card::before,
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-style="mint-bloom"] #workbuddy-dream-skin-chrome .wbds-character-card::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  width: 23px;
+  height: 11px;
+  border-radius: 100% 0 100% 0;
+  background: linear-gradient(135deg, var(--wbds-accent-alt), var(--wbds-accent));
+  box-shadow: 0 5px 12px rgba(7, 44, 37, .28);
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-style="mint-bloom"] #workbuddy-dream-skin-chrome .wbds-character-card::before {
+  left: -8px;
+  top: 23px;
+  transform: rotate(-38deg);
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-style="mint-bloom"] #workbuddy-dream-skin-chrome .wbds-character-card::after {
+  right: -7px;
+  bottom: 25px;
+  transform: rotate(142deg) scale(.82);
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-style="sunlit-campus"] #workbuddy-dream-skin-chrome .wbds-character-card {
+  padding: 8px 8px 22px;
+  border-radius: 5px;
+  border-color: rgba(255, 255, 255, .72);
+  background: color-mix(in srgb, #fff 88%, var(--wbds-highlight));
+  box-shadow: 0 24px 38px rgba(21, 28, 10, .34), 0 0 0 1px rgba(255, 255, 255, .28);
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-style="sunlit-campus"] #workbuddy-dream-skin-chrome .wbds-character {
+  --wbds-decoration-tilt: 3deg;
+  animation-duration: 6.1s;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-style="sunlit-campus"] #workbuddy-dream-skin-chrome .wbds-charm-orbit {
+  border-radius: 4px;
+  transform: rotate(-4deg);
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-style="sunlit-campus"] #workbuddy-dream-skin-chrome .wbds-character-card::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  right: 13px;
+  top: -9px;
+  width: 44px;
+  height: 16px;
+  background: color-mix(in srgb, var(--wbds-highlight) 68%, rgba(255,255,255,.52));
+  box-shadow: 0 3px 9px rgba(44, 42, 18, .2);
+  transform: rotate(9deg);
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-style="gilded-night"] #workbuddy-dream-skin-chrome .wbds-character-card {
+  border: 2px solid color-mix(in srgb, var(--wbds-accent) 78%, transparent);
+  border-radius: 14px 5px 14px 5px;
+  background: linear-gradient(145deg, color-mix(in srgb, var(--wbds-highlight) 13%, var(--wbds-panel)), var(--wbds-panel));
+  box-shadow: 0 25px 46px rgba(12, 6, 2, .52), 0 0 0 4px color-mix(in srgb, var(--wbds-accent) 13%, transparent), inset 0 0 0 1px color-mix(in srgb, var(--wbds-highlight) 34%, transparent);
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-style="gilded-night"] #workbuddy-dream-skin-chrome .wbds-character {
+  --wbds-decoration-tilt: -3deg;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-style="gilded-night"] #workbuddy-dream-skin-chrome .wbds-character-card::before,
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-style="gilded-night"] #workbuddy-dream-skin-chrome .wbds-character-card::after {
+  content: "◆";
+  position: absolute;
+  z-index: 2;
+  color: var(--wbds-highlight);
+  font-size: 12px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, .7);
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-style="gilded-night"] #workbuddy-dream-skin-chrome .wbds-character-card::before {
+  left: -7px;
+  top: -9px;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-style="gilded-night"] #workbuddy-dream-skin-chrome .wbds-character-card::after {
+  right: -7px;
+  bottom: -9px;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-style="deep-sea"] #workbuddy-dream-skin-chrome .wbds-character-card {
+  border: 1px solid color-mix(in srgb, var(--wbds-accent) 68%, transparent);
+  border-radius: 7px 26px 7px 20px;
+  background: linear-gradient(155deg, color-mix(in srgb, var(--wbds-secondary) 18%, var(--wbds-panel)), var(--wbds-panel));
+  box-shadow: 0 24px 46px rgba(0, 8, 12, .5), 0 0 18px color-mix(in srgb, var(--wbds-accent) 16%, transparent), inset 0 0 0 1px rgba(255,255,255,.05);
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-style="deep-sea"] #workbuddy-dream-skin-chrome .wbds-character {
+  --wbds-decoration-tilt: 2deg;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-style="deep-sea"] #workbuddy-dream-skin-chrome .wbds-character-card::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  right: 13px;
+  top: -5px;
+  width: 34px;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--wbds-accent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--wbds-accent) 76%, transparent), -102px 222px 0 -1px var(--wbds-highlight);
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-mode="off"] #workbuddy-dream-skin-chrome .wbds-character {
+  display: none !important;
+}
+
+html.workbuddy-dream-skin:not(.wbds-has-character) #workbuddy-dream-skin-chrome .wbds-character {
+  display: none !important;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-style="deep-sea"] #workbuddy-dream-skin-chrome .wbds-character {
+  opacity: min(var(--wbds-character-opacity), .94);
+}
+
+html.workbuddy-dream-skin:not([data-workbuddy-dream-skin-style="deep-sea"]) #workbuddy-dream-skin-chrome .wbds-sonar,
+html.workbuddy-dream-skin:not([data-workbuddy-dream-skin-style="deep-sea"]) #workbuddy-dream-skin-chrome .wbds-coordinate {
+  display: none;
+}
+
+@keyframes wbds-decoration-float {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(-.45deg); }
+  34% { transform: translate3d(-2px, -7px, 0) rotate(.35deg); }
+  68% { transform: translate3d(2px, -3px, 0) rotate(-.15deg); }
+}
+
+@keyframes wbds-decoration-sway {
+  0%, 100% { transform: rotate(calc(var(--wbds-decoration-tilt) - .65deg)); }
+  50% { transform: rotate(calc(var(--wbds-decoration-tilt) + .65deg)); }
+}
+
+@keyframes wbds-orbit-turn {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes wbds-sparkle {
+  0%, 100% { opacity: .18; transform: scale(.55) rotate(0); }
+  45% { opacity: 1; transform: scale(1.12) rotate(90deg); }
+  70% { opacity: .42; transform: scale(.78) rotate(135deg); }
+}
+
+@media (max-width: 1080px), (max-height: 680px) {
+  html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-mode="auto"] #workbuddy-dream-skin-chrome .wbds-character {
+    display: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #workbuddy-dream-skin-chrome .wbds-character {
+    animation: none;
+  }
+  #workbuddy-dream-skin-chrome :is(.wbds-character-card, .wbds-charm-orbit, .wbds-sparkles i) {
+    animation: none;
+  }
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-appearance="light"],
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-appearance="light"] body,
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-appearance="light"] #root {
+  background:
+    radial-gradient(circle at 84% 4%, color-mix(in srgb, var(--wbds-highlight) 24%, transparent), transparent 32%),
+    linear-gradient(145deg, color-mix(in srgb, var(--wbds-background) 92%, white), var(--wbds-background) 62%, color-mix(in srgb, var(--wbds-background) 90%, var(--wbds-secondary))) !important;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-appearance="light"] .conversation-list {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--wbds-panel) 96%, transparent), color-mix(in srgb, var(--wbds-background) 96%, white)) !important;
+  box-shadow: inset -1px 0 var(--wbds-line), 8px 0 28px rgba(67, 78, 45, .06) !important;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-appearance="light"] :is(
+  [class*="_mainArea_"],
+  .wb-home-composer__input-slot,
+  .conversation-search-modal,
+  .workspace-preparing__content
+) {
+  box-shadow: 0 18px 48px color-mix(in srgb, var(--wbds-muted) 16%, transparent), inset 0 1px rgba(255, 255, 255, .72) !important;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-appearance="light"] :is(.ec-card-summon-btn, .ec-card-summon-btn *) {
+  color: #fff !important;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-appearance="light"] #workbuddy-dream-skin-chrome .wbds-grain {
+  opacity: .09;
+  mix-blend-mode: multiply;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-appearance="light"] .wbds-brand,
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-appearance="light"] .wbds-status {
+  text-shadow: 0 1px 8px rgba(255, 255, 255, .72);
+}
+
+/* Historical task reading cabin */
+html.workbuddy-dream-skin .main-content--chat :is(.cb-assistant-message, [class*="_assistantMessage_"]) {
+  margin-block: 10px 16px !important;
+  padding: 18px 22px 20px !important;
+  border: 1px solid color-mix(in srgb, var(--wbds-accent) 20%, transparent) !important;
+  border-radius: 22px 22px 22px 8px !important;
+  background:
+    linear-gradient(150deg, color-mix(in srgb, var(--wbds-panel) 94%, transparent), color-mix(in srgb, var(--wbds-background) 90%, transparent)) !important;
+  box-shadow: 0 18px 44px color-mix(in srgb, var(--wbds-background) 22%, transparent), inset 0 1px rgba(255, 255, 255, .42) !important;
+  backdrop-filter: blur(22px) saturate(112%) !important;
+}
+
+html.workbuddy-dream-skin .main-content--chat :is(.cb-assistant-message, [class*="_assistantMessage_"]) :is(p, li, blockquote) {
+  color: var(--wbds-text) !important;
+  line-height: 1.78 !important;
+  text-shadow: none !important;
+}
+
+html.workbuddy-dream-skin .main-content--chat :is(.cb-assistant-message, [class*="_assistantMessage_"]) :is(h1, h2, h3, h4) {
+  color: var(--wbds-text) !important;
+  line-height: 1.38 !important;
+  letter-spacing: -.01em;
+}
+
+html.workbuddy-dream-skin .main-content--chat :is(.cb-chat-message--user .cb-chat-message-bubble, .user-message, [class*="_userMessageBubble_"]) {
+  padding: 14px 18px !important;
+  border-color: color-mix(in srgb, var(--wbds-accent) 34%, transparent) !important;
+  border-radius: 18px 18px 6px 18px !important;
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--wbds-panel-alt) 96%, transparent), color-mix(in srgb, var(--wbds-panel) 94%, transparent)) !important;
+  box-shadow: 0 14px 36px color-mix(in srgb, var(--wbds-background) 20%, transparent), inset 0 1px rgba(255, 255, 255, .5) !important;
+  backdrop-filter: blur(20px) saturate(110%) !important;
+}
+
+html.workbuddy-dream-skin .main-content--chat [class*="_userMessageBubble_"] :is([class*="_tag_"], [class*="_skillTag_"], [class*="_fileTag_"], .wb-tag) {
+  color: var(--wbds-accent-alt) !important;
+  border: 1px solid color-mix(in srgb, var(--wbds-accent) 26%, transparent) !important;
+  border-radius: 999px !important;
+  background: color-mix(in srgb, var(--wbds-accent) 10%, var(--wbds-panel)) !important;
+  box-shadow: inset 0 1px rgba(255, 255, 255, .48) !important;
+}
+
+html.workbuddy-dream-skin .main-content--chat [class*="_userMessageBubble_"] :is([class*="_tag_"], [class*="_skillTag_"], [class*="_fileTag_"], .wb-tag) * {
+  color: inherit !important;
+}
+
+html.workbuddy-dream-skin .main-content--chat :is(.avatar-fold-line, .avatar-fold-status) {
+  width: fit-content;
+  padding: 5px 10px !important;
+  border: 1px solid color-mix(in srgb, var(--wbds-accent) 18%, transparent) !important;
+  border-radius: 999px !important;
+  color: var(--wbds-muted) !important;
+  background: color-mix(in srgb, var(--wbds-panel) 88%, transparent) !important;
+  box-shadow: 0 8px 22px color-mix(in srgb, var(--wbds-background) 14%, transparent) !important;
+  backdrop-filter: blur(14px) !important;
+}
+
+/* Artifact shelf */
+html.workbuddy-dream-skin .main-content--chat .artifact-slot-panel {
+  margin-block: 14px 18px !important;
+  padding: 12px !important;
+  border: 1px solid color-mix(in srgb, var(--wbds-accent) 24%, transparent) !important;
+  border-radius: 20px !important;
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--wbds-panel-alt) 90%, transparent), color-mix(in srgb, var(--wbds-panel) 92%, transparent)) !important;
+  box-shadow: 0 18px 42px color-mix(in srgb, var(--wbds-background) 20%, transparent), inset 0 1px rgba(255, 255, 255, .46) !important;
+  backdrop-filter: blur(20px) saturate(112%) !important;
+}
+
+html.workbuddy-dream-skin .main-content--chat .artifact-slot-panel::before {
+  content: "任务产物";
+  display: block;
+  margin: 1px 4px 10px;
+  color: var(--wbds-text-muted);
+  font-size: 12px;
+  font-weight: 720;
+  letter-spacing: .12em;
+}
+
+html.workbuddy-dream-skin .main-content--chat .artifact-slot-panel__grid {
+  gap: 10px !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+html.workbuddy-dream-skin .main-content--chat .artifact-slot-panel__card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--wbds-accent) 18%, transparent) !important;
+  border-radius: 15px !important;
+  color: var(--wbds-text) !important;
+  background: color-mix(in srgb, var(--wbds-panel) 97%, transparent) !important;
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--wbds-background) 13%, transparent), inset 0 1px rgba(255, 255, 255, .5) !important;
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+html.workbuddy-dream-skin .main-content--chat .artifact-slot-panel__card::before {
+  content: "";
+  position: absolute;
+  inset: 10px auto 10px 0;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: linear-gradient(var(--wbds-highlight), var(--wbds-accent));
+  box-shadow: 0 0 12px color-mix(in srgb, var(--wbds-accent) 45%, transparent);
+}
+
+html.workbuddy-dream-skin .main-content--chat .artifact-slot-panel__card:is(:hover, :focus-within) {
+  border-color: color-mix(in srgb, var(--wbds-accent) 46%, transparent) !important;
+  box-shadow: 0 16px 34px color-mix(in srgb, var(--wbds-background) 18%, transparent), 0 0 0 3px color-mix(in srgb, var(--wbds-accent) 8%, transparent) !important;
+  transform: translateY(-2px);
+}
+
+html.workbuddy-dream-skin .main-content--chat .artifact-slot-panel__card-main {
+  min-height: 66px;
+  padding: 12px 16px 12px 18px !important;
+  color: var(--wbds-text) !important;
+  background: transparent !important;
+}
+
+html.workbuddy-dream-skin .main-content--chat .artifact-slot-panel__card-title {
+  color: var(--wbds-text) !important;
+  font-weight: 720 !important;
+  letter-spacing: .01em;
+}
+
+html.workbuddy-dream-skin .main-content--chat .artifact-slot-panel__card-subtitle {
+  color: var(--wbds-muted) !important;
+}
+
+html.workbuddy-dream-skin .main-content--chat .artifact-slot-panel__action-btn {
+  width: fit-content !important;
+  margin-top: 10px !important;
+  padding: 7px 12px !important;
+  border: 1px solid color-mix(in srgb, var(--wbds-accent) 20%, transparent) !important;
+  border-radius: 999px !important;
+  color: var(--wbds-accent-alt) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 9%, var(--wbds-panel)) !important;
+}
+
+html.workbuddy-dream-skin .main-content--chat .artifact-slot-panel__action-btn:is(:hover, :focus-visible) {
+  border-color: color-mix(in srgb, var(--wbds-accent) 42%, transparent) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 15%, var(--wbds-panel)) !important;
+}
+
+html.workbuddy-dream-skin .main-content--chat :is(.cb-file-content, [class*="_fileCard_"], [class*="_attachmentCard_"]) {
+  border: 1px solid color-mix(in srgb, var(--wbds-accent) 22%, transparent) !important;
+  border-radius: 15px !important;
+  color: var(--wbds-text) !important;
+  background: color-mix(in srgb, var(--wbds-panel) 96%, transparent) !important;
+  box-shadow: 0 12px 28px color-mix(in srgb, var(--wbds-background) 14%, transparent), inset 0 1px rgba(255, 255, 255, .48) !important;
+}
+
+/* Keep the composer fade short so it never washes over historical messages. */
+html.workbuddy-dream-skin .main-content--chat :is(.input-area-container, [class*="_input-area-container_"])::before {
+  top: -34px !important;
+  height: 34px !important;
+  background: linear-gradient(transparent, color-mix(in srgb, var(--wbds-panel) 72%, transparent)) !important;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-appearance="light"] .main-content--chat :is(.cb-assistant-message, [class*="_assistantMessage_"]) {
+  background:
+    linear-gradient(150deg, color-mix(in srgb, var(--wbds-panel) 96%, transparent), color-mix(in srgb, var(--wbds-background) 92%, transparent)) !important;
+  box-shadow: 0 18px 44px rgba(70, 83, 43, .16), inset 0 1px rgba(255, 255, 255, .78) !important;
+}
+
+html.workbuddy-dream-skin .main-content--chat :is(.cb-assistant-message, [class*="_assistantMessage_"]):not(:has(
+  .cb-markdown,
+  [class*="_assistantTextContent_"],
+  [class*="_mainText_"],
+  .artifact-slot-panel,
+  .cb-file-content,
+  [class*="_fileCard_"],
+  [class*="_attachmentCard_"]
+)) {
+  min-height: 0 !important;
+  margin-block: 4px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+html.workbuddy-dream-skin .main-content--chat img[src*="/BuddyCats/"] {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+html.workbuddy-dream-skin.wbds-has-character body:has(.main-content--welcome) img[src*="/BuddyCats/"] {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+.wbds-brand {
+  position: absolute;
+  left: 22px;
+  top: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-shadow: 0 2px 16px rgba(0,0,0,.55);
+}
+
+.wbds-brand strong {
+  display: block;
+  color: var(--wbds-accent-alt);
+  font-size: 13px;
+  font-weight: 760;
+  letter-spacing: .08em;
+}
+
+.wbds-brand small {
+  display: block;
+  margin-top: 2px;
+  color: var(--wbds-muted);
+  font: 650 8px/1.2 "Cascadia Mono", Consolas, monospace;
+  letter-spacing: .18em;
+}
+
+.wbds-pulse {
+  width: 9px;
+  height: 9px;
+  border: 2px solid var(--wbds-accent);
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--wbds-accent) 35%, transparent);
+  animation: wbds-pulse 2.6s ease-out infinite;
+}
+
+.wbds-status {
+  position: absolute;
+  right: 22px;
+  bottom: 16px;
+  display: grid;
+  justify-items: end;
+  gap: 3px;
+  text-shadow: 0 2px 12px rgba(0,0,0,.6);
+}
+
+.wbds-status span {
+  color: var(--wbds-highlight);
+  font: 700 9px/1.2 "Cascadia Mono", Consolas, monospace;
+  letter-spacing: .14em;
+}
+
+.wbds-status b {
+  color: var(--wbds-muted);
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.wbds-coordinate {
+  position: absolute;
+  right: 22px;
+  top: 18px;
+  color: color-mix(in srgb, var(--wbds-accent) 58%, transparent);
+  font: 600 8px/1.5 "Cascadia Mono", Consolas, monospace;
+  letter-spacing: .12em;
+  text-align: right;
+}
+
+.wbds-sonar {
+  position: absolute;
+  right: -90px;
+  top: 13%;
+  width: 360px;
+  height: 360px;
+  opacity: .22;
+  transform: rotate(-12deg);
+}
+
+.wbds-sonar i {
+  position: absolute;
+  inset: 50%;
+  border: 1px solid var(--wbds-accent);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.wbds-sonar i:nth-child(1) { width: 86px; height: 86px; }
+.wbds-sonar i:nth-child(2) { width: 190px; height: 190px; }
+.wbds-sonar i:nth-child(3) { width: 320px; height: 320px; }
+.wbds-sonar b {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 48%;
+  height: 1px;
+  transform-origin: left;
+  background: linear-gradient(90deg, var(--wbds-highlight), transparent);
+  animation: wbds-scan 8s linear infinite;
+}
+
+@keyframes wbds-pulse {
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--wbds-accent) 42%, transparent); }
+  70%, 100% { box-shadow: 0 0 0 10px transparent; }
+}
+
+@keyframes wbds-scan { to { transform: rotate(360deg); } }
+
+@media (max-width: 980px) {
+  .wbds-sonar, .wbds-coordinate { display: none; }
+  .wbds-status b { display: none; }
+  html.workbuddy-dream-skin .colleague-chat-empty::before,
+  html.workbuddy-dream-skin .claw-empty-tab-pane__content::before { width: calc(100vw - 64px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #workbuddy-dream-skin-chrome * { animation: none !important; }
+  html.workbuddy-dream-skin button,
+  html.workbuddy-dream-skin [role="button"] { transition: none !important; }
+}

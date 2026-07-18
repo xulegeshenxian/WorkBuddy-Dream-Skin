@@ -1,0 +1,32 @@
+{
+  "pink-dream": {
+    "name": "绯樱少女", "eyebrow": "ROSE PETAL DAYDREAM", "tagline": "让灵感落在柔软的花瓣与晨光之间。", "appearance": "light",
+    "backgroundOverlay": 0.42, "heroOverlay": 0.18, "panelOpacity": 0.9,
+    "decoration": { "variant": "full-image-card", "position": "right 14px top 170px", "size": "154px auto", "opacity": 0.94 },
+    "colors": { "background": "#FFF5F8", "panel": "#FFF9FB", "panelAlt": "#FCE8EF", "accent": "#E96F9A", "accentAlt": "#C84275", "secondary": "#F4A8C0", "highlight": "#FFD36E", "text": "#4D2636", "muted": "#8F6473", "line": "rgba(211, 91, 135, .24)" }
+  },
+  "mint-bloom": {
+    "name": "薄荷花房", "eyebrow": "MINT BLOOM STUDIO", "tagline": "把清风、花香与明亮思绪留在桌面。", "appearance": "light",
+    "backgroundOverlay": 0.4, "heroOverlay": 0.16, "panelOpacity": 0.89,
+    "decoration": { "variant": "full-image-card", "position": "right 14px top 170px", "size": "148px auto", "opacity": 0.92 },
+    "colors": { "background": "#EFFAF5", "panel": "#FAFFFC", "panelAlt": "#DDF3E9", "accent": "#3DAE8D", "accentAlt": "#23765F", "secondary": "#7CC9B3", "highlight": "#F2B85B", "text": "#21483D", "muted": "#56786E", "line": "rgba(48, 151, 121, .23)" }
+  },
+  "sunlit-campus": {
+    "name": "晴日校园", "eyebrow": "SUNLIT CAMPUS NOTES", "tagline": "把青春、书页与树影写进今天的计划。", "appearance": "light",
+    "backgroundOverlay": 0.34, "heroOverlay": 0.12, "panelOpacity": 0.88,
+    "decoration": { "variant": "full-image-card", "position": "right 16px top 180px", "size": "160px auto", "opacity": 0.96 },
+    "colors": { "background": "#F5F6E9", "panel": "#FFFDF3", "panelAlt": "#E8EED2", "accent": "#80A92E", "accentAlt": "#4B6D20", "secondary": "#77A990", "highlight": "#E9AD36", "text": "#344126", "muted": "#626D50", "line": "rgba(104, 133, 49, .24)" }
+  },
+  "gilded-night": {
+    "name": "鎏金夜宴", "eyebrow": "GILDED MOON SALON", "tagline": "让金色月影照亮沉静而专注的时刻。", "appearance": "dark",
+    "backgroundOverlay": 0.82, "heroOverlay": 0.66, "panelOpacity": 0.94,
+    "decoration": { "variant": "full-image-card", "position": "right 16px top 180px", "size": "166px auto", "opacity": 0.92 },
+    "colors": { "background": "#120C08", "panel": "#1B120D", "panelAlt": "#35251A", "accent": "#D8B06B", "accentAlt": "#F5DEAA", "secondary": "#7B4E35", "highlight": "#E7C277", "text": "#FFF7EA", "muted": "#C8B79F", "line": "rgba(216, 176, 107, .25)" }
+  },
+  "deep-sea": {
+    "name": "深海夜航", "eyebrow": "WORKBUDDY NIGHT WATCH", "tagline": "让思绪下潜，让成果浮出水面。", "appearance": "dark",
+    "backgroundOverlay": 0.86, "heroOverlay": 0.72, "panelOpacity": 0.96,
+    "decoration": { "variant": "full-image-card", "position": "right 18px top 185px", "size": "170px auto", "opacity": 0.9 },
+    "colors": { "background": "#071318", "panel": "#0B2025", "panelAlt": "#102B30", "accent": "#58E6C2", "accentAlt": "#8BF3D8", "secondary": "#2F96A3", "highlight": "#F2B866", "text": "#E8F7F3", "muted": "#91AAA5", "line": "rgba(88, 230, 194, .22)" }
+  }
+}

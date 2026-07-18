@@ -1,0 +1,24 @@
+# Build & tooling
+node_modules/
+*.log
+*.tmp
+
+# Regenerable audit output and screenshots
+# (Verification evidence lives in %LOCALAPPDATA%\WorkBuddyDreamSkin and can be
+# reproduced by re-running verify/audit scripts. Keeping ~100 MB of PNGs out
+# of git history keeps clones fast; promote individual keeper shots by force-
+# adding them: git add -f artifacts/<name>.png)
+artifacts/
+tmp/
+
+# OS / editor
+Thumbs.db
+Desktop.ini
+.DS_Store
+.vscode/
+.idea/
+
+# Local secrets (defensive — none checked in today)
+.env
+.env.*
+!.env.example
