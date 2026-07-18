@@ -160,12 +160,56 @@ if (-not $StaticOnly) {
 }
 
 $automatedResults = @($results | Where-Object name -ne 'Manual visual review')
-$automatedPass = $automatedResults.Count -gt 0 -and @($automatedResults | Where-Object { -not $_.pass }).Count -eq 0
+$failedAutomated = @($automatedResults | Where-Object { -not $_.pass })
+$automatedPass = $automatedResults.Count -gt 0 -and $failedAutomated.Count -eq 0
 $manualResult = $results | Where-Object name -eq 'Manual visual review' | Select-Object -First 1
 $fullLiveRequested = -not $StaticOnly -and ($LiveGates -contains 'All' -or @('Verify', 'Hover', 'Composer', 'Scenes', 'Pages', 'Details', 'Settings').Where({ $LiveGates -contains $_ }).Count -eq 7)
 $releaseReady = $fullLiveRequested -and $automatedPass -and $manualResult -and $manualResult.pass
+
+$expectedLiveGates = @('Live verify', 'Hover audit', 'Composer audit', 'Scene audit', 'Page and history audit', 'Detail audit', 'Settings audit')
+$attemptedLiveGates = @($results | Where-Object { $expectedLiveGates -contains $_.name } | Select-Object -ExpandProperty name)
+$missingLiveGates = @($expectedLiveGates | Where-Object { $attemptedLiveGates -notcontains $_ })
+$coverage = [pscustomobject]@{
+  automatedTotal = $automatedResults.Count
+  automatedPassed = @($automatedResults | Where-Object pass).Count
+  automatedFailed = $failedAutomated.Count
+  automatedPassRatio = if ($automatedResults.Count) { [math]::Round(@($automatedResults | Where-Object pass).Count / $automatedResults.Count, 3) } else { 0 }
+  liveGatesExpected = $expectedLiveGates.Count
+  liveGatesAttempted = $attemptedLiveGates.Count
+  liveGatesMissing = $missingLiveGates
+  manualReviewRun = [bool]$manualResult
+}
+
+$failedItems = @($failedAutomated | ForEach-Object {
+  [pscustomobject]@{
+    name = $_.name
+    detail = $_.detail
+    logPath = $_.logPath
+    durationMs = $_.durationMs
+  }
+})
+
+$nextActions = New-Object System.Collections.Generic.List[string]
+if ($StaticOnly) {
+  $nextActions.Add('Static-only pass. Re-run without -StaticOnly against a live WorkBuddy CDP endpoint to attempt release readiness.')
+} elseif (-not $fullLiveRequested) {
+  $nextActions.Add("Partial LiveGates ($($LiveGates -join ', ')). Re-run with -LiveGates All for release readiness.")
+}
+if ($failedItems.Count -gt 0) {
+  foreach ($item in $failedItems) {
+    $nextActions.Add("Inspect $($item.name) log $($item.logPath) — $($item.detail).")
+  }
+}
+if ($missingLiveGates.Count -gt 0 -and -not $StaticOnly) {
+  $nextActions.Add("Live gates not attempted: $($missingLiveGates -join ', '). Confirm the corresponding LiveGate flags were selected.")
+}
+if ($fullLiveRequested -and $automatedPass -and -not ($manualResult -and $manualResult.pass)) {
+  $nextActions.Add('All automated gates passed. Provide a Manual visual review manifest (light + dark themes with evidence directory) via -ManualReviewManifest to reach releaseReady.')
+}
+if ($releaseReady) { $nextActions.Add('releaseReady=true. Cut a release only after confirming the manual review evidence directory is preserved.') }
+
 $report = [pscustomobject]@{
-  schemaVersion = 1
+  schemaVersion = 2
   projectRoot = $ProjectRoot
   version = $version
   staticOnly = [bool]$StaticOnly
@@ -174,6 +218,9 @@ $report = [pscustomobject]@{
   automatedPass = $automatedPass
   releaseReady = [bool]$releaseReady
   artifactDirectory = $ArtifactDirectory
+  coverage = $coverage
+  failedItems = $failedItems
+  nextActions = $nextActions.ToArray()
   results = $results
 }
 $reportPath = Join-Path $ArtifactDirectory 'strict-audit-report.json'

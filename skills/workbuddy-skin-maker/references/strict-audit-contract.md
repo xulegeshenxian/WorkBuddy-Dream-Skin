@@ -9,6 +9,21 @@
 5. Manual visual matrix
 6. Manual review manifest
 7. Evidence and cleanup
+8. Report schema
+
+## Report schema
+
+The strict-audit report at `<ArtifactDirectory>/strict-audit-report.json` uses `schemaVersion: 2`. In addition to `automatedPass`, `releaseReady`, and per-gate `results`, the report now carries:
+
+- `coverage.automatedTotal / automatedPassed / automatedFailed / automatedPassRatio` — quick health summary that never affects `automatedPass` or `releaseReady`.
+- `coverage.liveGatesExpected / liveGatesAttempted / liveGatesMissing` — reveals which live gates the invocation did not run (either because of `-StaticOnly` or a narrow `-LiveGates`).
+- `coverage.manualReviewRun` — whether the manual visual review manifest was checked.
+- `failedItems` — one entry per failed automated gate with `name / detail / logPath / durationMs` so the next session can jump straight to the log.
+- `nextActions` — ordered, human-readable suggestions (rerun without `-StaticOnly`, inspect a specific log, provide a manual review manifest, etc.). Never treat `nextActions` as a substitute for `releaseReady`.
+
+Pass policy is unchanged: `releaseReady` still requires a full live run, every automated gate passing, and a satisfied manual review manifest. Coverage and next-action fields exist for observability only.
+
+Schema v1 reports (before this contract update) can be recognized by the absence of `coverage`, `failedItems`, and `nextActions`. Older tooling that only reads `automatedPass` / `releaseReady` remains forward compatible.
 
 ## Pass policy
 

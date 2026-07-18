@@ -24,9 +24,9 @@
 
 ### D. 发布门禁攻坚 ★ 最痛
 
-- [ ] 修 `auditSettingsSession` 定位逻辑（handoff 里长期返回 exit 7），基于 `references/qa-inventory.md` 里维护多个候选选择器，加静态截图 fallback
-- [ ] `skills/workbuddy-skin-maker/scripts/run-strict-audit.ps1` 报告结构化：加"覆盖率百分比 + 未覆盖项名单 + 建议动作"，不要只有布尔
-- [ ] 全量实时门禁拆成"必过 5 项 + 尽力 2 项"，避免一个环境不稳定项拉低整体
+- [ ] 修 `auditSettingsSession` 定位逻辑（handoff 里长期返回 exit 7），基于 `references/qa-inventory.md` 里维护多个候选选择器，加静态截图 fallback。**需要 live WorkBuddy 迭代**：`injector.mjs:1332` 里 `.user-menu-trigger` 和 `[class*="user-menu"] *, .daily-checkin-card ~ *` 两个选择器在 WorkBuddy 5.2.6 上找不到设置入口。修复思路：多候选选择器链 + 每一步失败时输出选择器与查询计数
+- [x] `run-strict-audit.ps1` 报告结构化（schemaVersion 2，见 commit 下方）：加了 `coverage`、`failedItems`、`nextActions`；`pass policy` 未变。契约文档同步更新到 `strict-audit-contract.md` 第 8 节
+- [ ] 全量实时门禁拆成"必过 5 项 + 尽力 2 项"，避免一个环境不稳定项拉低整体。**注意 contract 第 6/7/8 条 pass policy 不允许"partial audit → releaseReady=true"**。真要做，需要先在契约里定义"best-effort gate 有 waiver 时不阻塞 releaseReady"的新规则并让用户 review
 - [ ] 目标：拿到项目历史上第一次 `releaseReady: true`
 
 ### A. 剩余的结构分层
