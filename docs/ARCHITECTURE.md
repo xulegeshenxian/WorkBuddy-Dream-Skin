@@ -57,7 +57,7 @@ PowerShell 启动器
 
 注入器从以下来源构建载荷：
 
-1. `assets/workbuddy-skin.css`，包含所有页面样式和兼容规则。
+1. `assets/css/*.css`，按 `assets/css/manifest.json` 声明的顺序拼接成完整样式表。9 个分层文件覆盖变量、会话侧栏、工作区、输入区、内容页、浮层、装饰壳、历史任务和输入区淡出。
 2. `assets/theme.json`，包含内置主题配置。
 3. `%LOCALAPPDATA%\WorkBuddyDreamSkin\theme`，存在时覆盖内置主题。
 4. 主题引用的本地图片。

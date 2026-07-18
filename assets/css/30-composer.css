@@ -1,0 +1,322 @@
+/* Composer controls use light-theme component tokens even inside the dark skin. */
+html.workbuddy-dream-skin [class*="_trigger_qeqjw_"] {
+  color: var(--wbds-text) !important;
+  border-color: transparent !important;
+  background: transparent !important;
+}
+
+html.workbuddy-dream-skin [class*="_trigger_qeqjw_"]:is(:hover, :focus-visible, :active),
+html.workbuddy-dream-skin [class*="_trigger_qeqjw_"][class*="_triggerOpen_qeqjw_"] {
+  color: var(--wbds-accent-alt) !important;
+  border-color: color-mix(in srgb, var(--wbds-accent) 34%, transparent) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 12%, var(--wbds-panel)) !important;
+}
+
+html.workbuddy-dream-skin [class*="_trigger_qeqjw_"] * {
+  color: inherit !important;
+}
+
+html.workbuddy-dream-skin [class*="_chip_fxx2z_"] {
+  color: var(--wbds-muted) !important;
+  border-color: transparent !important;
+  background: transparent !important;
+}
+
+html.workbuddy-dream-skin [class*="_chip_fxx2z_"]:is(:hover, :focus-visible),
+html.workbuddy-dream-skin [class*="_chip_fxx2z_"][class*="_chipOpen_fxx2z_"] {
+  color: var(--wbds-accent-alt) !important;
+  border-color: color-mix(in srgb, var(--wbds-accent) 30%, transparent) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 10%, var(--wbds-panel)) !important;
+}
+
+html.workbuddy-dream-skin [class*="_chip_fxx2z_"] * {
+  color: inherit !important;
+}
+
+html.workbuddy-dream-skin .wb-home-composer [class*="_button_18jez_"] {
+  color: var(--wbds-muted) !important;
+  border-color: transparent !important;
+  background: transparent !important;
+}
+
+html.workbuddy-dream-skin .wb-home-composer [class*="_button_18jez_"]:is(:hover, :focus-visible),
+html.workbuddy-dream-skin .wb-home-composer [class*="_button_18jez_"][class*="_buttonOpen_18jez_"] {
+  color: var(--wbds-accent-alt) !important;
+  border-color: color-mix(in srgb, var(--wbds-accent) 30%, transparent) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 10%, var(--wbds-panel)) !important;
+}
+
+html.workbuddy-dream-skin .wb-home-composer [class*="_button_18jez_"] * {
+  color: inherit !important;
+}
+
+html.workbuddy-dream-skin [class*="_popover_qeqjw_"] {
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-background) 98.5%, transparent) !important;
+}
+
+html.workbuddy-dream-skin [class*="_popover_qeqjw_"] :is(
+  [class*="_autoModeSection_qeqjw_"],
+  [class*="_groupLabel_qeqjw_"]
+) {
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-background) 98.5%, transparent) !important;
+}
+
+html.workbuddy-dream-skin [class*="_popover_qeqjw_"] [class*="_modelItem_"]:hover,
+html.workbuddy-dream-skin [class*="_popover_qeqjw_"] [class*="_footerActionItem_"]:hover {
+  color: var(--wbds-accent-alt) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 12%, var(--wbds-panel)) !important;
+}
+
+html.workbuddy-dream-skin [class*="_popover_qeqjw_"] [class*="_slider_qeqjw_"] {
+  background: color-mix(in srgb, var(--wbds-muted) 38%, var(--wbds-panel)) !important;
+}
+
+html.workbuddy-dream-skin [class*="_popover_qeqjw_"] input:checked + [class*="_slider_qeqjw_"] {
+  background: var(--wbds-accent) !important;
+}
+
+html.workbuddy-dream-skin [class*="_subMenu_gtbqm_"] {
+  color: var(--wbds-text) !important;
+  border: 1px solid var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-background) 98.5%, transparent) !important;
+  box-shadow: 0 18px 46px rgba(0, 0, 0, .42) !important;
+}
+
+html.workbuddy-dream-skin [class*="_subMenu_gtbqm_"] [class*="_modelName_gtbqm_"],
+html.workbuddy-dream-skin [class*="_subMenu_gtbqm_"] [class*="_metaLabel_gtbqm_"],
+html.workbuddy-dream-skin [class*="_subMenu_gtbqm_"] [class*="_actionLabel_gtbqm_"] {
+  color: var(--wbds-text) !important;
+}
+
+html.workbuddy-dream-skin [class*="_subMenu_gtbqm_"] :is(
+  [class*="_description_gtbqm_"],
+  [class*="_metaValue_gtbqm_"],
+  [class*="_actionValue_gtbqm_"]
+) {
+  color: var(--wbds-muted) !important;
+}
+
+html.workbuddy-dream-skin [class*="_subMenu_gtbqm_"] [class*="_divider_gtbqm_"] {
+  background: var(--wbds-line) !important;
+}
+
+html.workbuddy-dream-skin .wb-scene-tabs {
+  border: 1px solid var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-panel) 90%, transparent) !important;
+}
+
+html.workbuddy-dream-skin .wb-scene-tabs > * {
+  color: var(--wbds-muted) !important;
+  background: transparent !important;
+}
+
+html.workbuddy-dream-skin .wb-scene-tabs > .active,
+html.workbuddy-dream-skin .wb-scene-tabs > [aria-selected="true"] {
+  color: #041713 !important;
+  background: var(--wbds-accent) !important;
+}
+
+html.workbuddy-dream-skin .update-toast-card {
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-panel) 97%, transparent) !important;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, .28) !important;
+}
+
+html.workbuddy-dream-skin .workbuddy-topbar {
+  color: var(--wbds-text) !important;
+  border-bottom: 1px solid var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-background) 96%, transparent) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .18) !important;
+  backdrop-filter: blur(18px) saturate(120%);
+}
+
+html.workbuddy-dream-skin .workbuddy-topbar * {
+  color: inherit !important;
+}
+
+html.workbuddy-dream-skin .conversation-list .conversation-agent-card[class*="_selected_"] {
+  color: var(--wbds-text) !important;
+  border: 1px solid color-mix(in srgb, var(--wbds-accent) 34%, transparent) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 13%, var(--wbds-panel)) !important;
+  box-shadow: inset 3px 0 var(--wbds-accent) !important;
+}
+
+html.workbuddy-dream-skin .conversation-list .conversation-agent-card:hover,
+html.workbuddy-dream-skin .conversation-list [class*="_card_"]:hover {
+  color: var(--wbds-text) !important;
+  border-color: color-mix(in srgb, var(--wbds-accent) 28%, transparent) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 10%, var(--wbds-panel)) !important;
+  box-shadow: inset 2px 0 color-mix(in srgb, var(--wbds-accent) 70%, transparent) !important;
+}
+
+html.workbuddy-dream-skin .conversation-list .conversation-list-tab-button:hover,
+html.workbuddy-dream-skin .conversation-list .conversation-list-tab-button-more:hover {
+  color: var(--wbds-accent-alt) !important;
+  border-color: color-mix(in srgb, var(--wbds-accent) 30%, transparent) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 10%, var(--wbds-panel)) !important;
+}
+
+html.workbuddy-dream-skin .conversation-list :is(.conversation-list-tab-row.active, .conversation-list-tab-row:hover, .conversation-list-tab-button.active) {
+  color: var(--wbds-accent-alt) !important;
+  border-color: color-mix(in srgb, var(--wbds-accent) 30%, transparent) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 12%, var(--wbds-panel)) !important;
+}
+
+html.workbuddy-dream-skin .conversation-list :is(.conversation-list-tab-row.active, .conversation-list-tab-row:hover, .conversation-list-tab-button.active) * {
+  color: inherit !important;
+  background-color: transparent !important;
+}
+
+html.workbuddy-dream-skin .conversation-list :is(.conversation-list-tab-button, .conversation-list-tab-button-more):is(:hover, :focus, :active) *,
+html.workbuddy-dream-skin .conversation-list :is(.conversation-list-tab-button, .conversation-list-tab-button-more):is(:hover, :focus, :active)::before,
+html.workbuddy-dream-skin .conversation-list :is(.conversation-list-tab-button, .conversation-list-tab-button-more):is(:hover, :focus, :active)::after {
+  color: inherit !important;
+  background-color: transparent !important;
+}
+
+html.workbuddy-dream-skin .growth-plan-entry {
+  color: var(--wbds-text) !important;
+  border: 1px solid color-mix(in srgb, var(--wbds-accent) 28%, transparent) !important;
+  background: color-mix(in srgb, var(--wbds-panel) 90%, transparent) !important;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, .2) !important;
+}
+
+html.workbuddy-dream-skin .growth-plan-entry:hover {
+  color: #041713 !important;
+  background: var(--wbds-accent) !important;
+}
+
+html.workbuddy-dream-skin .quick-actions__item {
+  color: var(--wbds-muted) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-panel) 88%, transparent) !important;
+}
+
+html.workbuddy-dream-skin .quick-actions__item:hover {
+  color: var(--wbds-accent-alt) !important;
+  border-color: color-mix(in srgb, var(--wbds-accent) 48%, transparent) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 12%, var(--wbds-panel)) !important;
+}
+
+html.workbuddy-dream-skin .quick-actions-sub__item {
+  color: var(--wbds-muted) !important;
+  border: 1px solid var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-panel) 92%, transparent) !important;
+  box-shadow: inset 0 1px color-mix(in srgb, var(--wbds-accent-alt) 4%, transparent) !important;
+}
+
+html.workbuddy-dream-skin .quick-actions-sub__item:is(:hover, :focus-visible, :active) {
+  color: var(--wbds-accent-alt) !important;
+  border-color: color-mix(in srgb, var(--wbds-accent) 48%, transparent) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 13%, var(--wbds-panel)) !important;
+}
+
+html.workbuddy-dream-skin .quick-actions-sub__item * {
+  color: inherit !important;
+  background-color: transparent !important;
+}
+
+html.workbuddy-dream-skin .quick-actions-sub-wrapper--fade-left::before {
+  background: linear-gradient(to right, color-mix(in srgb, var(--wbds-background) 98%, transparent), transparent) !important;
+}
+
+html.workbuddy-dream-skin .quick-actions-sub-wrapper--fade-right::after {
+  background: linear-gradient(to right, transparent, color-mix(in srgb, var(--wbds-background) 98%, transparent)) !important;
+}
+
+html.workbuddy-dream-skin :is([role="tooltip"], .ant-tooltip-inner, [class*="tooltip" i]) {
+  color: var(--wbds-text) !important;
+  border: 1px solid var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-background) 98%, transparent) !important;
+  box-shadow: 0 12px 34px rgba(0, 0, 0, .34) !important;
+}
+
+html.workbuddy-dream-skin :is([role="tooltip"], .ant-tooltip-inner, [class*="tooltip" i]) * {
+  color: inherit !important;
+}
+
+html.workbuddy-dream-skin :is(
+  [role="menu"],
+  [role="listbox"],
+  .ant-popover-inner,
+  .ant-dropdown-menu,
+  [class*="popover" i],
+  [class*="dropdown-menu" i]
+) {
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-background) 98%, transparent) !important;
+  box-shadow: 0 18px 46px rgba(0, 0, 0, .38) !important;
+}
+
+html.workbuddy-dream-skin :is(
+  [role="menu"],
+  [role="listbox"],
+  .ant-popover-inner,
+  .ant-dropdown-menu,
+  [class*="popover" i],
+  [class*="dropdown-menu" i]
+) > div {
+  color: inherit !important;
+  background-color: transparent !important;
+}
+
+html.workbuddy-dream-skin :is(
+  [role="menu"],
+  [role="listbox"],
+  .ant-popover-inner,
+  .ant-dropdown-menu,
+  [class*="popover" i],
+  [class*="dropdown-menu" i]
+) * {
+  color: inherit !important;
+}
+
+html.workbuddy-dream-skin :is(
+  [role="menu"],
+  [role="listbox"],
+  .ant-popover-inner,
+  .ant-dropdown-menu,
+  [class*="popover" i],
+  [class*="dropdown-menu" i]
+) :is(button, [role="menuitem"], [role="option"]):hover {
+  color: var(--wbds-accent-alt) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 12%, var(--wbds-panel)) !important;
+}
+
+html.workbuddy-dream-skin .conversation-sidebar :is([role="menuitem"], [role="option"], [class*="menu-item" i], [class*="submenu-item" i]):is(:hover, .active, [aria-selected="true"]) {
+  color: var(--wbds-accent-alt) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 12%, var(--wbds-panel)) !important;
+}
+
+html.workbuddy-dream-skin .conversation-sidebar :is([role="menuitem"], [role="option"], [class*="menu-item" i], [class*="submenu-item" i]):is(:hover, .active, [aria-selected="true"]) * {
+  color: inherit !important;
+  background-color: transparent !important;
+}
+
+html.workbuddy-dream-skin :is(
+  [class*="skeleton" i],
+  [class*="shimmer" i],
+  .ant-skeleton-title,
+  .ant-skeleton-paragraph > li,
+  .ant-skeleton-avatar,
+  .ant-skeleton-button
+) {
+  border-color: transparent !important;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--wbds-accent) 8%, transparent), color-mix(in srgb, var(--wbds-accent-alt) 20%, transparent), color-mix(in srgb, var(--wbds-accent) 8%, transparent)) !important;
+  background-size: 220% 100% !important;
+}
+
+html.workbuddy-dream-skin body:not(:has(.main-content--welcome)) #workbuddy-dream-skin-chrome :is(.wbds-brand, .wbds-status, .wbds-coordinate, .wbds-character) {
+  display: none !important;
+}
+
+html.workbuddy-dream-skin body:has(.settings-modal) #workbuddy-dream-skin-chrome {
+  display: none !important;
+}
+

@@ -9,6 +9,16 @@ const ALLOWED_PAGE_PROTOCOLS = new Set(["vscode-file:", "file:"]);
 const MAX_ART_BYTES = 16 * 1024 * 1024;
 const SKIN_VERSION = (await fs.readFile(path.join(root, "VERSION"), "utf8")).trim();
 
+const AUDIT_MODES = {
+  "audit-hover":    { flag: "--audit-hover",    exitCode: 3, resetPointer: true,  run: (session)       => auditHoverSession(session) },
+  "audit-composer": { flag: "--audit-composer", exitCode: 8, resetPointer: true,  run: (session)       => auditComposerSession(session) },
+  "audit-scenes":   { flag: "--audit-scenes",   exitCode: 9, resetPointer: true,  run: (session, opts) => auditScenesSession(session, opts.auditLabel) },
+  "audit-pages":    { flag: "--audit-pages",    exitCode: 4, resetPointer: false, run: (session, opts) => auditPagesSession(session, opts.auditDir, opts.auditLabel) },
+  "audit-details":  { flag: "--audit-details",  exitCode: 5, resetPointer: false, run: (session, opts) => auditDetailsSession(session, opts.auditDir, opts.auditLabel) },
+  "audit-settings": { flag: "--audit-settings", exitCode: 7, resetPointer: false, run: (session, opts) => auditSettingsSession(session, opts.auditDir, opts.auditLabel) },
+};
+const AUDIT_FLAG_TO_MODE = Object.fromEntries(Object.entries(AUDIT_MODES).map(([mode, spec]) => [spec.flag, mode]));
+
 function parseArgs(argv) {
   const options = { port: 0, mode: "watch", timeoutMs: 30000, screenshot: null, auditDir: null, auditLabel: null, reload: false, themeDir: null };
   for (let index = 0; index < argv.length; index += 1) {
@@ -19,12 +29,7 @@ function parseArgs(argv) {
     else if (arg === "--verify") options.mode = "verify";
     else if (arg === "--remove") options.mode = "remove";
     else if (arg === "--probe") options.mode = "probe";
-    else if (arg === "--audit-hover") options.mode = "audit-hover";
-    else if (arg === "--audit-composer") options.mode = "audit-composer";
-    else if (arg === "--audit-scenes") options.mode = "audit-scenes";
-    else if (arg === "--audit-pages") options.mode = "audit-pages";
-    else if (arg === "--audit-details") options.mode = "audit-details";
-    else if (arg === "--audit-settings") options.mode = "audit-settings";
+    else if (AUDIT_FLAG_TO_MODE[arg]) options.mode = AUDIT_FLAG_TO_MODE[arg];
     else if (arg === "--check-payload") options.mode = "check";
     else if (arg === "--timeout-ms") options.timeoutMs = Number(argv[++index]);
     else if (arg === "--screenshot") options.screenshot = path.resolve(argv[++index]);
@@ -412,9 +417,24 @@ async function loadTheme(themeDir) {
   return { assets, theme };
 }
 
+async function loadStylesheet() {
+  const cssDir = path.join(root, "assets", "css");
+  const manifest = JSON.parse(await fs.readFile(path.join(cssDir, "manifest.json"), "utf8"));
+  if (!Array.isArray(manifest.files) || manifest.files.length === 0) {
+    throw new Error("assets/css/manifest.json is missing a non-empty files array");
+  }
+  const parts = await Promise.all(manifest.files.map((name) => {
+    if (typeof name !== "string" || !/^[A-Za-z0-9._-]+\.css$/.test(name)) {
+      throw new Error(`assets/css/manifest.json rejects entry: ${name}`);
+    }
+    return fs.readFile(path.join(cssDir, name), "utf8");
+  }));
+  return parts.join("");
+}
+
 async function loadPayload(themeDir) {
   const [css, template, loaded] = await Promise.all([
-    fs.readFile(path.join(root, "assets", "workbuddy-skin.css"), "utf8"),
+    loadStylesheet(),
     fs.readFile(path.join(root, "assets", "renderer-inject.js"), "utf8"),
     loadTheme(themeDir),
   ]);
@@ -1370,12 +1390,8 @@ async function runOneShot(options) {
         await new Promise((resolve) => setTimeout(resolve, 1600));
         if (options.mode !== "remove") await session.evaluate(loaded.payload);
       }
-      const result = options.mode === "audit-pages" ? await auditPagesSession(session, options.auditDir, options.auditLabel)
-        : options.mode === "audit-details" ? await auditDetailsSession(session, options.auditDir, options.auditLabel)
-        : options.mode === "audit-settings" ? await auditSettingsSession(session, options.auditDir, options.auditLabel)
-        : options.mode === "audit-composer" ? await auditComposerSession(session)
-        : options.mode === "audit-scenes" ? await auditScenesSession(session, options.auditLabel)
-        : options.mode === "audit-hover" ? await auditHoverSession(session)
+      const auditSpec = AUDIT_MODES[options.mode];
+      const result = auditSpec ? await auditSpec.run(session, options)
         : options.mode === "probe" ? probe
         : options.mode === "remove" ? await session.evaluate("!document.documentElement.classList.contains('workbuddy-dream-skin')")
           : await waitForVerifiedSession(session, options.timeoutMs);
@@ -1384,7 +1400,7 @@ async function runOneShot(options) {
         await capture(session, options.screenshot);
         screenshotCaptured = true;
       }
-      if (options.mode === "audit-hover" || options.mode === "audit-composer" || options.mode === "audit-scenes") {
+      if (auditSpec?.resetPointer) {
         await session.send("Input.dispatchMouseEvent", { type: "mouseMoved", x: 1, y: 1 });
       }
     } finally {
@@ -1392,13 +1408,9 @@ async function runOneShot(options) {
     }
   }
   console.log(JSON.stringify({ mode: options.mode, version: SKIN_VERSION, port: options.port, targets: results }, null, 2));
-  if (options.mode === "verify" && results.some((item) => !item.result?.pass)) process.exitCode = 2;
-  if (options.mode === "audit-hover" && results.some((item) => !item.result?.pass)) process.exitCode = 3;
-  if (options.mode === "audit-pages" && results.some((item) => !item.result?.pass)) process.exitCode = 4;
-  if (options.mode === "audit-details" && results.some((item) => !item.result?.pass)) process.exitCode = 5;
-  if (options.mode === "audit-settings" && results.some((item) => !item.result?.pass)) process.exitCode = 7;
-  if (options.mode === "audit-composer" && results.some((item) => !item.result?.pass)) process.exitCode = 8;
-  if (options.mode === "audit-scenes" && results.some((item) => !item.result?.pass)) process.exitCode = 9;
+  const anyFailed = results.some((item) => !item.result?.pass);
+  const exitCode = options.mode === "verify" ? 2 : AUDIT_MODES[options.mode]?.exitCode;
+  if (anyFailed && exitCode) process.exitCode = exitCode;
 }
 
 async function runWatch(options) {

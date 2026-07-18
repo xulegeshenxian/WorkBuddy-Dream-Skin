@@ -1,0 +1,14 @@
+{
+  "note": "Cascade order matters. Files are concatenated in this exact order to produce the injected stylesheet. Add new files in the right slot; do not rely on filesystem sort.",
+  "files": [
+    "00-base.css",
+    "10-conversation.css",
+    "20-workspace-preparing.css",
+    "30-composer.css",
+    "40-pages.css",
+    "50-overlays.css",
+    "60-chrome.css",
+    "70-history.css",
+    "80-composer-fade.css"
+  ]
+}

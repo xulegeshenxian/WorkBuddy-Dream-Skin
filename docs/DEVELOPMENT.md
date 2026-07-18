@@ -14,7 +14,7 @@ Set-ExecutionPolicy -Scope Process Bypass
 ## 常用开发循环
 
 1. 运行 `rg` 找到对应页面选择器和已有规则。
-2. 修改 `assets/workbuddy-skin.css`、`assets/renderer-inject.js` 或相关脚本。
+2. 修改 `assets/css/*.css`（按 `assets/css/manifest.json` 声明顺序拼接）、`assets/renderer-inject.js` 或相关脚本。新增分层时在 manifest 里插入对应位置，不要依赖文件系统排序。
 3. 执行静态检查。
 4. 运行启动脚本完成热刷新。
 5. 执行通用验证。
