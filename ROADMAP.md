@@ -24,10 +24,15 @@
 
 ### D. 发布门禁攻坚 ★ 最痛
 
-- [ ] 修 `auditSettingsSession` 定位逻辑（handoff 里长期返回 exit 7），基于 `references/qa-inventory.md` 里维护多个候选选择器，加静态截图 fallback。**需要 live WorkBuddy 迭代**：`injector.mjs:1332` 里 `.user-menu-trigger` 和 `[class*="user-menu"] *, .daily-checkin-card ~ *` 两个选择器在 WorkBuddy 5.2.6 上找不到设置入口。修复思路：多候选选择器链 + 每一步失败时输出选择器与查询计数
+- [x] 修 `auditSettingsSession` 定位逻辑（settings audit 首次从 5.2.6 上通过）。根因：`.user-menu-trigger` 底部 813 > innerHeight 800，`findControlPoint` 的严格可见性判定把它当不可见 → 触发器从未被点击 → 弹层从未打开 → 所有 section 失败。修复：
+  - `findControlPoint` 分裂为 `findControlPointDetail`（返回诊断信息）+ 薄封装（保持旧签名）；点击失败时报 `reason / rawMatches / textMatches / innerHeight / nearMiss`
+  - 新增 `spec.allowClipped` 选项，允许"中心在视口内"的判定，专给 docked 底栏控件用
+  - 设置入口选择器改成 `.user-menu-popover .user-menu-item-label, [class*="user-menu"] .user-menu-item-label, [class*="user-menu"] *`
+  - 补上漏掉的 `agent-mailbox`（智能体邮箱）section
+  - CSS：`_sceneTag_` 芯片和 `.agent-mail-activation` 面板路由到 WBDS 主题令牌，light/dark 都可读
 - [x] `run-strict-audit.ps1` 报告结构化（schemaVersion 2，见 commit 下方）：加了 `coverage`、`failedItems`、`nextActions`；`pass policy` 未变。契约文档同步更新到 `strict-audit-contract.md` 第 8 节
 - [ ] 全量实时门禁拆成"必过 5 项 + 尽力 2 项"，避免一个环境不稳定项拉低整体。**注意 contract 第 6/7/8 条 pass policy 不允许"partial audit → releaseReady=true"**。真要做，需要先在契约里定义"best-effort gate 有 waiver 时不阻塞 releaseReady"的新规则并让用户 review
-- [ ] 目标：拿到项目历史上第一次 `releaseReady: true`
+- [ ] **目标：拿到项目历史上第一次 `releaseReady: true`** —— 需要跑全量 LiveGates + 提供 manual review manifest。Settings audit 已不再是阻塞项
 
 ### A. 剩余的结构分层
 

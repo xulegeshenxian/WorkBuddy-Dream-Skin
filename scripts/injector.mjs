@@ -732,42 +732,82 @@ async function auditHoverSession(session) {
   return { pass: results.every((item) => item.pass), skipped: false, targets: results };
 }
 
-async function findControlPoint(session, spec) {
+async function findControlPointDetail(session, spec) {
   return session.evaluate(`(() => {
     const spec = ${JSON.stringify(spec)};
     const scope = spec.scope ? document.querySelector(spec.scope) : document;
-    if (!scope) return null;
+    if (!scope) return { point: null, diagnosis: { reason: 'scope-not-found', scope: spec.scope } };
     const visible = (node) => {
       const box = node.getBoundingClientRect();
       const style = getComputedStyle(node);
-      return box.width > 0 && box.height > 0 && box.top >= 30 && box.bottom <= innerHeight &&
-        style.display !== 'none' && style.visibility !== 'hidden';
+      if (box.width <= 0 || box.height <= 0) return false;
+      if (style.display === 'none' || style.visibility === 'hidden') return false;
+      if (spec.allowClipped) {
+        // Docked bottom-bar controls extend past innerHeight; require only that the center is on-screen
+        // and the top is below any fake window chrome.
+        const centerY = box.top + box.height / 2;
+        return centerY >= 30 && centerY < innerHeight;
+      }
+      return box.top >= 30 && box.bottom <= innerHeight;
     };
     let candidates = spec.selector ? [...scope.querySelectorAll(spec.selector)] : [...scope.querySelectorAll('button, [role="button"], a')];
+    const rawMatches = candidates.length;
     if (spec.text) {
       candidates = candidates.filter((node) => {
-        const text = node.textContent?.trim().replace(/\s+/g, ' ') || '';
+        const text = node.textContent?.trim().replace(/\\s+/g, ' ') || '';
         return spec.exactText ? text === spec.text : text.startsWith(spec.text);
       });
     }
+    const textMatches = candidates.length;
     let node = candidates.find(visible);
-    if (!node) return null;
+    if (!node) {
+      const nearMiss = candidates[0];
+      const box = nearMiss?.getBoundingClientRect();
+      const style = nearMiss ? getComputedStyle(nearMiss) : null;
+      return {
+        point: null,
+        diagnosis: {
+          reason: rawMatches === 0 ? 'selector-no-match' : textMatches === 0 ? 'text-filter-no-match' : 'visibility-check-failed',
+          rawMatches,
+          textMatches,
+          innerHeight,
+          nearMiss: nearMiss ? {
+            className: typeof nearMiss.className === 'string' ? nearMiss.className.slice(0, 180) : '',
+            rect: box ? { x: Math.round(box.left), y: Math.round(box.top), w: Math.round(box.width), h: Math.round(box.height) } : null,
+            display: style?.display,
+            visibility: style?.visibility,
+          } : null,
+        },
+      };
+    }
     if (spec.closestClickable) {
       node = node.closest('button, [role="button"], a, [role="menuitem"], [class*="item" i]') || node;
     }
     const box = node.getBoundingClientRect();
     return {
-      x: Math.round(box.left + box.width / 2),
-      y: Math.round(box.top + box.height / 2),
-      className: typeof node.className === 'string' ? node.className.slice(0, 180) : '',
-      text: node.textContent?.trim().replace(/\s+/g, ' ').slice(0, 60) || ''
+      point: {
+        x: Math.round(box.left + box.width / 2),
+        y: Math.round(box.top + box.height / 2),
+        className: typeof node.className === 'string' ? node.className.slice(0, 180) : '',
+        text: node.textContent?.trim().replace(/\\s+/g, ' ').slice(0, 60) || ''
+      }
     };
   })()`);
 }
 
+async function findControlPoint(session, spec) {
+  const detail = await findControlPointDetail(session, spec);
+  return detail?.point ?? null;
+}
+
 async function clickControl(session, spec) {
-  const point = await findControlPoint(session, spec);
-  if (!point) return { clicked: false, reason: `Control not found: ${spec.name || spec.text || spec.selector}` };
+  const detail = await findControlPointDetail(session, spec);
+  const point = detail?.point;
+  if (!point) return {
+    clicked: false,
+    reason: `Control not found: ${spec.name || spec.text || spec.selector}`,
+    diagnosis: detail?.diagnosis,
+  };
   await session.send("Input.dispatchMouseEvent", { type: "mouseMoved", x: point.x, y: point.y });
   await session.send("Input.dispatchMouseEvent", { type: "mousePressed", x: point.x, y: point.y, button: "left", clickCount: 1 });
   await session.send("Input.dispatchMouseEvent", { type: "mouseReleased", x: point.x, y: point.y, button: "left", clickCount: 1 });
@@ -1333,12 +1373,13 @@ async function auditSettingsSession(session, auditDir = null, auditLabel = null)
   const results = [];
   const sidebar = ".conversation-list";
   await closeSettingsModal(session);
-  const menuAlreadyOpen = await session.evaluate(`Boolean([...document.querySelectorAll('.daily-checkin-card, [class*="user-menu"]')].find((node) => { const box = node.getBoundingClientRect(); const style = getComputedStyle(node); return box.width > 100 && box.height > 100 && style.display !== 'none' && style.visibility !== 'hidden'; }))`);
-  if (!menuAlreadyOpen) await clickControl(session, { name: "user-menu", selector: ".user-menu-trigger", waitMs: 500 });
-  await clickControl(session, { name: "settings", selector: "[class*=\"user-menu\"] *, .daily-checkin-card ~ *", text: "设置", exactText: true, waitMs: 1200 });
+  const menuAlreadyOpen = await session.evaluate(`Boolean([...document.querySelectorAll('.user-menu-popover')].find((node) => { const box = node.getBoundingClientRect(); const style = getComputedStyle(node); return box.width > 100 && box.height > 100 && style.display !== 'none' && style.visibility !== 'hidden'; }))`);
+  if (!menuAlreadyOpen) await clickControl(session, { name: "user-menu", selector: ".user-menu-trigger", allowClipped: true, waitMs: 500 });
+  await clickControl(session, { name: "settings", selector: ".user-menu-popover .user-menu-item-label, [class*=\"user-menu\"] .user-menu-item-label, [class*=\"user-menu\"] *", text: "设置", exactText: true, waitMs: 1200 });
 
   const sections = [
     ["account", "账户管理"],
+    ["agent-mailbox", "智能体邮箱"],
     ["system", "系统设置"],
     ["agents", "智能体设置"],
     ["shortcuts", "快捷键"],

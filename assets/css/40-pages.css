@@ -314,6 +314,30 @@ html.workbuddy-dream-skin .avatar-fold-status {
   color: var(--wbds-muted) !important;
 }
 
+/* Scene-tag chips inside the settings modal hard-code a pure-black background from
+   WorkBuddy's dark defaults; under the light palettes the dark WBDS text sits on
+   that black at contrast 1.9. Re-skin the chip to the current theme's panel-alt so
+   both appearances stay readable. */
+html.workbuddy-dream-skin :is([class*="_sceneTag_"], [class*="_userTag_"]) {
+  background-color: color-mix(in srgb, var(--wbds-panel-alt) 92%, transparent) !important;
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+}
+
+html.workbuddy-dream-skin :is([class*="_sceneTag_"], [class*="_userTag_"]) * {
+  color: inherit !important;
+  background-color: transparent !important;
+}
+
+/* agent-mail-activation panel ships with a hardcoded #F5F5F5 background that
+   passes readability under light themes but triggers the lightSurfaces
+   heuristic under dark themes. Route it through the theme's panel token. */
+html.workbuddy-dream-skin :is(.agent-mail-activation, .agent-mail-panel) {
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-panel) 96%, transparent) !important;
+}
+
 /* Settings account */
 html.workbuddy-dream-skin :is(.account-panel__header, .account-panel__credits-section) {
   color: var(--wbds-text) !important;
