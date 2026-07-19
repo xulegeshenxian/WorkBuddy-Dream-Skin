@@ -1262,7 +1262,11 @@ async function auditPagesSession(session, auditDir = null, auditLabel = null) {
         scroll: scroller ? { className: typeof scroller.className === 'string' ? scroller.className.slice(0, 160) : '', top: Math.round(scroller.scrollTop), height: scroller.clientHeight, fullHeight: scroller.scrollHeight, max: Math.max(0, scroller.scrollHeight - scroller.clientHeight) } : null
       };
     })()`);
-    const initial = await inspectHistory();
+    let initial = await inspectHistory();
+    for (let attempt = 0; attempt < 6 && (!initial.chatPage || initial.visibleTextCount === 0); attempt += 1) {
+      await new Promise((resolve) => setTimeout(resolve, 700));
+      initial = await inspectHistory();
+    }
     await inspectHistory("top");
     await new Promise((resolve) => setTimeout(resolve, 420));
     const topStructure = await inspectHistory("top");
