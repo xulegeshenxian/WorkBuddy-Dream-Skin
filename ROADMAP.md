@@ -63,9 +63,17 @@
 - [x] `pink-dream → sticker` 形状（`9c77d67`, 2026-07-19）：圆角矩形 + 虚线剪裁边 + 中心玫瑰花束（5 层花瓣圆 + 2 片侧叶 + 高光点）+ 手写斜体 "Dream Notes" + 底部 "♡ pink diary · 01" + 反向 +5° 倾斜 + 无胶带。stamp v3 里的 SVG face 架构直接复用（`insertAdjacentHTML` + `data-workbuddy-dream-skin-decoration-shape` 走 CSS 分支）
 - [x] `layout.decorationAnchor` 语义槽 + 3 个 corner 变体（`6e3c34c`, 2026-07-19）：`top-right`（默认）/ `bottom-right` / `top-left` / `bottom-left`。CSS 变体翻 `.wbds-character` 的 axis 属性（left/right, top/bottom）并同步更新 `transform-origin` 让摇摆动画从锚定角发端。sunlit-campus 活动主题打开 `bottom-right`，徽章从"压女生腿"移到"落到路面 / 鞋子上方"
 - [x] `mint-bloom → pressed-leaf` 形状（`e144e25`, 2026-07-19）：竖版 152×190 vellum 卡 + 微 -1° 倾斜 + hairline 边框（无实线圈也无虚线剪裁）+ 中央蕨叶（stem + 10 leaflets 五对，±32° 旋转）+ Latin 斜体 "Folium Menthae" + 小 caps "SPECIMEN · No. 03" + 左上角 hairline 圆盖章 "26" + 两组 radial-gradient 点纹背景做手工纸感。跟 stamp 的圆形正式感、sticker 的活泼贴纸感明显区分为"自然主义者笔记本"
-- [ ] 剩余 2 套皮肤各自的形状：`gilded-night → sealed-scroll`（蜡封信件 / 折扇）、`deep-sea → porthole`（潜水表盘 / 罗盘）
+- [x] 用户在 mint-bloom pressed-leaf 截图上反馈"挡住 Hy3 按钮 + 徽标方向不对"，把整体方向从"emblem-only shapes（stamp/sticker/pressed-leaf）"扩到"frame shapes（clip hero img 到不同轮廓）"，两条并存
+- [x] `heart` 形状（`a6b396c`, 2026-07-19）：clip-path 手绘心形（200×180 viewBox，preserveAspectRatio=none 缩到 180×162 卡片）+ SVG 描线（accent-alt 4px stroke + drop-shadow 光晕）+ 顶部小蝴蝶结（highlight 色）+ 透明背景卡片（心形轮廓即形状）+ 4° 倾斜
+- [x] `porthole` 形状（`a6b396c`, 2026-07-19）：真圆 border-radius: 50% + overflow: hidden + 三层 inset box-shadow 做铜色ring 渐变（highlight → panel-alt → highlight）+ SVG 8 rivets 45° 间隔 + 曲线 glare path 走 mix-blend-mode: screen 做湿玻璃反光 + img brightness/contrast/saturate 微调做潜水视角
+- [ ] **挂件位置撞 composer / 底栏按钮**（用户 2026-07-19 反馈截图）：`decorationAnchor: bottom-right` 定死在视口 96px，任何形状都会盖住 Hy3 按钮 / 右下 composer 图标。两条路二选一：
+  - 加 `layout.decorationSize` 字段允许缩到 100-110px，塞进树冠 / 天花角落；配合 `characterPosition` 微调
+  - 让 anchor 相对 hero region 计算：探测 `.main-content--welcome` 或 hero cover 的可视 bounding rect，挂件锚在这个 rect 内部而非 viewport 内部，自动避开 composer 层
+- [ ] **frame shape 的 img 焦点位置**：`heart` 在 sunlit-campus 图上裁到裙摆 / 树影，脸没进心里，观感差。加 `layout.characterFocalPoint: "50% 30%"` 字段（或 x/y 数字对），renderer 传成 `object-position`，用户可自己指定"从图的哪里裁"
+- [ ] `gilded-night → arch`（拱顶宫廷相框）—— 五套皮肤最后一个待做。设计要点：拱形 clip-path（顶部半圆 + 直边两侧）+ 双柱边框 + 顶部金饰花纹（SVG）+ 底座石纹 shadow
+- [ ] **shape 选择要感知 hero 内容**：`hero.subject: 'human' | 'landscape' | 'still-life'` metadata（用户 2026-07-19 提出）。人像 hero 强制走 frame shape（heart / porthole / arch），风景 hero 允许走 emblem shape（stamp / pressed-leaf）。loader 里加校验，避免手动配错
+- [ ] **每套皮肤配独立 portrait character 素材**（内容工作，非代码）：`character-image.png` 走 portrait 比例（正方形或 3:4）+ 面部为主，跟 hero 拉开构图。当前 `character: null` → 所有 frame shape 都从 hero-full 裁，注定"同一个女生两次"。真解只能靠内容侧准备 5 张独立素材
 - [ ] `hero.anchor` 语义字段：让 hero 图能声明"主体在右/左/底"，CSS 自动加左侧 typography scrim
-- [ ] `hero.subject` 元数据：`'human' | 'landscape' | 'still-life'`。人像 hero 时挂件强制走非人像形状
 
 ### F. 遗留素材决议
 
