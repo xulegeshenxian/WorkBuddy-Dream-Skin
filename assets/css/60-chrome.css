@@ -446,8 +446,9 @@ html.workbuddy-dream-skin[data-workbuddy-dream-skin-appearance="light"] .wbds-st
 /* Shape: stamp — circular校徽 badge, no human. Two rings, center label,
    top washi tape strip, slight tilt. Draws entirely from tokens; safe on
    any style / appearance. */
-/* Hide the SVG face by default; only stamp shape opts in */
-#workbuddy-dream-skin-chrome .wbds-stamp-face { display: none; }
+/* Hide shape SVG faces by default; each shape opts in */
+#workbuddy-dream-skin-chrome .wbds-stamp-face,
+#workbuddy-dream-skin-chrome .wbds-sticker-face { display: none; }
 
 html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="stamp"] #workbuddy-dream-skin-chrome .wbds-character-card {
   --wbds-stamp-face-fill: color-mix(in srgb, var(--wbds-panel) 55%, white 45%);
@@ -550,3 +551,121 @@ html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="stamp"] #w
   clip-path: polygon(2% 8%, 98% 0, 96% 92%, 0 100%);
 }
 
+
+/* Shape: sticker — die-cut scrapbook sticker, rounded rectangle with a
+   dashed cut-line, center rose bouquet, hand-written label, +5° tilt.
+   Distinct from stamp (rect vs circle, dashed vs solid, rose vs leaf,
+   opposite tilt). */
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="sticker"] #workbuddy-dream-skin-chrome .wbds-character-card {
+  --wbds-sticker-face-fill: color-mix(in srgb, var(--wbds-panel) 55%, white 45%);
+  --wbds-sticker-cut-ink: color-mix(in srgb, var(--wbds-accent-alt) 60%, black 25%);
+  --wbds-sticker-rose-outer: color-mix(in srgb, var(--wbds-accent) 78%, white 22%);
+  --wbds-sticker-rose-inner: color-mix(in srgb, var(--wbds-accent) 45%, white 55%);
+  --wbds-sticker-rose-side: color-mix(in srgb, var(--wbds-accent-alt) 70%, white 30%);
+  --wbds-sticker-rose-core: color-mix(in srgb, var(--wbds-accent-alt) 75%, black 15%);
+  --wbds-sticker-leaf-ink: color-mix(in srgb, var(--wbds-secondary) 80%, black 10%);
+  --wbds-sticker-label-ink: color-mix(in srgb, var(--wbds-text) 85%, var(--wbds-accent-alt) 15%);
+  aspect-ratio: 5 / 4;
+  width: 185px;
+  height: 148px;
+  padding: 0;
+  border: none;
+  border-radius: 24px 12px 26px 14px;
+  background: var(--wbds-sticker-face-fill);
+  box-shadow:
+    inset 0 0 0 2px color-mix(in srgb, var(--wbds-accent) 24%, transparent),
+    0 22px 40px rgba(0, 0, 0, .30),
+    0 6px 14px rgba(0, 0, 0, .18),
+    0 0 0 4px color-mix(in srgb, var(--wbds-panel) 78%, white 22%);
+  transform: rotate(5deg);
+}
+
+/* Inner dashed cut-line — draws the die-cut sticker feel */
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="sticker"] #workbuddy-dream-skin-chrome .wbds-character-card::after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1.5px dashed var(--wbds-sticker-cut-ink);
+  border-radius: 20px 8px 22px 10px;
+  pointer-events: none;
+  right: auto;
+  top: auto;
+  width: auto;
+  height: auto;
+  background: transparent;
+  box-shadow: none;
+  transform: none;
+  display: block;
+}
+
+/* No washi tape for sticker — it's stuck flat */
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="sticker"] #workbuddy-dream-skin-chrome .wbds-character-card::before {
+  display: none;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="sticker"] #workbuddy-dream-skin-chrome .wbds-character-card img {
+  display: none;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="sticker"] #workbuddy-dream-skin-chrome .wbds-sticker-face {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="sticker"] #workbuddy-dream-skin-chrome .wbds-sticker-face .wbds-sticker-leaf {
+  fill: var(--wbds-sticker-leaf-ink);
+  opacity: .88;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="sticker"] #workbuddy-dream-skin-chrome .wbds-sticker-face .wbds-sticker-petal-side {
+  fill: var(--wbds-sticker-rose-side);
+  stroke: color-mix(in srgb, var(--wbds-sticker-rose-core) 60%, transparent);
+  stroke-width: .8;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="sticker"] #workbuddy-dream-skin-chrome .wbds-sticker-face .wbds-sticker-petal {
+  fill: var(--wbds-sticker-rose-outer);
+  stroke: color-mix(in srgb, var(--wbds-sticker-rose-core) 45%, transparent);
+  stroke-width: 1;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="sticker"] #workbuddy-dream-skin-chrome .wbds-sticker-face .wbds-sticker-petal-core {
+  fill: var(--wbds-sticker-rose-inner);
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="sticker"] #workbuddy-dream-skin-chrome .wbds-sticker-face .wbds-sticker-petal-highlight {
+  fill: white;
+  opacity: .55;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="sticker"] #workbuddy-dream-skin-chrome .wbds-sticker-face .wbds-sticker-label {
+  fill: var(--wbds-sticker-label-ink);
+  font-family: "Segoe Script", "Bradley Hand", "Comic Sans MS", "WBDS Assistant", cursive;
+  font-weight: 700;
+  font-size: 20px;
+  font-style: italic;
+  paint-order: stroke;
+  stroke: white;
+  stroke-width: 3;
+  stroke-linejoin: round;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="sticker"] #workbuddy-dream-skin-chrome .wbds-sticker-face .wbds-sticker-sub {
+  fill: color-mix(in srgb, var(--wbds-sticker-label-ink) 70%, transparent);
+  font-family: "WBDS Assistant", "Segoe UI Variable", "Segoe UI", sans-serif;
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 2px;
+  paint-order: stroke;
+  stroke: white;
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="sticker"] #workbuddy-dream-skin-chrome .wbds-sticker-face .wbds-sticker-corner circle {
+  fill: color-mix(in srgb, var(--wbds-accent) 55%, transparent);
+}
