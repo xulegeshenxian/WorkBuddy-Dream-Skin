@@ -33,7 +33,7 @@
 - [x] `run-strict-audit.ps1` 报告结构化（schemaVersion 2，见 commit 下方）：加了 `coverage`、`failedItems`、`nextActions`；`pass policy` 未变。契约文档同步更新到 `strict-audit-contract.md` 第 8 节
 - [ ] 全量实时门禁拆成"必过 5 项 + 尽力 2 项"，避免一个环境不稳定项拉低整体。**注意 contract 第 6/7/8 条 pass policy 不允许"partial audit → releaseReady=true"**。真要做，需要先在契约里定义"best-effort gate 有 waiver 时不阻塞 releaseReady"的新规则并让用户 review
 - [x] Settings audit `agent-mailbox` section 在 5.2.6 深色主题下失败（`agent-mail-activation__title/desc/agreement-prefix/agreement-link` 继承 WorkBuddy 未 themed 的 `rgba(0,0,0,0.9)`、`rgba(0,0,0,0.5)`、`rgb(65,106,161)`，叠在 WBDS 深海面板上 contrast 1.25 / 3.05）。修复：`40-pages.css` 里为 `.agent-mail-activation__title` 路由 `--wbds-text`；`__desc / __agreement-prefix` 路由 `--wbds-muted`；`__agreement-link` 路由 `--wbds-accent-alt`。live audit-settings 现在 12/12 pass，audit-hover / audit-composer / audit-scenes 也全 pass（`1b4dacf`, 2026-07-19）
-- [x] Fix live-gate 结构性阻塞（`_pending_`, 2026-07-19）：
+- [x] Fix live-gate 结构性阻塞（`814782b`, 2026-07-19）：
   - `auditPagesSession` 里 `.user-menu-trigger` 点击少了 `allowClipped: true`；同一 5.2.6 底栏裁剪问题（bottom 813 > innerHeight 800）让 pages-audit 里的 settings 入口 popover 从未打开（rawMatches=12 / textMatches=0）。加上 `allowClipped: true` 并把 settings 选择器升级到跟 `auditSettingsSession` 一致的三段式（`.user-menu-popover .user-menu-item-label, [class*="user-menu"] .user-menu-item-label, [class*="user-menu"] *`）
   - `hasLightRgb` 只查 R 通道前缀，把 `#F2B866` 金橙 accent 当近白面板 → `.artifact-slot-panel__card::before` (history-task) 与 `.ec-featured-scenes-section::before` (experts) 都被误伤。改成正则匹配 rgba 全部三通道 ≥240 才判定
   - `.ec-featured-scenes-section` 伪元素 WorkBuddy 原生渲染 `rgba(250,250,250,0.92)` 的白边渐变，深色主题上确实是真近白面。`40-pages.css` 里把两个伪元素 background 覆盖成 `linear-gradient(90deg, transparent, color-mix(background 92%, transparent))`
