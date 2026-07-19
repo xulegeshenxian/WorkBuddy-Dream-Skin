@@ -1413,7 +1413,17 @@ async function auditSettingsSession(session, auditDir = null, auditLabel = null)
 
 async function capture(session, outputPath) {
   await fs.mkdir(path.dirname(outputPath), { recursive: true });
-  const response = await session.send("Page.captureScreenshot", { format: "png", fromSurface: true, captureBeyondViewport: false }, 30000);
+  const params = { format: "png", fromSurface: true, captureBeyondViewport: false };
+  try {
+    const metrics = await session.send("Page.getLayoutMetrics", {}, 5000);
+    const viewport = metrics.cssVisualViewport || metrics.visualViewport || {};
+    const width = Math.max(1, Math.floor(viewport.clientWidth ?? viewport.width ?? 0));
+    const height = Math.max(1, Math.floor(viewport.clientHeight ?? viewport.height ?? 0));
+    if (width > 1 && height > 1) {
+      params.clip = { x: 0, y: 0, width, height, scale: 1 };
+    }
+  } catch {}
+  const response = await session.send("Page.captureScreenshot", params, 30000);
   await fs.writeFile(outputPath, Buffer.from(response.data, "base64"));
 }
 
