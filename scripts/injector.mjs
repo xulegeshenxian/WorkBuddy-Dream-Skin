@@ -379,6 +379,7 @@ async function loadTheme(themeDir) {
       heroSize: safeCssSize(raw.layout?.heroSize, "cover"),
       characterPosition: safeCssPosition(raw.layout?.characterPosition, "right 28px bottom 86px"),
       characterSize: safeCssSize(raw.layout?.characterSize, "360px auto"),
+      decorationAnchor: safeChoice(raw.layout?.decorationAnchor, ["top-right", "bottom-right", "top-left", "bottom-left"], "top-right"),
     },
     effects: {
       backgroundOverlay: safeNumber(raw.effects?.backgroundOverlay, .86),

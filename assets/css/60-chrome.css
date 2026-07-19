@@ -669,3 +669,29 @@ html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="sticker"] 
 html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="sticker"] #workbuddy-dream-skin-chrome .wbds-sticker-face .wbds-sticker-corner circle {
   fill: color-mix(in srgb, var(--wbds-accent) 55%, transparent);
 }
+
+/* Decoration anchor — semantic slot for which corner the decoration sits in.
+   Default (unset or top-right) keeps the base .wbds-character rules that use
+   `right + top`. Other anchors flip axes so the decoration lands away from
+   whichever hero subject dominates. */
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-anchor="bottom-right"] #workbuddy-dream-skin-chrome .wbds-character {
+  right: var(--wbds-decoration-right);
+  bottom: 96px;
+  top: auto;
+  transform-origin: 52% 88%;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-anchor="top-left"] #workbuddy-dream-skin-chrome .wbds-character {
+  left: var(--wbds-decoration-right);
+  top: var(--wbds-decoration-top);
+  right: auto;
+  transform-origin: 48% 12%;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-anchor="bottom-left"] #workbuddy-dream-skin-chrome .wbds-character {
+  left: var(--wbds-decoration-right);
+  bottom: 96px;
+  right: auto;
+  top: auto;
+  transform-origin: 48% 88%;
+}

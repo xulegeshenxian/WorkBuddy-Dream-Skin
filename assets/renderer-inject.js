@@ -89,6 +89,7 @@
     root.dataset.workbuddyDreamSkinDecorationMode = theme.decoration.mode;
     root.dataset.workbuddyDreamSkinDecorationVariant = theme.decoration.variant;
     root.dataset.workbuddyDreamSkinDecorationShape = theme.decoration.shape || "polaroid";
+    root.dataset.workbuddyDreamSkinDecorationAnchor = theme.layout.decorationAnchor || "top-right";
     root.dataset.workbuddyDreamSkinVersion = skinVersion;
     document.body.classList.add("workbuddy-dream-skin-body");
     setThemeVariables(root);
