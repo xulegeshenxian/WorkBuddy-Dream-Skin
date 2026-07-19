@@ -61,6 +61,19 @@
 - [x] `scripts/injector.mjs` 截图用 `captureBeyondViewport: false` + `fromSurface: true`，HiDPI 下物理/CSS 像素易错乱。修复：`capture()` 先 `Page.getLayoutMetrics` 拿 `cssVisualViewport` 的 CSS 尺寸，用 `clip: { x:0, y:0, width, height, scale:1 }` 归一化到 CSS 像素，无论 devicePixelRatio 输出恒定。metrics 拿不到时回退旧行为，不会中断截图（`93963c1`, 2026-07-19）
 - [ ] `renderer-inject.js` 三保险策略（`MutationObserver` `childList+subtree` + 5s `setInterval` + 180ms debounce），SPA 频繁 mount/unmount 时 CPU 占用高。改成"只观察 `#root` 直接子节点 + 页面 `visible` 才 tick"
 - [ ] SVG 导入：`.svg` 在 `customize-workbuddy-theme.ps1:47` 允许列表里，但 16 MB 尺寸检查对 SVG 没意义，应改成节点数 / 内嵌 `<script>` 白名单
+- [ ] `renderer-inject.js:76-77` chrome positioner 选择器和 `probeSession` / `verifySession` 不一致（前者用 `.colleagues-chat-float__main`，后者用 `.colleagues-chat-float`）。float 聊天页两边看的不是同一个节点。抽成共享常量
+- [ ] `renderer-inject.js` 无 `ResizeObserver`：`--wbds-shell-{left,top,width,height}` 只在 MutationObserver / 5s interval tick 时重算，Electron 窗口 resize 后装饰漂移最多 5s。加一个 `ResizeObserver` 挂在 `#root` 或 `window.resize`
+- [ ] `renderer-inject.js:122-143` `ensure()` 里死防御——`innerHTML` 刚构完立刻重查 `.wbds-character / .wbds-charm-orbit / .wbds-character-card / .wbds-sparkles`。改成"初次 mount 建结构，后续只更新 img.src / textContent"
+- [ ] `injector.mjs:1500-1502` `Page.loadEventFired` 重注入没 debounce，SPA 路由切换 / dev reload 时会排队多份 payload（每份 ~120KB）。存 `lastReinjectTimeout` 到 session，重排前 `clearTimeout`
+- [ ] `injector.mjs:1461` audit 模式 stdout 无上限，`lightSurfaces / lowContrast / pseudoLight` 数组会让一次审计输出 >1MB，托盘日志会被截断。加 `maxResults` slice + `truncated: true` 标记
+- [ ] `workbuddy-skin-tray.ps1:265-268` 托盘每 2.5s `Invoke-RestMethod http://127.0.0.1:$Port/json/list`，菜单没打开也在轮询。移到 `$menu.Add_Opening`，间隔改成 10s
+- [ ] `workbuddy-skin-tray.ps1:255-256, 279-290` `[Drawing.Icon]::ExtractAssociatedIcon(...)` 拿到的 Icon 从未 `Dispose()`，托盘反复重启会漏 GDI handle。存引用 + `finally` 里 dispose
+- [ ] `preflight.mjs:88` Windows 只找 `powershell.exe`，PS 7-only 环境（Server Core / Nano）挂。先试 `pwsh` 再回退 `powershell.exe`
+- [ ] `install-workbuddy-skin.ps1:33-37` 复装静默 `Remove-Item -Recurse -Force` 掉目标 `assets/`，会带走用户扔在 `assets/themes/` 里的图片。先 diff 或归档到 `$destinationRoot/.backup`
+- [ ] 没有任何单元测试（`tests/` 不存在）。`safeColor / safeCssPosition / safeCssSize / safeAssetName / colorWithAlpha / positionValue / decorationWidth / schemaVersion 迁移` 一个都没覆盖。加 `scripts/tests/*.mjs` 用 `node --test`，接进 `npm run verify`
+- [ ] `start-workbuddy-skin.ps1:60` `$injectorArgs = @("\"$InjectorPath\"", ...)` 在数组里嵌 `"..."` 字面量，路径带引号 / 空格会崩。改用 `[System.Diagnostics.ProcessStartInfo]::ArgumentList`
+- [ ] `common-workbuddy.ps1:91` 主进程识别靠 `app.asar\main|cli` 正则，WorkBuddy 未来 unpacked / ASAR-integrity 打包就废。改用"无 `--type=` + parent PID = 0"
+- [ ] `package.json` 缺 `lint` / `test` / `repository` / `license` / `packageManager`；`check-node` 对 `renderer-inject.js` 用 `node --check` 但它是 IIFE，未来加 top-level `import` 会静默过
 
 ### E. CI / 打包
 
