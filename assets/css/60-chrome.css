@@ -449,7 +449,9 @@ html.workbuddy-dream-skin[data-workbuddy-dream-skin-appearance="light"] .wbds-st
 /* Hide shape SVG faces by default; each shape opts in */
 #workbuddy-dream-skin-chrome .wbds-stamp-face,
 #workbuddy-dream-skin-chrome .wbds-sticker-face,
-#workbuddy-dream-skin-chrome .wbds-leaf-face { display: none; }
+#workbuddy-dream-skin-chrome .wbds-leaf-face,
+#workbuddy-dream-skin-chrome .wbds-heart-face,
+#workbuddy-dream-skin-chrome .wbds-porthole-face { display: none; }
 
 html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="stamp"] #workbuddy-dream-skin-chrome .wbds-character-card {
   --wbds-stamp-face-fill: color-mix(in srgb, var(--wbds-panel) 55%, white 45%);
@@ -790,4 +792,133 @@ html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="pressed-le
   font-weight: 700;
   font-size: 7.5px;
   letter-spacing: 1px;
+}
+
+/* ============================================================
+   Frame shapes — clip the character <img> into a distinctive
+   silhouette, then overlay a themed SVG for border / ornaments.
+   Unlike stamp / sticker / pressed-leaf, these KEEP the img
+   visible and drive uniqueness through frame shape not content.
+   ============================================================ */
+
+/* Shape: heart — pink-dream romantic scrapbook frame */
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="heart"] #workbuddy-dream-skin-chrome .wbds-character-card {
+  --wbds-heart-outline-ink: color-mix(in srgb, var(--wbds-accent-alt) 78%, black 12%);
+  --wbds-heart-ribbon-fill: color-mix(in srgb, var(--wbds-highlight) 75%, white 25%);
+  aspect-ratio: 10 / 9;
+  width: 180px;
+  height: 162px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+  transform: rotate(4deg);
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="heart"] #workbuddy-dream-skin-chrome .wbds-character-card::before,
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="heart"] #workbuddy-dream-skin-chrome .wbds-character-card::after {
+  display: none;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="heart"] #workbuddy-dream-skin-chrome .wbds-character-card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  border-radius: 0;
+  object-fit: cover;
+  object-position: 50% 30%;
+  clip-path: path("M 100,158 C 100,158 28,110 28,58 C 28,25 60,12 100,52 C 140,12 172,25 172,58 C 172,110 100,158 100,158 Z");
+  filter:
+    drop-shadow(0 6px 12px rgba(0,0,0,.32))
+    drop-shadow(0 2px 4px rgba(0,0,0,.24));
+}
+
+/* Heart SVG has viewBox 200x180 for the outline + ribbon */
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="heart"] #workbuddy-dream-skin-chrome .wbds-heart-face {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="heart"] #workbuddy-dream-skin-chrome .wbds-heart-face .wbds-heart-outline {
+  fill: none;
+  stroke: var(--wbds-heart-outline-ink);
+  stroke-width: 4;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 4px color-mix(in srgb, var(--wbds-accent-alt) 60%, transparent));
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="heart"] #workbuddy-dream-skin-chrome .wbds-heart-face .wbds-heart-ribbon path {
+  fill: var(--wbds-heart-ribbon-fill);
+  stroke: color-mix(in srgb, var(--wbds-highlight) 60%, black 30%);
+  stroke-width: 1;
+}
+
+/* Shape: porthole — deep-sea brass submarine window */
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="porthole"] #workbuddy-dream-skin-chrome .wbds-character-card {
+  --wbds-porthole-ring-outer: color-mix(in srgb, var(--wbds-highlight) 70%, black 20%);
+  --wbds-porthole-ring-inner: color-mix(in srgb, var(--wbds-highlight) 45%, black 40%);
+  --wbds-porthole-rivet-ink: color-mix(in srgb, var(--wbds-highlight) 50%, black 45%);
+  --wbds-porthole-glare-ink: color-mix(in srgb, var(--wbds-accent-alt) 60%, white 40%);
+  aspect-ratio: 1 / 1;
+  width: 160px;
+  height: 160px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--wbds-panel) 90%, black 10%);
+  box-shadow:
+    inset 0 0 0 4px var(--wbds-porthole-ring-outer),
+    inset 0 0 0 7px color-mix(in srgb, var(--wbds-panel-alt) 60%, black 40%),
+    inset 0 0 0 10px var(--wbds-porthole-ring-inner),
+    inset 0 2px 6px rgba(255,255,255,.14),
+    0 22px 40px rgba(0, 0, 0, .48),
+    0 6px 14px rgba(0, 0, 0, .3),
+    0 0 0 3px color-mix(in srgb, var(--wbds-panel) 82%, black 18%);
+  transform: rotate(-2deg);
+  overflow: hidden;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="porthole"] #workbuddy-dream-skin-chrome .wbds-character-card::before,
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="porthole"] #workbuddy-dream-skin-chrome .wbds-character-card::after {
+  display: none;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="porthole"] #workbuddy-dream-skin-chrome .wbds-character-card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: 50% 35%;
+  clip-path: circle(45% at 50% 50%);
+  filter: brightness(.9) contrast(1.05) saturate(.85);
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="porthole"] #workbuddy-dream-skin-chrome .wbds-porthole-face {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="porthole"] #workbuddy-dream-skin-chrome .wbds-porthole-face .wbds-porthole-rivets circle {
+  fill: var(--wbds-porthole-rivet-ink);
+  stroke: color-mix(in srgb, var(--wbds-highlight) 30%, black 55%);
+  stroke-width: .8;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="porthole"] #workbuddy-dream-skin-chrome .wbds-porthole-face .wbds-porthole-glare {
+  fill: var(--wbds-porthole-glare-ink);
+  opacity: .28;
+  mix-blend-mode: screen;
 }
