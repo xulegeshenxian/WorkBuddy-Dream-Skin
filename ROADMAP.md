@@ -128,7 +128,7 @@
 - [ ] `SECURITY.md`：CDP 端口只绑 127.0.0.1、注入的 payload 是本地 CSS、无远程执行；漏洞反馈邮箱
 - [ ] **主视觉 GIF / 视频**：截 3 段主题切换 + 挂件展示，README 第一屏放。换肤类项目社区看的就是视觉说服力
 - [ ] **Theme gallery** README section：2×3 或 3×2 网格截图，每套主题一张。当前只有 3 套有 preset（deep-sea-layered / gilded-night-banquet / sunlit-campus + my-theme 自定义），gallery 不够齐
-- [ ] `docs/AI-HANDOFF.md` 是给 Claude 用的 handoff（暴露上游归属分析 + 内部思路），移到 `.github/AI/` 隐藏或改造成公开叙事
+- [x] `docs/AI-HANDOFF.md` → `.github/AI/HANDOFF.md`：从公共文档索引里挪出，`AGENTS.md` / `README` 链接同步更新（本次 commit）
 - [ ] FAQ + Troubleshooting 段：WorkBuddy 找不到 / 端口冲突 / CDP 连不上 / GPU 合成器卡住（本会话遇到过）。装完必踩
 - [ ] `Set-ExecutionPolicy Bypass` 前面加一段说明"只影响当前进程会话，不改系统策略"，避免新用户害怕
 

@@ -1,6 +1,6 @@
 # WorkBuddy Dream Skin 维护说明
 
-本文件供后续大模型和维护者使用。开始修改前请先阅读 `README.md`、`docs/ARCHITECTURE.md`、`docs/DEVELOPMENT.md` 和 `docs/AI-HANDOFF.md`。
+本文件供后续大模型和维护者使用。开始修改前请先阅读 `README.md`、`docs/ARCHITECTURE.md`、`docs/DEVELOPMENT.md` 和 `.github/AI/HANDOFF.md`。
 
 ## 不可破坏的边界
 
@@ -54,5 +54,5 @@ node .\scripts\injector.mjs --check-payload
 1. `VERSION` 必须与注入器报告的版本一致。
 2. 新主题必须能够保存为命名预设，并通过一条命令切换。
 3. 新增主题字段时要保持 Schema 1 的兼容转换。
-4. 修改架构、运行目录、命令或已知限制时同步更新 `docs/AI-HANDOFF.md`。
+4. 修改架构、运行目录、命令或已知限制时同步更新 `.github/AI/HANDOFF.md`。
 5. 不要把原始参考仓库内容重新放回本项目。参考仓库位于相邻目录 `../Codex-Dream-Skin-main`。

@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security issue
+    url: https://github.com/${GITHUB_REPOSITORY}/security/advisories/new
+    about: Please report suspected security issues privately via a Security Advisory. See SECURITY.md.
+  - name: Read the ROADMAP first
+    url: https://github.com/${GITHUB_REPOSITORY}/blob/main/ROADMAP.md
+    about: Many "open" items already have a plan or a workaround written down.

@@ -1,5 +1,7 @@
 # WorkBuddy Dream Skin
 
+**English:** [README.en.md](./README.en.md) · **License:** [MIT](./LICENSE) · **Contributing:** [CONTRIBUTING.md](./CONTRIBUTING.md) · **Security:** [SECURITY.md](./SECURITY.md)
+
 > **免责声明**：本项目是 **社区非官方** 的 WorkBuddy 换肤方案。"WorkBuddy" 是 **腾讯** 的商标，本项目 **未** 获得腾讯授权、赞助或背书，与腾讯无任何隶属关系。同理，参考项目 [Fei-Away/Codex-Dream-Skin](https://github.com/Fei-Away/Codex-Dream-Skin) 里提及的 "Codex" 及相关标识归其各自权利人所有。
 >
 > _WorkBuddy is a trademark of Tencent. This project is an unofficial community skin, not affiliated with, sponsored by, or endorsed by Tencent. See [NOTICE.md](./NOTICE.md) for full third-party attribution._
@@ -76,6 +78,8 @@ Set-ExecutionPolicy -Scope Process Bypass
 cd <path-to-repo>\WorkBuddy-Dream-Skin
 .\scripts\start-workbuddy-skin.ps1 -RestartExisting
 ```
+
+> **关于 `Set-ExecutionPolicy -Scope Process Bypass`**：仅对**当前这个 PowerShell 会话**生效，不改动系统策略；关闭窗口即失效。用于允许运行仓库里未签名的 `.ps1` 脚本。如果你已经用 `RemoteSigned` 或者更宽松的策略，可以省略该行。
 
 验证运行状态并保存截图：
 
@@ -277,10 +281,33 @@ WorkBuddy-Dream-Skin
 2. [实现架构](./docs/ARCHITECTURE.md)
 3. [开发与验证](./docs/DEVELOPMENT.md)
 4. [主题格式](./docs/THEME-SCHEMA.md)
-5. [AI 接手指南](./docs/AI-HANDOFF.md)
+5. [AI 接手指南](./.github/AI/HANDOFF.md)（面向大模型协作者）
 6. [运行时说明](./references/runtime-notes.md)
 7. [质量检查清单](./references/qa-inventory.md)
 8. [版本记录](./CHANGELOG.md)
+
+## 常见问题（FAQ）
+
+**Q：需要 `npm install` 吗？**
+不需要。Node.js 部分只用运行时自带 API（`ws` 是全局的、`fs` / `path` / `crypto` 都是内置模块），项目也没有 `package-lock.json`。PowerShell 5.1 是 Windows 自带的。
+
+**Q：WorkBuddy 启动了但没换肤怎么办？**
+先确认 CDP 端点：`Get-Content $env:LOCALAPPDATA\WorkBuddyDreamSkin\state.json` 应该能看到 `port` 字段。用 `Invoke-RestMethod http://127.0.0.1:<port>/json/list`，返回列表里应该有 `title` 为 `WorkBuddy` 的条目。都没问题的话重新跑 `.\scripts\start-workbuddy-skin.ps1 -RestartExisting`。
+
+**Q：审计脚本卡在 `Page.captureScreenshot` 怎么办？**
+是 WorkBuddy 渲染进程的合成器暂时卡住，不是脚本问题。**最小化再还原** WorkBuddy 窗口，或者从托盘"重启启用"，通常就恢复了。已知 WorkBuddy 5.2.6 在部分 GPU 状态下会触发。
+
+**Q：Light 主题下代码块 / 某个面板的字看不见？**
+说明那条 CSS 硬编码了深色主题的 hex 值，没走 `--wbds-text` / `--wbds-panel` 令牌。定位到那条选择器，把 `color: #xxxxxx` 改成 `color: var(--wbds-text)` 即可让 token 层自动适配明暗。可参考 `commit ecd95d7` 的做法。
+
+**Q：切换主题时托盘弹 `.NET Framework` 未处理异常？**
+`0.7.4` 之前托盘子菜单读活动主题的 `presetId` 时没做 `PSObject.Properties` 探测，遇到手动定制主题（没有 `presetId`）会撞 `Set-StrictMode 2.0`。升级到 `0.7.4+` 或应用 `commit 2a2afda`。
+
+**Q：能在 macOS / Linux 上用吗？**
+目前不能。启动 / 恢复 / 托盘全是 PowerShell 加 Windows-only，但核心注入器 `scripts/injector.mjs` 是跨平台的 Node.js。POSIX 前端属于 "PRs welcome" 范畴。
+
+**Q：想加自己的主题该改哪里？**
+最快路径：`customize-workbuddy-theme.ps1 -ImagePath <你的图> -Style Auto -SavePreset "<名字>"`。预设会落到 `%LOCALAPPDATA%\WorkBuddyDreamSkin\themes\<名字>\`，不用改仓库代码。若想让主题跟仓库一起发布，PR 到 `assets/themes/<名字>/`（theme.json + 图片）。整套流程参见 [CONTRIBUTING.md](./CONTRIBUTING.md#adding-a-theme)。
 
 ## 当前限制
 
