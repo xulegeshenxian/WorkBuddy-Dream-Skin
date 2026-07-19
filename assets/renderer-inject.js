@@ -113,7 +113,7 @@
         <div class="wbds-grain"></div>
         <div class="wbds-character">
           <div class="wbds-charm-orbit"><i></i><i></i><i></i></div>
-          <div class="wbds-character-card"><img alt=""></div>
+          <div class="wbds-character-card"><img alt=""><svg class="wbds-stamp-face" viewBox="0 0 200 200" aria-hidden="true"><defs><path id="wbds-stamp-arc-top" d="M 30,105 A 70,70 0 0 1 170,105"/><path id="wbds-stamp-arc-bottom" d="M 34,96 A 66,66 0 0 0 166,96"/></defs><circle class="wbds-stamp-ring-outer" cx="100" cy="100" r="94"/><circle class="wbds-stamp-ring-inner" cx="100" cy="100" r="82"/><g class="wbds-stamp-emblem" transform="translate(100 108)"><path d="M0,-30 C-18,-28 -28,-14 -28,0 C-28,14 -18,22 -6,24 C-4,16 0,10 0,10 C0,10 4,16 6,24 C18,22 28,14 28,0 C28,-14 18,-28 0,-30 Z"/><path d="M0,10 L0,26" stroke-linecap="round"/></g><text class="wbds-stamp-arc-top" dy="0"><textPath href="#wbds-stamp-arc-top" startOffset="50%" text-anchor="middle">SUNLIT CAMPUS</textPath></text><text class="wbds-stamp-arc-bottom" dy="0"><textPath href="#wbds-stamp-arc-bottom" startOffset="50%" text-anchor="middle">EST · NOTE 01</textPath></text></svg></div>
           <div class="wbds-sparkles"><i></i><i></i><i></i><i></i></div>
         </div>
         <div class="wbds-sonar"><i></i><i></i><i></i><b></b></div>
@@ -129,7 +129,7 @@
     }
     const character = chrome.querySelector(".wbds-character");
     if (!character.querySelector(".wbds-character-card")) {
-      character.innerHTML = '<div class="wbds-charm-orbit"><i></i><i></i><i></i></div><div class="wbds-character-card"><img alt=""></div><div class="wbds-sparkles"><i></i><i></i><i></i><i></i></div>';
+      character.innerHTML = '<div class="wbds-charm-orbit"><i></i><i></i><i></i></div><div class="wbds-character-card"><img alt=""><svg class="wbds-stamp-face" viewBox="0 0 200 200" aria-hidden="true"><defs><path id="wbds-stamp-arc-top" d="M 30,105 A 70,70 0 0 1 170,105"/><path id="wbds-stamp-arc-bottom" d="M 34,96 A 66,66 0 0 0 166,96"/></defs><circle class="wbds-stamp-ring-outer" cx="100" cy="100" r="94"/><circle class="wbds-stamp-ring-inner" cx="100" cy="100" r="82"/><g class="wbds-stamp-emblem" transform="translate(100 108)"><path d="M0,-30 C-18,-28 -28,-14 -28,0 C-28,14 -18,22 -6,24 C-4,16 0,10 0,10 C0,10 4,16 6,24 C18,22 28,14 28,0 C28,-14 18,-28 0,-30 Z"/><path d="M0,10 L0,26" stroke-linecap="round"/></g><text class="wbds-stamp-arc-top" dy="0"><textPath href="#wbds-stamp-arc-top" startOffset="50%" text-anchor="middle">SUNLIT CAMPUS</textPath></text><text class="wbds-stamp-arc-bottom" dy="0"><textPath href="#wbds-stamp-arc-bottom" startOffset="50%" text-anchor="middle">EST · NOTE 01</textPath></text></svg></div><div class="wbds-sparkles"><i></i><i></i><i></i><i></i></div>';
     }
     if (!character.querySelector(".wbds-charm-orbit")) {
       const orbit = document.createElement("div");
@@ -142,6 +142,10 @@
       sparkles.className = "wbds-sparkles";
       sparkles.innerHTML = "<i></i><i></i><i></i><i></i>";
       character.append(sparkles);
+    }
+    const characterCard = character.querySelector(".wbds-character-card");
+    if (characterCard && !characterCard.querySelector(".wbds-stamp-face")) {
+      characterCard.insertAdjacentHTML("beforeend", '<svg class="wbds-stamp-face" viewBox="0 0 200 200" aria-hidden="true"><defs><path id="wbds-stamp-arc-top" d="M 30,105 A 70,70 0 0 1 170,105"/><path id="wbds-stamp-arc-bottom" d="M 34,96 A 66,66 0 0 0 166,96"/></defs><circle class="wbds-stamp-ring-outer" cx="100" cy="100" r="94"/><circle class="wbds-stamp-ring-inner" cx="100" cy="100" r="82"/><g class="wbds-stamp-emblem" transform="translate(100 108)"><path d="M0,-30 C-18,-28 -28,-14 -28,0 C-28,14 -18,22 -6,24 C-4,16 0,10 0,10 C0,10 4,16 6,24 C18,22 28,14 28,0 C28,-14 18,-28 0,-30 Z"/><path d="M0,10 L0,26" stroke-linecap="round"/></g><text class="wbds-stamp-arc-top" dy="0"><textPath href="#wbds-stamp-arc-top" startOffset="50%" text-anchor="middle">SUNLIT CAMPUS</textPath></text><text class="wbds-stamp-arc-bottom" dy="0"><textPath href="#wbds-stamp-arc-bottom" startOffset="50%" text-anchor="middle">EST · NOTE 01</textPath></text></svg>');
     }
     const characterImage = character.querySelector("img");
     if (characterImage && characterImage.src !== (decorationArtUrl || "")) characterImage.src = decorationArtUrl || "";

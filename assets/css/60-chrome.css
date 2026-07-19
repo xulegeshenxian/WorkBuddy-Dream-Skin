@@ -446,27 +446,22 @@ html.workbuddy-dream-skin[data-workbuddy-dream-skin-appearance="light"] .wbds-st
 /* Shape: stamp — circular校徽 badge, no human. Two rings, center label,
    top washi tape strip, slight tilt. Draws entirely from tokens; safe on
    any style / appearance. */
+/* Hide the SVG face by default; only stamp shape opts in */
+#workbuddy-dream-skin-chrome .wbds-stamp-face { display: none; }
+
 html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="stamp"] #workbuddy-dream-skin-chrome .wbds-character-card {
-  --wbds-stamp-line1: "SUNLIT";
-  --wbds-stamp-line2: "CAMPUS";
-  --wbds-stamp-face: color-mix(in srgb, var(--wbds-panel) 55%, white 45%);
-  --wbds-stamp-ring: color-mix(in srgb, var(--wbds-accent-alt) 65%, black 35%);
+  --wbds-stamp-face-fill: color-mix(in srgb, var(--wbds-panel) 55%, white 45%);
+  --wbds-stamp-ring-ink: color-mix(in srgb, var(--wbds-accent-alt) 65%, black 35%);
+  --wbds-stamp-arc-ink: color-mix(in srgb, var(--wbds-text) 78%, var(--wbds-accent-alt) 22%);
+  --wbds-stamp-emblem-ink: color-mix(in srgb, var(--wbds-accent-alt) 75%, black 25%);
   aspect-ratio: 1 / 1;
   width: 170px;
   height: 170px;
   padding: 0;
   border-radius: 50%;
   border: none;
-  background:
-    radial-gradient(circle at 50% 45%,
-      var(--wbds-stamp-face) 0 42%,
-      var(--wbds-stamp-ring) 42% 45%,
-      var(--wbds-stamp-face) 45% 63%,
-      var(--wbds-stamp-ring) 63% 66%,
-      var(--wbds-stamp-face) 66% 100%);
+  background: var(--wbds-stamp-face-fill);
   box-shadow:
-    inset 0 0 0 3px var(--wbds-stamp-ring),
-    inset 0 0 0 4px color-mix(in srgb, var(--wbds-panel) 80%, transparent),
     0 22px 42px rgba(0, 0, 0, .34),
     0 6px 14px rgba(0, 0, 0, .22),
     0 0 0 4px color-mix(in srgb, var(--wbds-panel) 82%, white 18%);
@@ -477,35 +472,64 @@ html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="stamp"] #w
   display: none;
 }
 
-html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="stamp"] #workbuddy-dream-skin-chrome .wbds-character-card::after {
-  content: var(--wbds-stamp-line1) "\A" var(--wbds-stamp-line2);
-  white-space: pre;
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="stamp"] #workbuddy-dream-skin-chrome .wbds-stamp-face {
+  display: block;
   position: absolute;
   inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="stamp"] #workbuddy-dream-skin-chrome .wbds-stamp-face .wbds-stamp-ring-outer {
+  fill: none;
+  stroke: var(--wbds-stamp-ring-ink);
+  stroke-width: 3;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="stamp"] #workbuddy-dream-skin-chrome .wbds-stamp-face .wbds-stamp-ring-inner {
+  fill: none;
+  stroke: var(--wbds-stamp-ring-ink);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+  opacity: .55;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="stamp"] #workbuddy-dream-skin-chrome .wbds-stamp-face .wbds-stamp-emblem path {
+  fill: var(--wbds-stamp-emblem-ink);
+  stroke: var(--wbds-stamp-emblem-ink);
+  stroke-width: 0;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="stamp"] #workbuddy-dream-skin-chrome .wbds-stamp-face .wbds-stamp-emblem path:last-child {
+  fill: none;
+  stroke-width: 2.5;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="stamp"] #workbuddy-dream-skin-chrome .wbds-stamp-face .wbds-stamp-arc-top,
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="stamp"] #workbuddy-dream-skin-chrome .wbds-stamp-face .wbds-stamp-arc-bottom {
+  fill: var(--wbds-stamp-arc-ink);
   font-family: "WBDS Assistant", "Segoe UI Variable", "Segoe UI", sans-serif;
   font-weight: 900;
+  letter-spacing: 3px;
+  paint-order: stroke;
+  stroke: white;
+  stroke-width: 3;
+  stroke-linejoin: round;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="stamp"] #workbuddy-dream-skin-chrome .wbds-stamp-face .wbds-stamp-arc-top {
   font-size: 18px;
-  letter-spacing: 4px;
-  line-height: 1.15;
-  color: color-mix(in srgb, var(--wbds-text) 80%, var(--wbds-accent-alt) 20%);
-  text-shadow:
-    0 1px 0 white,
-    0 -1px 0 white,
-    1px 0 0 white,
-    -1px 0 0 white,
-    0 0 4px color-mix(in srgb, var(--wbds-panel) 70%, white);
-  right: auto;
-  top: auto;
-  width: auto;
-  height: auto;
-  background: transparent;
-  box-shadow: none;
-  transform: none;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="stamp"] #workbuddy-dream-skin-chrome .wbds-stamp-face .wbds-stamp-arc-bottom {
+  font-size: 12px;
+  letter-spacing: 2.5px;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="stamp"] #workbuddy-dream-skin-chrome .wbds-character-card::after {
+  content: "";
+  display: none;
 }
 
 html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="stamp"] #workbuddy-dream-skin-chrome .wbds-character-card::before {
@@ -524,11 +548,5 @@ html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="stamp"] #w
   border: 1px solid color-mix(in srgb, var(--wbds-panel) 60%, transparent);
   box-shadow: 0 4px 10px rgba(0, 0, 0, .18);
   clip-path: polygon(2% 8%, 98% 0, 96% 92%, 0 100%);
-}
-
-/* sunlit-campus stamp text — override the default label with campus-specific line */
-html.workbuddy-dream-skin[data-workbuddy-dream-skin-style="sunlit-campus"][data-workbuddy-dream-skin-decoration-shape="stamp"] #workbuddy-dream-skin-chrome .wbds-character-card {
-  --wbds-stamp-line1: "SUNLIT";
-  --wbds-stamp-line2: "CAMPUS";
 }
 
