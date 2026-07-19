@@ -115,7 +115,7 @@
 **MUST（阻塞发布）：**
 - [ ] `LICENSE` 缺失。上游 `Fei-Away/Codex-Dream-Skin` 是 MIT（"Copyright (c) 2026 Codex Dream Skin Studio contributors"），跟本项目走 MIT 完全兼容。加 `LICENSE`（MIT）+ `NOTICE` 附上游归属
 - [ ] "WorkBuddy" 是**腾讯商标**，全项目包名 / 目录 / README / docs 到处引用。开源前必须在 README 顶部加免责："WorkBuddy is a trademark of Tencent. This project is an unofficial community skin, not affiliated with or endorsed by Tencent." 上游用了同样的模式（"Non-official OpenAI product; Codex and related rights belong to their respective rights holders"）
-- [ ] `assets/themes/*.png`（`sunlit-campus.png` `gilded-night-banquet.png` `pink-mint-botanical-decoration.png`）**素材版权确认**：AI 生成的话在 CREDITS.md 说明生成方式；网图必须撤或换 CC0 / CC-BY 素材，否则发出去就是侵权。同理 `Pictures/1.png 2.png 3.png` 也要溯源
+- [x] `assets/themes/*.png` + `Pictures/*.png` **素材版权**：用户 2026-07-19 确认全部为 **AI 生成**，无版权风险。落到 `CREDITS.md`，逐条列表 + MIT 覆盖 + 说明"fork 想换图直接替换文件路径即可"
 - [ ] `package.json` `"private": true` 改为删除该字段（否则 npm 拒绝 publish；本项目不 publish npm 但字段语义上矛盾）
 - [ ] README 快速开始里硬编码 `cd D:\code\Codex\dream-skin\WorkBuddy-Dream-Skin`，改成 `cd <path-to-repo>` 或相对路径
 - [ ] `.github/workflows/preflight.yml`：在 push / pull_request 上跑 `npm run preflight`。30 行 YAML，preflight 已就绪
@@ -135,8 +135,8 @@
 **NICE（发布后可补）：**
 - [ ] 补 `pink-dream` / `mint-bloom` 的 preset —— CSS 里齐了，用户库里没预设。用本次做的 heart / pressed-leaf 形状给它们做区分
 - [ ] `tests/` 骨架（G 组已列） + 双语 CHANGELOG
-- [ ] `VERSION` 单独文件跟 `package.json.version` 双源同步问题：删 VERSION，从 package.json 读；或者反过来 package.json 从 VERSION 读，选一处 source of truth
-- [ ] `AGENTS.md` / `SKILL.md`：这两个面向 AI 工作流的文档要么说明清楚"给 AI 用的"，要么改造成公开 developer guide
+- [x] `VERSION` 单独文件跟 `package.json.version` 双源同步：加了 preflight 校验 `VERSION sync with package.json`，双源不同步立即 fail。当前 8 → 9 checks，仍然 all-pass
+- [x] `AGENTS.md` / `SKILL.md` 面向 AI 工作流：AGENTS.md 顶部加中英双语横幅说明"给 AI 协作者用，人类看 CONTRIBUTING"；SKILL.md 顶部加"这是 Codex/agent SKILL card，人类看 README，AI 看 AGENTS.md"
 
 ### 设计侧（可选，需要视觉复核）
 

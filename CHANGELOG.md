@@ -1,5 +1,48 @@
 # Changelog
 
+## Unreleased
+
+### 开源发布准备（ROADMAP § J）
+
+* 新增 `LICENSE`（MIT），版权行 "Copyright (c) 2026 WorkBuddy Dream Skin contributors"，与上游 `Fei-Away/Codex-Dream-Skin` 兼容。
+* 新增 `NOTICE.md`：商标声明（WorkBuddy = 腾讯商标）、上游归属、素材声明。
+* 新增 `CREDITS.md`：说明所有图片素材均为 AI 生成，MIT 覆盖，允许下游 fork 直接替换文件路径。
+* 新增 `SECURITY.md`：威胁模型、私有 Security Advisory 上报流程、5 天 ack / 30 天修复 SLA、协调披露条款。
+* 新增 `CODE_OF_CONDUCT.md`：Contributor Covenant 2.1 原文。
+* 新增 `CONTRIBUTING.md`：仓库结构、开发循环、preflight 门禁要求、"如何加主题"的三级路径（preset / palette / decoration shape）、PR 检查清单。
+* 新增 `README.en.md` 英文精简版，README.md 顶部加中英语言切换 + FAQ 段（覆盖本轮遇到的 7 类常见问题） + `Set-ExecutionPolicy` 解释段。
+* 新增 `.github/`：`ISSUE_TEMPLATE/{bug_report.md, feature_request.md, config.yml}`、`PULL_REQUEST_TEMPLATE.md`、`workflows/preflight.yml`（在 Windows + Node 22 上跑 `npm run preflight`，产物保留 14 天）。
+* `docs/AI-HANDOFF.md` → `.github/AI/HANDOFF.md`：从公共文档索引里挪出。
+* `AGENTS.md` / `SKILL.md` 顶部加中英双语横幅，明确"给 AI 协作者用，人类看 CONTRIBUTING / README"。
+* `preflight.mjs` 新增 `VERSION sync with package.json` 检查，双源同步失配立即 fail（当前 9/9 pass）。
+* `package.json` 移除 `"private": true`、加 `"license": "MIT"`、description 改英文。
+* README + docs 里硬编码的 `D:\code\Codex\dream-skin\WorkBuddy-Dream-Skin` 与 `D:\Pictures\` 路径全部换成占位符。
+
+### 挂件系统重做（ROADMAP § H）
+
+* `theme.json` 新增 `decoration.shape` 字段（`polaroid` 默认 / `stamp` / `sticker` / `pressed-leaf` / `heart` / `porthole`）与 `layout.decorationAnchor` 字段（`top-right` 默认 / `bottom-right` / `top-left` / `bottom-left`）。
+* `renderer-inject.js` 依据 `data-workbuddy-dream-skin-decoration-shape` / `-anchor` 分派：内容形状（stamp / sticker / pressed-leaf）替换整个装饰卡内容，框形（heart / porthole）在 `<img>` 上加 clip-path + SVG 边框叠层。
+* 五种新形状全部落在 `assets/css/60-chrome.css` 文件末尾，避免被 per-style card 覆盖。
+
+### live-gate 结构性修复（ROADMAP § D）
+
+* 历史上第一次 `automatedPass: true`：14/14 automated gates + 7/7 live gates 全部通过 `run-strict-audit.ps1`。修补包括：
+  - `auditPagesSession` 打开 user-menu 时 `allowClipped: true`，避开 5.2.6 底栏 813 > innerHeight 800 的裁剪。
+  - `hasLightRgb` 改成正则匹配 rgba 三通道 ≥240，避免把 `#F2B866` 金橙 accent 误报为近白面。
+  - `auditComposerSession` / `auditScenesSession` 起头强制回到"新建任务"页。
+  - 场景切换从 350ms 硬 sleep 换成最多 8×400ms 轮询快速动作元素。
+  - 历史任务首帧 settle 加 6×700ms 轮询，等 `initial.visibleTextCount > 0`。
+
+### 稳定性 & 视觉修复（ROADMAP § G / 用户 2026-07-19 反馈）
+
+* 骨架加载器（`.chat-container__message-skeleton-content` 等）背景 `background:` 简写归零透明度导致 hero cover 透出的问题：拆成 `background-color: color-mix(panel 90%, transparent)` 底 + `background-image: linear-gradient(...)` 闪光。
+* 代码块 `.cb-markdown-pre` / `.cb-markdown-pre code` 硬编码 `color: #e5f5ef` 在 light 主题下几乎看不见：换 `var(--wbds-text)`，token 层自动切明暗。
+* `agent-mail-activation` 面板文字继承 WorkBuddy 未 themed 的黑色 rgba：`__title` → `--wbds-text`，`__desc / __agreement-prefix` → `--wbds-muted`，`__agreement-link` → `--wbds-accent-alt`。
+* 深海调深绿黑（`#041713 / #031512 / #061714`）在 pink-dream / mint-botanical / sunlit-campus 上把按钮文字染成绿黑：新增 `--wbds-on-accent` token（dark 模式 `color-mix(black 88%, accent)`；light 模式 `#fff`），13 处硬编码值全部路由到该 token。
+* 托盘"切换主题"子菜单打开时 `.NET Framework` 未处理异常（strict-mode 下访问缺失的 `presetId`）：改用 `$activeTheme.PSObject.Properties['presetId']` 探测后再读。
+* `injector.mjs` 截图 HiDPI 归一化：`capture()` 先读 `cssVisualViewport`，用 `clip: { scale:1 }` 让输出恒为 CSS 像素尺寸。
+* `once` / `remove` / `probe` 模式失败时静默退 0：新增 `NON_AUDIT_EXIT_CODES = { verify:2, once:6, remove:10 }` 与 `isRunResultFailed()` 归一化判定。
+
 ## 0.7.3
 
 * 新增项目内 Skill `skills/workbuddy-skin-maker`，固化图片分析、自适应明暗主题、动态挂件、历史任务阅读面板和产物卡片的制作流程。

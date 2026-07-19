@@ -1,6 +1,6 @@
 # WorkBuddy Dream Skin
 
-**English:** [README.en.md](./README.en.md) · **License:** [MIT](./LICENSE) · **Contributing:** [CONTRIBUTING.md](./CONTRIBUTING.md) · **Security:** [SECURITY.md](./SECURITY.md)
+**English:** [README.en.md](./README.en.md) · **License:** [MIT](./LICENSE) · **Contributing:** [CONTRIBUTING.md](./CONTRIBUTING.md) · **Security:** [SECURITY.md](./SECURITY.md) · **Credits:** [CREDITS.md](./CREDITS.md)
 
 > **免责声明**：本项目是 **社区非官方** 的 WorkBuddy 换肤方案。"WorkBuddy" 是 **腾讯** 的商标，本项目 **未** 获得腾讯授权、赞助或背书，与腾讯无任何隶属关系。同理，参考项目 [Fei-Away/Codex-Dream-Skin](https://github.com/Fei-Away/Codex-Dream-Skin) 里提及的 "Codex" 及相关标识归其各自权利人所有。
 >

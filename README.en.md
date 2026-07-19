@@ -4,7 +4,7 @@ Community, image-driven, fully reversible skinning for **Tencent WorkBuddy** on 
 
 > **Disclaimer.** This is an **unofficial community skin**. "WorkBuddy" is a trademark of **Tencent**; this project is **not** affiliated with, sponsored by, or endorsed by Tencent. "Codex" and related marks referenced via the upstream project belong to their respective rights holders. See [NOTICE.md](./NOTICE.md).
 
-**License:** [MIT](./LICENSE). **Upstream:** design pattern adapted from [Fei-Away/Codex-Dream-Skin](https://github.com/Fei-Away/Codex-Dream-Skin) (MIT). **中文版:** [README.md](./README.md).
+**License:** [MIT](./LICENSE). **Upstream:** design pattern adapted from [Fei-Away/Codex-Dream-Skin](https://github.com/Fei-Away/Codex-Dream-Skin) (MIT). **Asset provenance:** [CREDITS.md](./CREDITS.md). **中文版:** [README.md](./README.md).
 
 ---
 

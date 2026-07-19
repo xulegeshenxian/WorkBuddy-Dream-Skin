@@ -95,6 +95,17 @@ async function checkPowerShell() {
   }
 }
 
+async function checkVersionSync() {
+  try {
+    const versionFile = (await fs.readFile(path.join(root, "VERSION"), "utf8")).trim();
+    const pkg = JSON.parse(await fs.readFile(path.join(root, "package.json"), "utf8"));
+    const pass = versionFile === pkg.version;
+    record("VERSION sync with package.json", pass, `VERSION=${versionFile} package.json.version=${pkg.version}`);
+  } catch (error) {
+    record("VERSION sync with package.json", false, error.message);
+  }
+}
+
 async function checkPayload() {
   if (!CHECKS.payload) return;
   const target = path.join(root, "scripts", "injector.mjs");
@@ -116,6 +127,7 @@ async function main() {
   console.log(`preflight starting in ${root}`);
   await checkNodeSyntax();
   await checkJson();
+  await checkVersionSync();
   await checkPowerShell();
   await checkPayload();
   const elapsedMs = Date.now() - started;

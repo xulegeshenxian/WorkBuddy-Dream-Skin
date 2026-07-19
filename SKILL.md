@@ -5,6 +5,11 @@ description: Install, start, customize, verify, diagnose, or restore the externa
 
 # WorkBuddy Dream Skin
 
+> **This file is a Codex/agent SKILL card** — an entry-point manifest used by Codex-style agents to know what this repo offers and which script to reach for. It is **not** a general user guide.
+>
+> **Human users:** please read [`README.md`](./README.md) and [`CONTRIBUTING.md`](./CONTRIBUTING.md).
+> **AI collaborators editing this repo:** please read [`AGENTS.md`](./AGENTS.md).
+
 Use the scripts in `scripts/` for all operations. Preserve the external injection boundary. Never edit the WorkBuddy installation, `app.asar`, executables, or signatures.
 
 ## Workflow

@@ -22,6 +22,13 @@ that this WorkBuddy port builds on. WorkBuddy-specific page identification, them
 image layering, hover/scene fixes, preset library, and strict audit tooling in this
 repository were implemented independently.
 
+## Image assets
+
+All theme visuals shipped in `assets/themes/` and README screenshots in `Pictures/` are
+**AI-generated original works** produced by the project maintainers, released under the
+same MIT license as the rest of the repository. Full per-file provenance is in
+[CREDITS.md](./CREDITS.md).
+
 ## Trademarks
 
 - **WorkBuddy** and 腾讯 (Tencent) are trademarks of their respective owners.

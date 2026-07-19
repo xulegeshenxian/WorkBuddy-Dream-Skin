@@ -1,4 +1,10 @@
-# WorkBuddy Dream Skin 维护说明
+# WorkBuddy Dream Skin 维护说明（AI 协作者约束）
+
+> **本文件面向 AI 协作者（Claude、Codex、Cursor 等）**：约束大模型在编辑本仓库时**不能破坏什么**、**必须先读什么**、**收工前必须跑什么**。
+>
+> 人类贡献者应该看 [`CONTRIBUTING.md`](./CONTRIBUTING.md)（PR 流程、preflight 门禁、如何加主题）而不是这里。
+>
+> **_This file is written for AI collaborators. Human contributors: please read [`CONTRIBUTING.md`](./CONTRIBUTING.md) instead._**
 
 本文件供后续大模型和维护者使用。开始修改前请先阅读 `README.md`、`docs/ARCHITECTURE.md`、`docs/DEVELOPMENT.md` 和 `.github/AI/HANDOFF.md`。
 
