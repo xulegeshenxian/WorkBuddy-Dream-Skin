@@ -61,10 +61,11 @@
 - [x] **挂件形状系统骨架 + stamp PoC**（`b80df1f`, 2026-07-19）：`theme.json` 加 `decoration.shape` 字段（`polaroid`|`stamp`，默认 `polaroid` 向后兼容），`injector.mjs::loadTheme` 白名单，`renderer-inject.js` 传到 `data-workbuddy-dream-skin-decoration-shape`；非 polaroid 形状把 `wbds-has-character` 打开（不需要图片 URL）。`60-chrome.css` 末尾加 `stamp` 形状：圆形校徽 + 双圈 + accent 渐变面 + 顶部胶带 + `SUNLIT / CAMPUS` 双行标签（用 CSS 自定义属性传文本）。sunlit-campus 活动主题 `decoration.shape: "stamp"` 已切换，"两女对视"消除
 - [ ] `stamp` 对比度调优：明亮 hero 上绿字看不清。加白色描边 + 更强投影，或者让文字色跟 hero 图区域反色（可用 mix-blend-mode）
 - [x] `pink-dream → sticker` 形状（`9c77d67`, 2026-07-19）：圆角矩形 + 虚线剪裁边 + 中心玫瑰花束（5 层花瓣圆 + 2 片侧叶 + 高光点）+ 手写斜体 "Dream Notes" + 底部 "♡ pink diary · 01" + 反向 +5° 倾斜 + 无胶带。stamp v3 里的 SVG face 架构直接复用（`insertAdjacentHTML` + `data-workbuddy-dream-skin-decoration-shape` 走 CSS 分支）
-- [ ] 剩余 3 套皮肤各自的形状：`mint-bloom → pressed-leaf`（压花标本卡）、`gilded-night → sealed-scroll`（蜡封信件 / 折扇）、`deep-sea → porthole`（潜水表盘 / 罗盘）。每个是 60-chrome.css 末尾追加一个 shape 变体 + 相应 theme.json preset 里指定
-- [ ] `hero.anchor` 语义字段：让 hero 图能声明"主体在右/左/底"，CSS 自动加左侧 typography scrim。sunlit-campus 现在 hero 主体在中央，挂件放右上永远跟人物挤在一起
-- [ ] `hero.subject` 元数据：`'human' | 'landscape' | 'still-life'`。人像 hero 时挂件强制走非人像形状，避免"两个 IP 打架"
-- [ ] 挂件挂载点 `decoration.anchor: 'top-right' | 'bottom-right' | 'top-left'`。当前默认 top-right，但如果 hero 主体在右上（如 sunlit-campus），挂件应自动下移到 bottom-right
+- [x] `layout.decorationAnchor` 语义槽 + 3 个 corner 变体（`6e3c34c`, 2026-07-19）：`top-right`（默认）/ `bottom-right` / `top-left` / `bottom-left`。CSS 变体翻 `.wbds-character` 的 axis 属性（left/right, top/bottom）并同步更新 `transform-origin` 让摇摆动画从锚定角发端。sunlit-campus 活动主题打开 `bottom-right`，徽章从"压女生腿"移到"落到路面 / 鞋子上方"
+- [x] `mint-bloom → pressed-leaf` 形状（`e144e25`, 2026-07-19）：竖版 152×190 vellum 卡 + 微 -1° 倾斜 + hairline 边框（无实线圈也无虚线剪裁）+ 中央蕨叶（stem + 10 leaflets 五对，±32° 旋转）+ Latin 斜体 "Folium Menthae" + 小 caps "SPECIMEN · No. 03" + 左上角 hairline 圆盖章 "26" + 两组 radial-gradient 点纹背景做手工纸感。跟 stamp 的圆形正式感、sticker 的活泼贴纸感明显区分为"自然主义者笔记本"
+- [ ] 剩余 2 套皮肤各自的形状：`gilded-night → sealed-scroll`（蜡封信件 / 折扇）、`deep-sea → porthole`（潜水表盘 / 罗盘）
+- [ ] `hero.anchor` 语义字段：让 hero 图能声明"主体在右/左/底"，CSS 自动加左侧 typography scrim
+- [ ] `hero.subject` 元数据：`'human' | 'landscape' | 'still-life'`。人像 hero 时挂件强制走非人像形状
 
 ### F. 遗留素材决议
 
