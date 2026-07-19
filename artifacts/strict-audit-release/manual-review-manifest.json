@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-07-19T00:00:00+08:00",
+  "reviewer": "TODO-your-name-or-handle",
+  "themes": [
+    { "id": "sunlit-campus", "appearance": "light", "passed": false },
+    { "id": "deep-sea-watch", "appearance": "dark", "passed": false }
+  ],
+  "checks": {
+    "welcome": false,
+    "sidebar": false,
+    "composer": false,
+    "historyTopBottom": false,
+    "longConversation": false,
+    "markdownCodeTable": false,
+    "artifactShelf": false,
+    "overlaysAndSettings": false,
+    "narrowWindow": false,
+    "maximizedWindow": false,
+    "keyboardFocus": false,
+    "reducedMotion": false,
+    "decorationNonBlocking": false,
+    "noOcclusionOrOverflow": false
+  },
+  "evidenceDirectory": "artifacts/strict-audit-release"
+}

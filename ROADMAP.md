@@ -39,6 +39,7 @@
   - `.ec-featured-scenes-section` 伪元素 WorkBuddy 原生渲染 `rgba(250,250,250,0.92)` 的白边渐变，深色主题上确实是真近白面。`40-pages.css` 里把两个伪元素 background 覆盖成 `linear-gradient(90deg, transparent, color-mix(background 92%, transparent))`
   - `auditComposerSession` / `auditScenesSession` 依赖调用方停在 new-task 页，跑在 audit-details/audit-pages 之后就找不到 `.composer-*-trigger` / `.wb-scene-tabs__pill`。两处开头都加 `restore-new-task` 点击
   - Scene chip 切换后 `.quick-actions__item` 的过渡长过原来的 350ms sleep；提升到 700ms 并把 action 查找改成最多 8 次 400ms 轮询
+- [ ] 拿到 **项目历史上第一次 `releaseReady: true`**：走 `artifacts/strict-audit-release/REVIEW-GUIDE.md`（`_pending_` 引入），双主题各截 14 项证据，把 `manual-review-manifest.json` 里 checks + themes[*].passed 翻 true，重跑 `run-strict-audit.ps1 -ManualReviewManifest`
 - [x] **项目历史上第一次 `automatedPass: true`** —— `run-strict-audit.ps1` 无 `-StaticOnly` 无 `-ManualReviewManifest` 跑完，`coverage: passed=14/14, liveGates=7/7`。7 个 live gate（verify / hover / composer / scenes / settings / pages / details）+ 6 项静态门禁 + history screenshot evidence 全部 pass，`automatedPass: true`。补丁包含 `a44619c` 里的 history-task 首帧 settle 轮询（初次进入历史任务时 1400ms 太短，`initial.visibleTextCount === 0` 时最多再等 6×700ms = 4.2s）。`releaseReady: true` 现只差 `-ManualReviewManifest`（明暗主题各一份视觉复核 + 证据目录）
 
 ### A. 剩余的结构分层
