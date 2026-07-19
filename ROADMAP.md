@@ -56,7 +56,7 @@
 
 ### G. 小 bug / 稳定性
 
-- [x] `scripts/injector.mjs` 截图用 `captureBeyondViewport: false` + `fromSurface: true`，HiDPI 下物理/CSS 像素易错乱。修复：`capture()` 先 `Page.getLayoutMetrics` 拿 `cssVisualViewport` 的 CSS 尺寸，用 `clip: { x:0, y:0, width, height, scale:1 }` 归一化到 CSS 像素，无论 devicePixelRatio 输出恒定。metrics 拿不到时回退旧行为，不会中断截图（commit 待补，2026-07-19）
+- [x] `scripts/injector.mjs` 截图用 `captureBeyondViewport: false` + `fromSurface: true`，HiDPI 下物理/CSS 像素易错乱。修复：`capture()` 先 `Page.getLayoutMetrics` 拿 `cssVisualViewport` 的 CSS 尺寸，用 `clip: { x:0, y:0, width, height, scale:1 }` 归一化到 CSS 像素，无论 devicePixelRatio 输出恒定。metrics 拿不到时回退旧行为，不会中断截图（`93963c1`, 2026-07-19）
 - [ ] `renderer-inject.js` 三保险策略（`MutationObserver` `childList+subtree` + 5s `setInterval` + 180ms debounce），SPA 频繁 mount/unmount 时 CPU 占用高。改成"只观察 `#root` 直接子节点 + 页面 `visible` 才 tick"
 - [ ] SVG 导入：`.svg` 在 `customize-workbuddy-theme.ps1:47` 允许列表里，但 16 MB 尺寸检查对 SVG 没意义，应改成节点数 / 内嵌 `<script>` 白名单
 
