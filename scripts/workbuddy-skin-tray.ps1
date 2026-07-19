@@ -167,9 +167,11 @@ $themesItem.DropDown.Add_Opening({
     $item.Text = $label
     $item.Tag = $preset.Name
     $item.CheckOnClick = $false
+    $activePresetId = if ($activeTheme -and $activeTheme.PSObject.Properties['presetId']) { [string]$activeTheme.presetId } else { '' }
+    $activeName = if ($activeTheme -and $activeTheme.PSObject.Properties['name']) { [string]$activeTheme.name } else { '' }
     $item.Checked = [bool]($activeTheme -and (
-      ([string]$activeTheme.presetId -and [string]$activeTheme.presetId -eq $preset.Name) -or
-      (-not [string]$activeTheme.presetId -and [string]$activeTheme.name -eq $label)
+      ($activePresetId -and $activePresetId -eq $preset.Name) -or
+      (-not $activePresetId -and $activeName -eq $label)
     ))
     $item.Add_Click({
       param($sender, $eventArgs)
