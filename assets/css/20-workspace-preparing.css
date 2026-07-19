@@ -45,7 +45,7 @@ html.workbuddy-dream-skin .workspace-preparing__progress-bar {
 
 /* Completed task markdown */
 html.workbuddy-dream-skin .cb-markdown :is(.cb-markdown-pre, pre.cb-markdown-pre) {
-  color: #e5f5ef !important;
+  color: var(--wbds-text) !important;
   border: 1px solid color-mix(in srgb, var(--wbds-accent) 24%, transparent) !important;
   background: color-mix(in srgb, var(--wbds-background) 96%, transparent) !important;
   box-shadow: 0 16px 34px rgba(0, 0, 0, .28) !important;
@@ -58,7 +58,7 @@ html.workbuddy-dream-skin .cb-markdown .cb-markdown-pre__header {
 }
 
 html.workbuddy-dream-skin .cb-markdown .cb-markdown-pre code {
-  color: #e5f5ef !important;
+  color: var(--wbds-text) !important;
   background: transparent !important;
 }
 
