@@ -1,9 +1,9 @@
 {
   "name": "workbuddy-dream-skin",
   "version": "0.7.3",
-  "private": true,
-  "description": "WorkBuddy 桌面端图片驱动的自适应 UI 换肤系统（外置 CDP 注入 + PowerShell 工具箱）。",
+  "description": "Community skin for Tencent WorkBuddy desktop — external CDP injection + PowerShell toolbox for image-driven adaptive UI theming.",
   "type": "module",
+  "license": "MIT",
   "engines": {
     "node": ">=22"
   },

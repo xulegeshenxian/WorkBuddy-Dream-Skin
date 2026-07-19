@@ -1,0 +1,39 @@
+name: preflight
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  preflight:
+    name: Static preflight
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Show environment
+        run: |
+          node --version
+          $PSVersionTable.PSVersion.ToString()
+        shell: pwsh
+
+      - name: Run preflight (node --check + JSON parse + PS parse + payload assembly)
+        run: npm run preflight
+
+      - name: Upload preflight report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: preflight-report
+          path: artifacts/preflight.json
+          if-no-files-found: warn
+          retention-days: 14

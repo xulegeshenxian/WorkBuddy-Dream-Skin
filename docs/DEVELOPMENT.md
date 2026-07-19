@@ -7,7 +7,7 @@
 进入项目目录：
 
 ```powershell
-cd D:\code\Codex\dream-skin\WorkBuddy-Dream-Skin
+cd <path-to-repo>\WorkBuddy-Dream-Skin
 Set-ExecutionPolicy -Scope Process Bypass
 ```
 

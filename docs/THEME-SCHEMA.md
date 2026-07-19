@@ -145,9 +145,9 @@
 
 ```powershell
 .\scripts\customize-workbuddy-theme.ps1 `
-  -BackgroundImagePath "D:\Pictures\background.jpg" `
-  -HeroImagePath "D:\Pictures\hero.jpg" `
-  -CharacterImagePath "D:\Pictures\card.png" `
+  -BackgroundImagePath "C:\Users\<YourName>\Pictures\background.jpg" `
+  -HeroImagePath "C:\Users\<YourName>\Pictures\hero.jpg" `
+  -CharacterImagePath "C:\Users\<YourName>\Pictures\card.png" `
   -Name "新主题" `
   -Accent "#A9E84E" `
   -BackgroundOverlay 0.78 `

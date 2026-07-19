@@ -1,5 +1,11 @@
 # WorkBuddy Dream Skin
 
+> **免责声明**：本项目是 **社区非官方** 的 WorkBuddy 换肤方案。"WorkBuddy" 是 **腾讯** 的商标，本项目 **未** 获得腾讯授权、赞助或背书，与腾讯无任何隶属关系。同理，参考项目 [Fei-Away/Codex-Dream-Skin](https://github.com/Fei-Away/Codex-Dream-Skin) 里提及的 "Codex" 及相关标识归其各自权利人所有。
+>
+> _WorkBuddy is a trademark of Tencent. This project is an unofficial community skin, not affiliated with, sponsored by, or endorsed by Tencent. See [NOTICE.md](./NOTICE.md) for full third-party attribution._
+
+许可证：[MIT](./LICENSE)。上游归属和商标声明见 [NOTICE.md](./NOTICE.md)。
+
 WorkBuddy Dream Skin 是面向腾讯 WorkBuddy Windows 桌面端的外置换肤项目。项目通过本机回环地址上的 Chrome DevTools Protocol 连接 Electron 渲染进程，在页面加载后注入可恢复的 CSS、主题变量和装饰层。
 
 整个实现不会修改 `WorkBuddy.exe`、`app.asar`、签名文件或 WorkBuddy 安装目录。关闭注入器并执行恢复脚本后，WorkBuddy 会回到官方界面。
@@ -67,7 +73,7 @@ WorkBuddy Dream Skin 是面向腾讯 WorkBuddy Windows 桌面端的外置换肤�
 
 ```powershell
 Set-ExecutionPolicy -Scope Process Bypass
-cd D:\code\Codex\dream-skin\WorkBuddy-Dream-Skin
+cd <path-to-repo>\WorkBuddy-Dream-Skin
 .\scripts\start-workbuddy-skin.ps1 -RestartExisting
 ```
 
@@ -101,7 +107,7 @@ cd D:\code\Codex\dream-skin\WorkBuddy-Dream-Skin
 
 ```powershell
 .\scripts\customize-workbuddy-theme.ps1 `
-  -ImagePath "D:\Pictures\theme.jpg" `
+  -ImagePath "C:\Users\<YourName>\Pictures\theme.jpg" `
   -Name "我的主题" `
   -Accent "#5EE6C4" `
   -Background "#071318" `
@@ -113,9 +119,9 @@ cd D:\code\Codex\dream-skin\WorkBuddy-Dream-Skin
 
 ```powershell
 .\scripts\customize-workbuddy-theme.ps1 `
-  -BackgroundImagePath "D:\Pictures\background.jpg" `
-  -HeroImagePath "D:\Pictures\hero.jpg" `
-  -CharacterImagePath "D:\Pictures\character.png" `
+  -BackgroundImagePath "C:\Users\<YourName>\Pictures\background.jpg" `
+  -HeroImagePath "C:\Users\<YourName>\Pictures\hero.jpg" `
+  -CharacterImagePath "C:\Users\<YourName>\Pictures\character.png" `
   -HeroPosition "50% 35%" `
   -CharacterPosition "right 28px bottom 86px" `
   -CharacterSize "320px auto" `
@@ -127,10 +133,10 @@ cd D:\code\Codex\dream-skin\WorkBuddy-Dream-Skin
 省略 `Style` 时会自动分析图片。也可以先预览识别结果，或者显式指定视觉方向：
 
 ```powershell
-.\scripts\customize-workbuddy-theme.ps1 -ImagePath "D:\Pictures\pink-girl.jpg" -AnalyzeOnly
-.\scripts\customize-workbuddy-theme.ps1 -ImagePath "D:\Pictures\pink-girl.jpg" -Style PinkDream -SavePreset "pink-dream"
-.\scripts\customize-workbuddy-theme.ps1 -ImagePath "D:\Pictures\flower-room.jpg" -Style MintBloom -SavePreset "mint-bloom"
-.\scripts\customize-workbuddy-theme.ps1 -ImagePath "D:\Pictures\campus.jpg" -Style SunlitCampus -SavePreset "sunlit-campus"
+.\scripts\customize-workbuddy-theme.ps1 -ImagePath "C:\Users\<YourName>\Pictures\pink-girl.jpg" -AnalyzeOnly
+.\scripts\customize-workbuddy-theme.ps1 -ImagePath "C:\Users\<YourName>\Pictures\pink-girl.jpg" -Style PinkDream -SavePreset "pink-dream"
+.\scripts\customize-workbuddy-theme.ps1 -ImagePath "C:\Users\<YourName>\Pictures\flower-room.jpg" -Style MintBloom -SavePreset "mint-bloom"
+.\scripts\customize-workbuddy-theme.ps1 -ImagePath "C:\Users\<YourName>\Pictures\campus.jpg" -Style SunlitCampus -SavePreset "sunlit-campus"
 ```
 
 可用风格为 `Auto`、`Current`、`PinkDream`、`MintBloom`、`SunlitCampus`、`GildedNight` 和 `DeepSea`。`Current` 会保留当前色板，只替换图片。显式传入颜色参数时，该颜色会覆盖风格色板中的对应值。
@@ -138,7 +144,7 @@ cd D:\code\Codex\dream-skin\WorkBuddy-Dream-Skin
 挂件支持 `Auto`、`On` 和 `Off` 三种模式。自动模式会校验挂件所属风格，并在窗口空间不足时隐藏：
 
 ```powershell
-.\scripts\customize-workbuddy-theme.ps1 -ImagePath "D:\Pictures\theme.jpg" -DecorationMode Auto -SavePreset "adaptive-theme"
+.\scripts\customize-workbuddy-theme.ps1 -ImagePath "C:\Users\<YourName>\Pictures\theme.jpg" -DecorationMode Auto -SavePreset "adaptive-theme"
 .\scripts\customize-workbuddy-theme.ps1 -DecorationMode On -Style Current
 .\scripts\customize-workbuddy-theme.ps1 -DecorationMode Off -Style Current
 ```
@@ -149,7 +155,7 @@ cd D:\code\Codex\dream-skin\WorkBuddy-Dream-Skin
 
 ```powershell
 .\scripts\new-workbuddy-polaroid.ps1 `
-  -ImagePath "D:\Pictures\photo.jpg" `
+  -ImagePath "C:\Users\<YourName>\Pictures\photo.jpg" `
   -OutputPath ".\assets\themes\my-card.svg" `
   -Title "SUNLIT CAMPUS" `
   -Caption "MEMORIES IN MOTION"

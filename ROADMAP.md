@@ -110,6 +110,34 @@
 - [ ] GitHub Actions 或本地 pre-commit：跑 `npm run preflight`。目前 preflight 已经就绪，30 行 YAML 即可
 - [ ] 决定要不要建远程仓库（当前只有本地 `main` 分支）
 
+### J. 开源发布准备 ★（用户 2026-07-19 提出：想追 Codex 换肤热点开源）
+
+**MUST（阻塞发布）：**
+- [ ] `LICENSE` 缺失。上游 `Fei-Away/Codex-Dream-Skin` 是 MIT（"Copyright (c) 2026 Codex Dream Skin Studio contributors"），跟本项目走 MIT 完全兼容。加 `LICENSE`（MIT）+ `NOTICE` 附上游归属
+- [ ] "WorkBuddy" 是**腾讯商标**，全项目包名 / 目录 / README / docs 到处引用。开源前必须在 README 顶部加免责："WorkBuddy is a trademark of Tencent. This project is an unofficial community skin, not affiliated with or endorsed by Tencent." 上游用了同样的模式（"Non-official OpenAI product; Codex and related rights belong to their respective rights holders"）
+- [ ] `assets/themes/*.png`（`sunlit-campus.png` `gilded-night-banquet.png` `pink-mint-botanical-decoration.png`）**素材版权确认**：AI 生成的话在 CREDITS.md 说明生成方式；网图必须撤或换 CC0 / CC-BY 素材，否则发出去就是侵权。同理 `Pictures/1.png 2.png 3.png` 也要溯源
+- [ ] `package.json` `"private": true` 改为删除该字段（否则 npm 拒绝 publish；本项目不 publish npm 但字段语义上矛盾）
+- [ ] README 快速开始里硬编码 `cd D:\code\Codex\dream-skin\WorkBuddy-Dream-Skin`，改成 `cd <path-to-repo>` 或相对路径
+- [ ] `.github/workflows/preflight.yml`：在 push / pull_request 上跑 `npm run preflight`。30 行 YAML，preflight 已就绪
+
+**SHOULD（发布时最好有）：**
+- [ ] **英文 README**（`README.en.md`，中文 README 顶部加链）——Codex 换肤热点在 Twitter/HN 是国际化的，全中文 README 直接过滤 90% 潜在 star
+- [ ] `.github/ISSUE_TEMPLATE/{bug_report.md, feature_request.md}` + `PULL_REQUEST_TEMPLATE.md`
+- [ ] `CONTRIBUTING.md`：怎么加一套主题（style-palettes 加一项 + preset 目录 + hero 图放哪 + preflight）、PR 约定、commit 规范
+- [ ] `CODE_OF_CONDUCT.md`（Contributor Covenant 2.1 模板）
+- [ ] `SECURITY.md`：CDP 端口只绑 127.0.0.1、注入的 payload 是本地 CSS、无远程执行；漏洞反馈邮箱
+- [ ] **主视觉 GIF / 视频**：截 3 段主题切换 + 挂件展示，README 第一屏放。换肤类项目社区看的就是视觉说服力
+- [ ] **Theme gallery** README section：2×3 或 3×2 网格截图，每套主题一张。当前只有 3 套有 preset（deep-sea-layered / gilded-night-banquet / sunlit-campus + my-theme 自定义），gallery 不够齐
+- [ ] `docs/AI-HANDOFF.md` 是给 Claude 用的 handoff（暴露上游归属分析 + 内部思路），移到 `.github/AI/` 隐藏或改造成公开叙事
+- [ ] FAQ + Troubleshooting 段：WorkBuddy 找不到 / 端口冲突 / CDP 连不上 / GPU 合成器卡住（本会话遇到过）。装完必踩
+- [ ] `Set-ExecutionPolicy Bypass` 前面加一段说明"只影响当前进程会话，不改系统策略"，避免新用户害怕
+
+**NICE（发布后可补）：**
+- [ ] 补 `pink-dream` / `mint-bloom` 的 preset —— CSS 里齐了，用户库里没预设。用本次做的 heart / pressed-leaf 形状给它们做区分
+- [ ] `tests/` 骨架（G 组已列） + 双语 CHANGELOG
+- [ ] `VERSION` 单独文件跟 `package.json.version` 双源同步问题：删 VERSION，从 package.json 读；或者反过来 package.json 从 VERSION 读，选一处 source of truth
+- [ ] `AGENTS.md` / `SKILL.md`：这两个面向 AI 工作流的文档要么说明清楚"给 AI 用的"，要么改造成公开 developer guide
+
 ### 设计侧（可选，需要视觉复核）
 
 - [ ] 五套 palette 都开 `panelOpacity ≥ 0.88`，`deep-sea` 达 0.96，深色主题上 96% 面板不透明 + cover 背景 + `heroOverlay: 0.72` 三层叠加后主视觉几乎看不见。可能是"背景没意义"。设计侧复核
