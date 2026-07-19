@@ -308,7 +308,8 @@ html.workbuddy-dream-skin :is(
   .ant-skeleton-button
 ) {
   border-color: transparent !important;
-  background: linear-gradient(90deg, color-mix(in srgb, var(--wbds-accent) 8%, transparent), color-mix(in srgb, var(--wbds-accent-alt) 20%, transparent), color-mix(in srgb, var(--wbds-accent) 8%, transparent)) !important;
+  background-color: color-mix(in srgb, var(--wbds-panel) 90%, transparent) !important;
+  background-image: linear-gradient(90deg, color-mix(in srgb, var(--wbds-accent) 8%, transparent), color-mix(in srgb, var(--wbds-accent-alt) 20%, transparent), color-mix(in srgb, var(--wbds-accent) 8%, transparent)) !important;
   background-size: 220% 100% !important;
 }
 
