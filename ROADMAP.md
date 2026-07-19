@@ -56,6 +56,15 @@
 
 - [ ] `Get-ThemeStyleFromImage`（`customize-workbuddy-theme.ps1:81-126`）改成"取 k=4 主色（简单 median-cut）+ 投票 + 平均亮度 + 平均饱和度"。当前用 64×64 `GetPixel` + 4 个硬编码色相区间，边界图易反转、新增第 6 套色板要改硬阈值
 
+### H. 挂件系统重做（用户 2026-07-19 反馈：单调 + 五套皮肤共用一个拍立得模板）
+
+- [x] **挂件形状系统骨架 + stamp PoC**（`b80df1f`, 2026-07-19）：`theme.json` 加 `decoration.shape` 字段（`polaroid`|`stamp`，默认 `polaroid` 向后兼容），`injector.mjs::loadTheme` 白名单，`renderer-inject.js` 传到 `data-workbuddy-dream-skin-decoration-shape`；非 polaroid 形状把 `wbds-has-character` 打开（不需要图片 URL）。`60-chrome.css` 末尾加 `stamp` 形状：圆形校徽 + 双圈 + accent 渐变面 + 顶部胶带 + `SUNLIT / CAMPUS` 双行标签（用 CSS 自定义属性传文本）。sunlit-campus 活动主题 `decoration.shape: "stamp"` 已切换，"两女对视"消除
+- [ ] `stamp` 对比度调优：明亮 hero 上绿字看不清。加白色描边 + 更强投影，或者让文字色跟 hero 图区域反色（可用 mix-blend-mode）
+- [ ] 剩余 4 套皮肤各自的形状：`pink-dream → sticker`（剪贴本贴纸 + 蕾丝边）、`mint-bloom → pressed-leaf`（压花标本卡）、`gilded-night → sealed-scroll`（蜡封信件 / 折扇）、`deep-sea → porthole`（潜水表盘 / 罗盘）。每个是 60-chrome.css 末尾追加一个 shape 变体 + 相应 theme.json preset 里指定
+- [ ] `hero.anchor` 语义字段：让 hero 图能声明"主体在右/左/底"，CSS 自动加左侧 typography scrim。sunlit-campus 现在 hero 主体在中央，挂件放右上永远跟人物挤在一起
+- [ ] `hero.subject` 元数据：`'human' | 'landscape' | 'still-life'`。人像 hero 时挂件强制走非人像形状，避免"两个 IP 打架"
+- [ ] 挂件挂载点 `decoration.anchor: 'top-right' | 'bottom-right' | 'top-left'`。当前默认 top-right，但如果 hero 主体在右上（如 sunlit-campus），挂件应自动下移到 bottom-right
+
 ### F. 遗留素材决议
 
 - [ ] `scripts/new-workbuddy-decoration.ps1`（0.4.0 SVG 挂件生成器，默认流程不再调用）：留下并明确标注"高级用户可选"，还是删掉？handoff 7.6 已点名
