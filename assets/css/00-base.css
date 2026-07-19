@@ -15,8 +15,9 @@ html.workbuddy-dream-skin {
   --vscode-input-background: color-mix(in srgb, var(--wbds-panel-alt) 88%, transparent) !important;
   --vscode-input-foreground: var(--wbds-text) !important;
   --vscode-focusBorder: var(--wbds-accent) !important;
+  --wbds-on-accent: color-mix(in srgb, black 88%, var(--wbds-accent)) !important;
   --vscode-button-background: var(--wbds-accent) !important;
-  --vscode-button-foreground: #061714 !important;
+  --vscode-button-foreground: var(--wbds-on-accent) !important;
   --vscode-list-hoverBackground: color-mix(in srgb, var(--wbds-accent) 11%, transparent) !important;
   --vscode-list-activeSelectionBackground: color-mix(in srgb, var(--wbds-accent) 18%, transparent) !important;
   --vscode-scrollbarSlider-background: color-mix(in srgb, var(--wbds-accent) 26%, transparent) !important;
@@ -39,6 +40,7 @@ html.workbuddy-dream-skin {
 
 html.workbuddy-dream-skin[data-workbuddy-dream-skin-appearance="light"] {
   color-scheme: light;
+  --wbds-on-accent: #fff !important;
   --vscode-button-foreground: #fff !important;
   --vscode-list-hoverBackground: color-mix(in srgb, var(--wbds-accent) 10%, white) !important;
   --vscode-list-activeSelectionBackground: color-mix(in srgb, var(--wbds-accent) 17%, white) !important;
@@ -115,7 +117,7 @@ html.workbuddy-dream-skin * {
 }
 
 html.workbuddy-dream-skin ::selection {
-  color: #031512;
+  color: var(--wbds-on-accent);
   background: var(--wbds-accent-alt);
 }
 

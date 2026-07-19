@@ -46,7 +46,7 @@ html.workbuddy-dream-skin .atm-detail-btn--secondary {
 }
 
 html.workbuddy-dream-skin .atm-detail-btn:not(.atm-detail-btn--secondary) {
-  color: #041713 !important;
+  color: var(--wbds-on-accent) !important;
   border-color: transparent !important;
   background-color: var(--wbds-accent) !important;
 }
@@ -80,7 +80,7 @@ html.workbuddy-dream-skin .tencent-docs-auth-guide__permission-icon {
 }
 
 html.workbuddy-dream-skin .tencent-docs-auth-guide__btn {
-  color: #041713 !important;
+  color: var(--wbds-on-accent) !important;
   border-color: transparent !important;
   background: var(--wbds-accent) !important;
   box-shadow: 0 10px 28px color-mix(in srgb, var(--wbds-accent) 18%, transparent) !important;
@@ -137,7 +137,7 @@ html.workbuddy-dream-skin :is(.daily-checkin-period-tag, .daily-checkin-btn-seco
 }
 
 html.workbuddy-dream-skin :is(.daily-checkin-btn-primary, .daily-checkin-actions button:not(.daily-checkin-btn-secondary)) {
-  color: #041713 !important;
+  color: var(--wbds-on-accent) !important;
   border-color: color-mix(in srgb, var(--wbds-accent) 70%, white) !important;
   background: var(--wbds-accent) !important;
 }
@@ -203,7 +203,7 @@ html.workbuddy-dream-skin .claw-sidebar-drawer__create-btn,
 html.workbuddy-dream-skin .claw-sidebar-drawer__create-entry,
 html.workbuddy-dream-skin .colleagues-chat-float__task-list-new,
 html.workbuddy-dream-skin button[class*="primary"] {
-  color: #041713 !important;
+  color: var(--wbds-on-accent) !important;
   border-color: color-mix(in srgb, var(--wbds-accent) 70%, white) !important;
   background: linear-gradient(135deg, var(--wbds-accent-alt), var(--wbds-accent)) !important;
   box-shadow: 0 8px 24px color-mix(in srgb, var(--wbds-accent) 19%, transparent), inset 0 1px rgba(255,255,255,.42) !important;

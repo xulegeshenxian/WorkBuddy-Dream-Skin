@@ -18,6 +18,13 @@ const AUDIT_MODES = {
   "audit-settings": { flag: "--audit-settings", exitCode: 7, resetPointer: false, run: (session, opts) => auditSettingsSession(session, opts.auditDir, opts.auditLabel) },
 };
 const AUDIT_FLAG_TO_MODE = Object.fromEntries(Object.entries(AUDIT_MODES).map(([mode, spec]) => [spec.flag, mode]));
+const NON_AUDIT_EXIT_CODES = { verify: 2, once: 6, remove: 10 };
+
+function isRunResultFailed(mode, result) {
+  if (mode === "probe") return false;
+  if (mode === "remove") return result !== true;
+  return !result?.pass;
+}
 
 function parseArgs(argv) {
   const options = { port: 0, mode: "watch", timeoutMs: 30000, screenshot: null, auditDir: null, auditLabel: null, reload: false, themeDir: null };
@@ -1459,8 +1466,8 @@ async function runOneShot(options) {
     }
   }
   console.log(JSON.stringify({ mode: options.mode, version: SKIN_VERSION, port: options.port, targets: results }, null, 2));
-  const anyFailed = results.some((item) => !item.result?.pass);
-  const exitCode = options.mode === "verify" ? 2 : AUDIT_MODES[options.mode]?.exitCode;
+  const anyFailed = results.some((item) => isRunResultFailed(options.mode, item.result));
+  const exitCode = NON_AUDIT_EXIT_CODES[options.mode] ?? AUDIT_MODES[options.mode]?.exitCode;
   if (anyFailed && exitCode) process.exitCode = exitCode;
 }
 

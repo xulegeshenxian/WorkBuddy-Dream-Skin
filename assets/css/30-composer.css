@@ -116,7 +116,7 @@ html.workbuddy-dream-skin .wb-scene-tabs > * {
 
 html.workbuddy-dream-skin .wb-scene-tabs > .active,
 html.workbuddy-dream-skin .wb-scene-tabs > [aria-selected="true"] {
-  color: #041713 !important;
+  color: var(--wbds-on-accent) !important;
   background: var(--wbds-accent) !important;
 }
 
@@ -187,7 +187,7 @@ html.workbuddy-dream-skin .growth-plan-entry {
 }
 
 html.workbuddy-dream-skin .growth-plan-entry:hover {
-  color: #041713 !important;
+  color: var(--wbds-on-accent) !important;
   background: var(--wbds-accent) !important;
 }
 

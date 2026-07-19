@@ -78,7 +78,7 @@ html.workbuddy-dream-skin :is(.ec-list-tab.is-active, .ec-category-tab.is-active
 }
 
 html.workbuddy-dream-skin .ec-avatar-sq-fallback {
-  color: #041713 !important;
+  color: var(--wbds-on-accent) !important;
   background: var(--wbds-accent) !important;
 }
 
@@ -126,7 +126,7 @@ html.workbuddy-dream-skin .ec-modal-quick-prompt:hover {
 }
 
 html.workbuddy-dream-skin :is(.ec-modal-summon-btn, .ec-modal-footer button) {
-  color: #041713 !important;
+  color: var(--wbds-on-accent) !important;
   border-color: transparent !important;
   background: var(--wbds-accent) !important;
 }
@@ -165,7 +165,7 @@ html.workbuddy-dream-skin .create-project-dialog__action-btn {
 }
 
 html.workbuddy-dream-skin .create-project-dialog__action-btn:last-child {
-  color: #041713 !important;
+  color: var(--wbds-on-accent) !important;
   border-color: transparent !important;
   background: var(--wbds-accent) !important;
 }
@@ -233,7 +233,7 @@ html.workbuddy-dream-skin .connector-card :is(button, [role="button"]) {
 }
 
 html.workbuddy-dream-skin .connector-card :is(button, [role="button"]):hover {
-  color: #041713 !important;
+  color: var(--wbds-on-accent) !important;
   background: var(--wbds-accent) !important;
 }
 
@@ -346,7 +346,7 @@ html.workbuddy-dream-skin :is(.account-panel__header, .account-panel__credits-se
 }
 
 html.workbuddy-dream-skin .account-panel__avatar-placeholder {
-  color: #041713 !important;
+  color: var(--wbds-on-accent) !important;
   background: var(--wbds-accent) !important;
 }
 
@@ -355,7 +355,7 @@ html.workbuddy-dream-skin .account-panel__plan-usage-value--low {
 }
 
 html.workbuddy-dream-skin .account-panel__header .account-panel__avatar-placeholder {
-  color: #041713 !important;
+  color: var(--wbds-on-accent) !important;
 }
 
 html.workbuddy-dream-skin :is(.account-panel__username-text, .account-panel__edition-label, .account-panel__credits-number, .account-panel__plan-name, .account-panel__plan-usage-value) {
