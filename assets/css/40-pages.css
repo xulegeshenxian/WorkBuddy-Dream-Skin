@@ -338,6 +338,18 @@ html.workbuddy-dream-skin :is(.agent-mail-activation, .agent-mail-panel) {
   background: color-mix(in srgb, var(--wbds-panel) 96%, transparent) !important;
 }
 
+html.workbuddy-dream-skin :is(.agent-mail-activation__title, .agent-mail-panel__title) {
+  color: var(--wbds-text) !important;
+}
+
+html.workbuddy-dream-skin :is(.agent-mail-activation__desc, .agent-mail-activation__agreement-prefix, .agent-mail-panel__desc) {
+  color: var(--wbds-muted) !important;
+}
+
+html.workbuddy-dream-skin .agent-mail-activation__agreement-link {
+  color: var(--wbds-accent-alt) !important;
+}
+
 /* Settings account */
 html.workbuddy-dream-skin :is(.account-panel__header, .account-panel__credits-section) {
   color: var(--wbds-text) !important;
