@@ -448,7 +448,8 @@ html.workbuddy-dream-skin[data-workbuddy-dream-skin-appearance="light"] .wbds-st
    any style / appearance. */
 /* Hide shape SVG faces by default; each shape opts in */
 #workbuddy-dream-skin-chrome .wbds-stamp-face,
-#workbuddy-dream-skin-chrome .wbds-sticker-face { display: none; }
+#workbuddy-dream-skin-chrome .wbds-sticker-face,
+#workbuddy-dream-skin-chrome .wbds-leaf-face { display: none; }
 
 html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="stamp"] #workbuddy-dream-skin-chrome .wbds-character-card {
   --wbds-stamp-face-fill: color-mix(in srgb, var(--wbds-panel) 55%, white 45%);
@@ -694,4 +695,99 @@ html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-anchor="bottom-le
   right: auto;
   top: auto;
   transform-origin: 48% 88%;
+}
+
+/* Shape: pressed-leaf — botanical herbarium specimen. Portrait vellum
+   card, no tilt, no border, subtle 1px hairline; center fern silhouette
+   drawn with an elliptical leaflet ladder; Latin cursive label + catalog
+   number below. Corner has a small ink stamp (year). Deliberately still
+   and formal vs sticker's playful bounce. */
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="pressed-leaf"] #workbuddy-dream-skin-chrome .wbds-character-card {
+  --wbds-leaf-face-fill: color-mix(in srgb, var(--wbds-panel) 62%, white 38%);
+  --wbds-leaf-hairline: color-mix(in srgb, var(--wbds-accent-alt) 42%, transparent);
+  --wbds-leaf-fern-ink: color-mix(in srgb, var(--wbds-accent-alt) 78%, black 22%);
+  --wbds-leaf-latin-ink: color-mix(in srgb, var(--wbds-text) 82%, var(--wbds-accent-alt) 18%);
+  --wbds-leaf-catalog-ink: color-mix(in srgb, var(--wbds-muted) 82%, black 12%);
+  aspect-ratio: 4 / 5;
+  width: 152px;
+  height: 190px;
+  padding: 0;
+  border: 1px solid var(--wbds-leaf-hairline);
+  border-radius: 3px;
+  background:
+    radial-gradient(circle at 20% 25%, color-mix(in srgb, var(--wbds-panel-alt) 40%, transparent) 0 1px, transparent 2px),
+    radial-gradient(circle at 78% 62%, color-mix(in srgb, var(--wbds-panel-alt) 40%, transparent) 0 1px, transparent 2px),
+    var(--wbds-leaf-face-fill);
+  background-size: 32px 32px, 42px 42px, auto;
+  box-shadow:
+    0 18px 34px rgba(0, 0, 0, .22),
+    0 4px 10px rgba(0, 0, 0, .16),
+    inset 0 0 0 4px color-mix(in srgb, var(--wbds-panel) 95%, transparent);
+  transform: rotate(-1deg);
+}
+
+/* Kill washi tape + dashed cut line — pressed leaf is a bare specimen */
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="pressed-leaf"] #workbuddy-dream-skin-chrome .wbds-character-card::before,
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="pressed-leaf"] #workbuddy-dream-skin-chrome .wbds-character-card::after {
+  display: none;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="pressed-leaf"] #workbuddy-dream-skin-chrome .wbds-character-card img {
+  display: none;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="pressed-leaf"] #workbuddy-dream-skin-chrome .wbds-leaf-face {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="pressed-leaf"] #workbuddy-dream-skin-chrome .wbds-leaf-face .wbds-leaf-fern ellipse {
+  fill: var(--wbds-leaf-fern-ink);
+  opacity: .82;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="pressed-leaf"] #workbuddy-dream-skin-chrome .wbds-leaf-face .wbds-leaf-stem {
+  fill: none;
+  stroke: var(--wbds-leaf-fern-ink);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  opacity: .78;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="pressed-leaf"] #workbuddy-dream-skin-chrome .wbds-leaf-face .wbds-leaf-latin {
+  fill: var(--wbds-leaf-latin-ink);
+  font-family: "Segoe Script", "Bradley Hand", "Comic Sans MS", "WBDS Assistant", cursive;
+  font-weight: 600;
+  font-size: 15px;
+  font-style: italic;
+  paint-order: stroke;
+  stroke: color-mix(in srgb, var(--wbds-leaf-face-fill) 80%, white);
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="pressed-leaf"] #workbuddy-dream-skin-chrome .wbds-leaf-face .wbds-leaf-catalog {
+  fill: var(--wbds-leaf-catalog-ink);
+  font-family: "WBDS Assistant", "Segoe UI Variable", "Segoe UI", sans-serif;
+  font-weight: 500;
+  font-size: 9px;
+  letter-spacing: 2.5px;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="pressed-leaf"] #workbuddy-dream-skin-chrome .wbds-leaf-face .wbds-leaf-corner circle {
+  fill: none;
+  stroke: var(--wbds-leaf-hairline);
+  stroke-width: 1;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="pressed-leaf"] #workbuddy-dream-skin-chrome .wbds-leaf-face .wbds-leaf-corner text {
+  fill: color-mix(in srgb, var(--wbds-leaf-catalog-ink) 85%, transparent);
+  font-family: "WBDS Assistant", "Segoe UI Variable", "Segoe UI", sans-serif;
+  font-weight: 700;
+  font-size: 7.5px;
+  letter-spacing: 1px;
 }
