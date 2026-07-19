@@ -449,23 +449,27 @@ html.workbuddy-dream-skin[data-workbuddy-dream-skin-appearance="light"] .wbds-st
 html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="stamp"] #workbuddy-dream-skin-chrome .wbds-character-card {
   --wbds-stamp-line1: "SUNLIT";
   --wbds-stamp-line2: "CAMPUS";
+  --wbds-stamp-face: color-mix(in srgb, var(--wbds-panel) 55%, white 45%);
+  --wbds-stamp-ring: color-mix(in srgb, var(--wbds-accent-alt) 65%, black 35%);
   aspect-ratio: 1 / 1;
-  width: 160px;
-  height: 160px;
+  width: 170px;
+  height: 170px;
   padding: 0;
   border-radius: 50%;
   border: none;
   background:
     radial-gradient(circle at 50% 45%,
-      color-mix(in srgb, var(--wbds-panel) 96%, var(--wbds-accent) 4%) 0 44%,
-      color-mix(in srgb, var(--wbds-accent) 12%, var(--wbds-panel) 88%) 44% 46%,
-      color-mix(in srgb, var(--wbds-panel) 92%, transparent) 46% 62%,
-      color-mix(in srgb, var(--wbds-accent) 62%, var(--wbds-accent-alt) 38%) 62% 66%,
-      color-mix(in srgb, var(--wbds-accent) 32%, var(--wbds-panel) 68%) 66% 100%);
+      var(--wbds-stamp-face) 0 42%,
+      var(--wbds-stamp-ring) 42% 45%,
+      var(--wbds-stamp-face) 45% 63%,
+      var(--wbds-stamp-ring) 63% 66%,
+      var(--wbds-stamp-face) 66% 100%);
   box-shadow:
-    inset 0 0 0 2px color-mix(in srgb, var(--wbds-accent) 65%, transparent),
-    0 22px 42px rgba(0, 0, 0, .22),
-    0 0 0 6px color-mix(in srgb, var(--wbds-panel) 92%, transparent);
+    inset 0 0 0 3px var(--wbds-stamp-ring),
+    inset 0 0 0 4px color-mix(in srgb, var(--wbds-panel) 80%, transparent),
+    0 22px 42px rgba(0, 0, 0, .34),
+    0 6px 14px rgba(0, 0, 0, .22),
+    0 0 0 4px color-mix(in srgb, var(--wbds-panel) 82%, white 18%);
   transform: rotate(-6deg);
 }
 
@@ -484,12 +488,17 @@ html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="stamp"] #w
   justify-content: center;
   text-align: center;
   font-family: "WBDS Assistant", "Segoe UI Variable", "Segoe UI", sans-serif;
-  font-weight: 700;
-  font-size: 16px;
-  letter-spacing: 3px;
-  line-height: 1.2;
-  color: color-mix(in srgb, var(--wbds-accent-alt) 70%, var(--wbds-text) 30%);
-  text-shadow: 0 1px 0 color-mix(in srgb, var(--wbds-panel) 60%, transparent);
+  font-weight: 900;
+  font-size: 18px;
+  letter-spacing: 4px;
+  line-height: 1.15;
+  color: color-mix(in srgb, var(--wbds-text) 80%, var(--wbds-accent-alt) 20%);
+  text-shadow:
+    0 1px 0 white,
+    0 -1px 0 white,
+    1px 0 0 white,
+    -1px 0 0 white,
+    0 0 4px color-mix(in srgb, var(--wbds-panel) 70%, white);
   right: auto;
   top: auto;
   width: auto;
