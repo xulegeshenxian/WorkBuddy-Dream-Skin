@@ -50,7 +50,45 @@ if (Test-Path -LiteralPath $script:ThemeRoot) {
   Remove-Item -LiteralPath $script:ThemeRoot -Recurse -Force
 }
 Copy-Item -LiteralPath $presetRoot -Destination $script:ThemeRoot -Recurse -Force
-& (Join-Path $PSScriptRoot 'customize-workbuddy-theme.ps1') -Style Current -SyncDecoration -NoApply
+
+# Detect palette drift: if the preset claims a canonical `style` but the palette-
+# critical color tokens don't match the shipped palette, the preset was corrupted
+# by an earlier partial write. Re-apply the canonical palette to heal it. Common
+# case: legacy scripts wrote `id`/`name` for one style but left `accentAlt` /
+# `panelAlt` / `line` from a different palette (observed on gilded-night-banquet
+# where deep-sea tokens leaked in).
+$appliedConfig = Join-Path $script:ThemeRoot 'theme.json'
+$appliedTheme = Get-Content -LiteralPath $appliedConfig -Raw -Encoding UTF8 | ConvertFrom-Json
+$appliedStyle = if ($appliedTheme.PSObject.Properties['style']) { [string]$appliedTheme.style } else { $null }
+$canonicalStyles = @{ 'pink-dream'='PinkDream'; 'mint-bloom'='MintBloom'; 'sunlit-campus'='SunlitCampus'; 'gilded-night'='GildedNight'; 'deep-sea'='DeepSea' }
+$healArg = 'Current'
+if ($appliedStyle -and $canonicalStyles.ContainsKey($appliedStyle)) {
+  try {
+    $palettes = Get-Content -LiteralPath (Join-Path $script:SkinRoot 'assets\style-palettes.json') -Raw -Encoding UTF8 | ConvertFrom-Json
+    $palette = $palettes.$appliedStyle
+    if ($palette) {
+      foreach ($key in @('accentAlt', 'panelAlt', 'secondary', 'line')) {
+        if ([string]$appliedTheme.colors.$key -ne [string]$palette.colors.$key) {
+          Write-Warning "Preset $Id declares style '$appliedStyle' but has drifted token '$key'. Re-applying the canonical palette."
+          $healArg = $canonicalStyles[$appliedStyle]
+          break
+        }
+      }
+    }
+  } catch {}
+}
+& (Join-Path $PSScriptRoot 'customize-workbuddy-theme.ps1') -Style $healArg -SyncDecoration -NoApply
+
+# If we healed, mirror the corrected theme.json back into the preset dir so
+# the next switch won't repeat the same warning.
+if ($healArg -ne 'Current') {
+  try {
+    Copy-Item -LiteralPath $appliedConfig -Destination (Join-Path $presetRoot 'theme.json') -Force
+    Write-Host "Preset $Id file was healed in place."
+  } catch {
+    Write-Warning "Preset $Id was applied cleanly but the preset file could not be healed: $($_.Exception.Message)"
+  }
+}
 $activeConfig = Join-Path $script:ThemeRoot 'theme.json'
 $activeTheme = Get-Content -LiteralPath $activeConfig -Raw -Encoding UTF8 | ConvertFrom-Json
 $activeTheme | Add-Member -NotePropertyName presetId -NotePropertyValue $Id -Force
