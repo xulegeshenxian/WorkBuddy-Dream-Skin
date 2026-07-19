@@ -326,8 +326,21 @@ html.workbuddy-dream-skin .avatar-fold-status {
    both appearances stay readable. */
 html.workbuddy-dream-skin :is([class*="_sceneTag_"], [class*="_userTag_"]) {
   background-color: color-mix(in srgb, var(--wbds-panel-alt) 92%, transparent) !important;
+  background-image: none !important;
   color: var(--wbds-text) !important;
   border-color: var(--wbds-line) !important;
+}
+
+/* WorkBuddy ships a :hover state on the composer scene-tag chip that flips the
+   background to a near-black rgb(34,34,34). Under light palettes that renders
+   as a dark rectangle with dark inherited text on top — the "chip goes black
+   on hover" bug the user hit. Force the same panel-alt as the resting state
+   on hover / focus so the chip stays legible. */
+html.workbuddy-dream-skin :is([class*="_sceneTag_"], [class*="_userTag_"]):is(:hover, :focus, :focus-within) {
+  background-color: color-mix(in srgb, var(--wbds-panel-alt) 98%, var(--wbds-accent) 6%) !important;
+  background-image: none !important;
+  color: var(--wbds-text) !important;
+  border-color: color-mix(in srgb, var(--wbds-accent) 30%, transparent) !important;
 }
 
 html.workbuddy-dream-skin :is([class*="_sceneTag_"], [class*="_userTag_"]) * {
