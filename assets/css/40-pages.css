@@ -54,6 +54,12 @@ html.workbuddy-dream-skin .ec-featured-scene-overlay {
   background: linear-gradient(transparent, color-mix(in srgb, var(--wbds-background) 98%, transparent)) !important;
 }
 
+html.workbuddy-dream-skin .ec-featured-scenes-section::before,
+html.workbuddy-dream-skin .ec-featured-scenes-section::after {
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--wbds-background) 92%, transparent)) !important;
+  background-color: transparent !important;
+}
+
 html.workbuddy-dream-skin :is(.ec-featured-scene-card, .ec-expert-card):hover {
   border-color: color-mix(in srgb, var(--wbds-accent) 46%, transparent) !important;
   background: color-mix(in srgb, var(--wbds-accent) 9%, var(--wbds-panel)) !important;

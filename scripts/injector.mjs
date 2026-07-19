@@ -849,6 +849,7 @@ async function closeSettingsModal(session) {
 
 async function auditComposerSession(session) {
   await closeSettingsModal(session);
+  await clickControl(session, { name: "composer-restore-new-task", scope: ".conversation-list", selector: ".conversation-list-tab-button", text: "新建任务", waitMs: 700 });
   const states = [];
   const hoverAndAudit = async (label, spec, waitMs = 500) => {
     const point = await findControlPoint(session, spec);
@@ -936,6 +937,7 @@ async function auditComposerSession(session) {
 
 async function auditScenesSession(session, auditLabel = null) {
   await closeSettingsModal(session);
+  await clickControl(session, { name: "scenes-restore-new-task", scope: ".conversation-list", selector: ".conversation-list-tab-button", text: "新建任务", waitMs: 700 });
   const allScenes = ["日常办公", "代码开发", "设计创意"];
   const scenes = auditLabel ? allScenes.filter((scene) => scene === auditLabel) : allScenes;
   const states = [];
@@ -945,22 +947,26 @@ async function auditScenesSession(session, auditLabel = null) {
       selector: ".wb-scene-tabs__pill",
       text: scene,
       exactText: true,
-      waitMs: 350
+      waitMs: 700
     });
     if (!sceneClick.clicked) {
       states.push({ label: scene, pass: false, reason: sceneClick.reason });
       continue;
     }
-    const action = await session.evaluate(`(() => {
-      const node = [...document.querySelectorAll('.quick-actions__item')].find((candidate) => {
-        const box = candidate.getBoundingClientRect();
-        const style = getComputedStyle(candidate);
-        return !candidate.classList.contains('quick-actions__item--more') && box.width > 0 && box.height > 0 && style.display !== 'none';
-      });
-      if (!node) return null;
-      const box = node.getBoundingClientRect();
-      return { x: Math.round(box.left + box.width / 2), y: Math.round(box.top + box.height / 2), text: node.textContent?.trim() || '' };
-    })()`);
+    let action = null;
+    for (let attempt = 0; attempt < 8 && !action; attempt += 1) {
+      action = await session.evaluate(`(() => {
+        const node = [...document.querySelectorAll('.quick-actions__item')].find((candidate) => {
+          const box = candidate.getBoundingClientRect();
+          const style = getComputedStyle(candidate);
+          return !candidate.classList.contains('quick-actions__item--more') && box.width > 0 && box.height > 0 && style.display !== 'none';
+        });
+        if (!node) return null;
+        const box = node.getBoundingClientRect();
+        return { x: Math.round(box.left + box.width / 2), y: Math.round(box.top + box.height / 2), text: node.textContent?.trim() || '' };
+      })()`);
+      if (!action) await new Promise((resolve) => setTimeout(resolve, 400));
+    }
     if (!action) {
       states.push({ label: scene, pass: false, reason: "No quick action is visible" });
       continue;
@@ -1134,7 +1140,13 @@ async function auditVisualState(session, label) {
       existing.count += 1;
       contrastMap.set(key, existing);
     }
-    const hasLightRgb = (value) => Array.from({ length: 16 }, (_, index) => 'rgb(' + (240 + index)).some((prefix) => value.includes(prefix));
+    const hasLightRgb = (value) => {
+      const matches = String(value).matchAll(/rgba?\\(\\s*(\\d+)\\s*,\\s*(\\d+)\\s*,\\s*(\\d+)/g);
+      for (const match of matches) {
+        if (Number(match[1]) >= 240 && Number(match[2]) >= 240 && Number(match[3]) >= 240) return true;
+      }
+      return false;
+    };
     const pseudoLight = appearance === 'dark' ? nodes.flatMap((node) => ['::before', '::after'].map((pseudo) => {
       const style = getComputedStyle(node, pseudo);
       return {
@@ -1298,7 +1310,7 @@ async function auditPagesSession(session, auditDir = null, auditLabel = null) {
     const style = getComputedStyle(node);
     return box.width > 100 && box.height > 100 && style.display !== 'none' && style.visibility !== 'hidden';
   }))`);
-  const userMenuNavigation = menuAlreadyOpen ? { clicked: false, alreadyOpen: true } : await clickControl(session, { name: "user-menu", selector: ".user-menu-trigger" });
+  const userMenuNavigation = menuAlreadyOpen ? { clicked: false, alreadyOpen: true } : await clickControl(session, { name: "user-menu", selector: ".user-menu-trigger", allowClipped: true, waitMs: 500 });
   const userMenuAudit = { ...(await auditVisualState(session, "user-menu")), navigation: userMenuNavigation };
   results.push(userMenuAudit);
   if (auditDir && (!auditLabel || auditLabel === "user-menu")) await capture(session, path.join(auditDir, `${String(results.length).padStart(2, '0')}-user-menu.png`));
@@ -1307,7 +1319,7 @@ async function auditPagesSession(session, auditDir = null, auditLabel = null) {
   userMenuResult.controls = userMenuProbe.navigationControls
     .filter((item) => item.x < 320 && item.y > 80)
     .map((item) => ({ text: item.text, className: item.className, tag: item.tag, x: item.x, y: item.y }));
-  await visit("settings", { name: "settings", selector: "[class*=\"user-menu\"] *, .daily-checkin-card ~ *", text: "设置", exactText: true, waitMs: 2000 });
+  await visit("settings", { name: "settings", selector: ".user-menu-popover .user-menu-item-label, [class*=\"user-menu\"] .user-menu-item-label, [class*=\"user-menu\"] *", text: "设置", exactText: true, waitMs: 2000 });
   await closeSettingsModal(session);
   await clickControl(session, { name: "restore-new-task", scope: sidebar, selector: ".conversation-list-tab-button", text: "新建任务", waitMs: 700 });
   await session.send("Input.dispatchMouseEvent", { type: "mouseMoved", x: 1, y: 1 });
