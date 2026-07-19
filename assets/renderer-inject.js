@@ -82,11 +82,13 @@
     const root = document.documentElement;
     if (!root || !document.body) return;
     root.classList.add("workbuddy-dream-skin");
-    root.classList.toggle("wbds-has-character", Boolean(decorationArtUrl));
+    const drawnShape = (theme.decoration.shape || "polaroid") !== "polaroid";
+    root.classList.toggle("wbds-has-character", Boolean(decorationArtUrl) || drawnShape);
     root.dataset.workbuddyDreamSkinStyle = theme.style;
     root.dataset.workbuddyDreamSkinAppearance = theme.appearance;
     root.dataset.workbuddyDreamSkinDecorationMode = theme.decoration.mode;
     root.dataset.workbuddyDreamSkinDecorationVariant = theme.decoration.variant;
+    root.dataset.workbuddyDreamSkinDecorationShape = theme.decoration.shape || "polaroid";
     root.dataset.workbuddyDreamSkinVersion = skinVersion;
     document.body.classList.add("workbuddy-dream-skin-body");
     setThemeVariables(root);

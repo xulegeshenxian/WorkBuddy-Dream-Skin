@@ -169,6 +169,7 @@ html.workbuddy-dream-skin .claw-empty-tab-pane__content::before {
   border-radius: 12px;
 }
 
+
 html.workbuddy-dream-skin[data-workbuddy-dream-skin-style="pink-dream"] #workbuddy-dream-skin-chrome .wbds-character {
   --wbds-decoration-tilt: 5deg;
   animation-duration: 5.4s;
@@ -435,5 +436,90 @@ html.workbuddy-dream-skin[data-workbuddy-dream-skin-appearance="light"] #workbud
 html.workbuddy-dream-skin[data-workbuddy-dream-skin-appearance="light"] .wbds-brand,
 html.workbuddy-dream-skin[data-workbuddy-dream-skin-appearance="light"] .wbds-status {
   text-shadow: 0 1px 8px rgba(255, 255, 255, .72);
+}
+
+/* ============================================================
+   Decoration shapes — must come AFTER per-style .wbds-character-card
+   rules so shape choice wins on equal specificity.
+   ============================================================ */
+
+/* Shape: stamp — circular校徽 badge, no human. Two rings, center label,
+   top washi tape strip, slight tilt. Draws entirely from tokens; safe on
+   any style / appearance. */
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="stamp"] #workbuddy-dream-skin-chrome .wbds-character-card {
+  --wbds-stamp-line1: "SUNLIT";
+  --wbds-stamp-line2: "CAMPUS";
+  aspect-ratio: 1 / 1;
+  width: 160px;
+  height: 160px;
+  padding: 0;
+  border-radius: 50%;
+  border: none;
+  background:
+    radial-gradient(circle at 50% 45%,
+      color-mix(in srgb, var(--wbds-panel) 96%, var(--wbds-accent) 4%) 0 44%,
+      color-mix(in srgb, var(--wbds-accent) 12%, var(--wbds-panel) 88%) 44% 46%,
+      color-mix(in srgb, var(--wbds-panel) 92%, transparent) 46% 62%,
+      color-mix(in srgb, var(--wbds-accent) 62%, var(--wbds-accent-alt) 38%) 62% 66%,
+      color-mix(in srgb, var(--wbds-accent) 32%, var(--wbds-panel) 68%) 66% 100%);
+  box-shadow:
+    inset 0 0 0 2px color-mix(in srgb, var(--wbds-accent) 65%, transparent),
+    0 22px 42px rgba(0, 0, 0, .22),
+    0 0 0 6px color-mix(in srgb, var(--wbds-panel) 92%, transparent);
+  transform: rotate(-6deg);
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="stamp"] #workbuddy-dream-skin-chrome .wbds-character-card img {
+  display: none;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="stamp"] #workbuddy-dream-skin-chrome .wbds-character-card::after {
+  content: var(--wbds-stamp-line1) "\A" var(--wbds-stamp-line2);
+  white-space: pre;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: "WBDS Assistant", "Segoe UI Variable", "Segoe UI", sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 3px;
+  line-height: 1.2;
+  color: color-mix(in srgb, var(--wbds-accent-alt) 70%, var(--wbds-text) 30%);
+  text-shadow: 0 1px 0 color-mix(in srgb, var(--wbds-panel) 60%, transparent);
+  right: auto;
+  top: auto;
+  width: auto;
+  height: auto;
+  background: transparent;
+  box-shadow: none;
+  transform: none;
+}
+
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-decoration-shape="stamp"] #workbuddy-dream-skin-chrome .wbds-character-card::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: -14px;
+  transform: translateX(-50%) rotate(-4deg);
+  width: 68px;
+  height: 22px;
+  background:
+    repeating-linear-gradient(90deg,
+      color-mix(in srgb, var(--wbds-accent) 55%, transparent) 0 6px,
+      color-mix(in srgb, var(--wbds-highlight) 65%, transparent) 6px 12px);
+  border: 1px solid color-mix(in srgb, var(--wbds-panel) 60%, transparent);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, .18);
+  clip-path: polygon(2% 8%, 98% 0, 96% 92%, 0 100%);
+}
+
+/* sunlit-campus stamp text — override the default label with campus-specific line */
+html.workbuddy-dream-skin[data-workbuddy-dream-skin-style="sunlit-campus"][data-workbuddy-dream-skin-decoration-shape="stamp"] #workbuddy-dream-skin-chrome .wbds-character-card {
+  --wbds-stamp-line1: "SUNLIT";
+  --wbds-stamp-line2: "CAMPUS";
 }
 

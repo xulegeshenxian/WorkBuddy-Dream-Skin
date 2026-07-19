@@ -391,6 +391,7 @@ async function loadTheme(themeDir) {
       style: safeText(raw.decoration?.style, raw.style || "deep-sea", 40),
       source: safeText(raw.decoration?.source, characterImage ? "legacy" : "none", 40),
       variant: safeText(raw.decoration?.variant, characterImage ? "legacy" : "none", 40),
+      shape: safeChoice(raw.decoration?.shape, ["polaroid", "stamp"], "polaroid"),
     },
     colors: {
       background: safeColor(raw.colors?.background, "#071318"),
