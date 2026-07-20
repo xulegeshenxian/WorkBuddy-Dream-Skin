@@ -50,9 +50,12 @@ function New-SkinShortcut {
   param([string]$Path, [string]$Script, [string]$ExtraArguments = '')
   $shortcut = $shell.CreateShortcut($Path)
   $shortcut.TargetPath = $powershell
-  $shortcut.Arguments = "-NoProfile -ExecutionPolicy Bypass -File `"$Script`" $ExtraArguments".Trim()
+  # -WindowStyle Hidden 让脚本运行期间不显示黑色 PS 窗口（避免 30s 验证轮询时的碍眼窗口）；
+  # WindowStyle = 7 (minimized) 是保险，某些系统在 -WindowStyle Hidden 生效前会有极短闪烁。
+  $shortcut.Arguments = "-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$Script`" $ExtraArguments".Trim()
   $shortcut.WorkingDirectory = $destinationRoot
   $shortcut.IconLocation = (Resolve-WorkBuddyExecutable $WorkBuddyPath) + ',0'
+  $shortcut.WindowStyle = 7
   $shortcut.Save()
 }
 

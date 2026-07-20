@@ -47,6 +47,14 @@ WorkBuddy Dream Skin 是面向腾讯 WorkBuddy Windows 桌面端的外置换肤�
 | `deep-sea-layered` | 深海夜航 | 墨蓝、青绿、深色面板 |
 | `gilded-night-banquet` | 鎏金夜宴 | 古风人物、金色高光、夜景背景 |
 | `sunlit-campus` | 晴日校园 | 校园图片、绿色高光、拍立得装饰卡 |
+| `mint-bloom-studio` | 薄荷花房 | 叶片、薄荷绿、亮面板 |
+| `crimson-scifi` | 赤霄科幻 | 红白 HUD、黑面板、雷达网格 |
+| `neon-hatsune` | 电音葱绿 | 青葱霓虹、粉红辅色、赛博地面 |
+| `violet-midnight` | 紫夜限定 | 星云紫、点状星野、深夜面板 |
+| `stage-blackgold` | 舞台黑金 | 追光、金色滚边、黑色舞台 |
+| `fortune-crimson` | 红火财神 | 中国红、金币、灯笼、招财喜庆 |
+| `zero-bug-shrine` | 无 Bug 神社 | 通过绿、鸟居朱、御守、终端图腾（巫女向） |
+| `zero-bug-shrine-maid` | 除虫女仆 | 通过绿 + 甜粉、猫耳终端、爱心 & nya~（甜妹向） |
 
 ## 技术栈
 
@@ -277,14 +285,15 @@ WorkBuddy-Dream-Skin
 
 ## 文档索引
 
-1. [阶段实施记录](./docs/PROJECT-STAGES.md)
-2. [实现架构](./docs/ARCHITECTURE.md)
-3. [开发与验证](./docs/DEVELOPMENT.md)
-4. [主题格式](./docs/THEME-SCHEMA.md)
-5. [AI 接手指南](./.github/AI/HANDOFF.md)（面向大模型协作者）
-6. [运行时说明](./references/runtime-notes.md)
-7. [质量检查清单](./references/qa-inventory.md)
-8. [版本记录](./CHANGELOG.md)
+1. **[用户使用指南](./docs/USER-GUIDE.md)（普通用户从这里开始）**
+2. [阶段实施记录](./docs/PROJECT-STAGES.md)
+3. [实现架构](./docs/ARCHITECTURE.md)
+4. [开发与验证](./docs/DEVELOPMENT.md)
+5. [主题格式](./docs/THEME-SCHEMA.md)
+6. [AI 接手指南](./.github/AI/HANDOFF.md)（面向大模型协作者）
+7. [运行时说明](./references/runtime-notes.md)
+8. [质量检查清单](./references/qa-inventory.md)
+9. [版本记录](./CHANGELOG.md)
 
 ## 常见问题（FAQ）
 

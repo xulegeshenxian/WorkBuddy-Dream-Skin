@@ -127,13 +127,16 @@
 - [ ] `CODE_OF_CONDUCT.md`（Contributor Covenant 2.1 模板）
 - [ ] `SECURITY.md`：CDP 端口只绑 127.0.0.1、注入的 payload 是本地 CSS、无远程执行；漏洞反馈邮箱
 - [ ] **主视觉 GIF / 视频**：截 3 段主题切换 + 挂件展示，README 第一屏放。换肤类项目社区看的就是视觉说服力
-- [ ] **Theme gallery** README section：2×3 或 3×2 网格截图，每套主题一张。当前只有 3 套有 preset（deep-sea-layered / gilded-night-banquet / sunlit-campus + my-theme 自定义），gallery 不够齐
+- [ ] **Theme gallery** README section：2×3 或 3×2 网格截图，每套主题一张。preset 已扩充到 9 套（+ pink-dream-petals / mint-bloom-studio / crimson-scifi / neon-hatsune / violet-midnight / stage-blackgold, 2026-07-20），只差截图
 - [x] `docs/AI-HANDOFF.md` → `.github/AI/HANDOFF.md`：从公共文档索引里挪出，`AGENTS.md` / `README` 链接同步更新（本次 commit）
 - [ ] FAQ + Troubleshooting 段：WorkBuddy 找不到 / 端口冲突 / CDP 连不上 / GPU 合成器卡住（本会话遇到过）。装完必踩
 - [ ] `Set-ExecutionPolicy Bypass` 前面加一段说明"只影响当前进程会话，不改系统策略"，避免新用户害怕
 
 **NICE（发布后可补）：**
-- [ ] 补 `pink-dream` / `mint-bloom` 的 preset —— CSS 里齐了，用户库里没预设。用本次做的 heart / pressed-leaf 形状给它们做区分
+- [x] 补 `pink-dream` / `mint-bloom` 的 preset —— 用户已有 `my-theme`（绯樱少女实拍）满足 pink-dream；新增 `mint-bloom-studio`（花房女孩）满足 mint-bloom（2026-07-20）
+- [x] 新增 4 套霓虹夜色 preset：`crimson-scifi`（HUD 红白）/ `neon-hatsune`（青葱 + 粉红霓虹）/ `violet-midnight`（星云紫）/ `stage-blackgold`（追光黑金），每套自带 SVG 主视觉（2026-07-20）
+- [x] 新增 2 套梗系 preset：`fortune-crimson`（红火财神，中国红 + 金）/ `zero-bug-shrine`（无 Bug 神社，通过绿 + 鸟居朱），跟 stage-blackgold 分家（黑金走发布会、红金走过年、绿朱走求编译）（2026-07-20）
+- [x] 无 Bug 系列再补 1 套变体：`zero-bug-shrine-maid`（甜妹猫耳女仆版，绿 + 甜粉 secondary），共享 style `zero-bug-shrine`（2026-07-20）
 - [ ] `tests/` 骨架（G 组已列） + 双语 CHANGELOG
 - [x] `VERSION` 单独文件跟 `package.json.version` 双源同步：加了 preflight 校验 `VERSION sync with package.json`，双源不同步立即 fail。当前 8 → 9 checks，仍然 all-pass
 - [x] `AGENTS.md` / `SKILL.md` 面向 AI 工作流：AGENTS.md 顶部加中英双语横幅说明"给 AI 协作者用，人类看 CONTRIBUTING"；SKILL.md 顶部加"这是 Codex/agent SKILL card，人类看 README，AI 看 AGENTS.md"

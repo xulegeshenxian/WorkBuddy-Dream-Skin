@@ -2,6 +2,32 @@
 
 ## Unreleased
 
+### 主题库扩充到 11 套
+
+* 修正 `deep-sea-layered` preset 的 `name` 字段，去掉"分层版"后缀，托盘"切换主题"菜单恢复为纯 "深海夜航"。
+* 补齐 `mint-bloom-studio`（薄荷花房）preset，之前只在 `style-palettes.json` 里有 palette、库里没预设，附带一张 SVG 主视觉（叶片）。`pink-dream` 由用户自定义的 `my-theme` 覆盖，未再新增占位 preset。
+* 新增 4 套霓虹夜色 preset：
+  - `crimson-scifi`（赤霄科幻）—— 红白 HUD、雷达网格、黑面板；
+  - `neon-hatsune`（电音葱绿）—— 青葱霓虹 + 粉红辅色，赛博地面网格；
+  - `violet-midnight`（紫夜限定）—— 星云紫、点状星野、深夜面板；
+  - `stage-blackgold`（舞台黑金）—— 追光锥、金色台沿、黑色舞台。
+* `assets/style-palettes.json` 同步登记这 4 套新 style；style 值非典范，`manage-workbuddy-themes.ps1` 的 palette-heal 会自动跳过，preset 里的色值直接生效。
+* 再新增 2 套"梗系" preset：
+  - `fortune-crimson`（红火财神）—— 中国红 + 金，灯笼、金币、"福"字大字，招财版；
+  - `zero-bug-shrine`（无 Bug 神社）—— 通过绿 + 鸟居朱，御守、`EXIT 0` 终端图腾、"安"字大字，求编译一次通过版。
+* 与 `stage-blackgold`（发布会调性）明确分家：黑金走演示台，红金走过年，绿朱走求 build 平安。
+* 无 Bug 系列再拆一个变体（同 palette / 同 `style: zero-bug-shrine`，主视觉走不同人设）：
+  - `zero-bug-shrine-maid`（除虫女仆）—— 甜妹猫耳女仆 + 长猫耳的终端窗口，配 `nya~` 对话泡泡、爱心和"萌"字底纹；`secondary` 从灰绿换成甜粉 `#F4A8C0`。
+* `README.md` / `README.en.md` 主题表格从 3 行扩到 9 行，`ROADMAP.md` 相关 "补 preset" 与 "gallery" 条目更新到 2026-07-20。
+
+### 面向普通用户的使用指南
+
+* 新增 [`docs/USER-GUIDE.md`](docs/USER-GUIDE.md)，任务导向：装完 5 分钟上手 + 托盘每项菜单说明 + 9 个 Q&A（托盘不见、CSS 挂了、绕过启动器、执行策略、Node 找不到、配色跑偏、定时切换、升级不兼容、隐私安全）。README 文档索引里把它排在第一条 + 加粗。
+
+### 快捷方式启动不再弹 PS 窗口
+
+* `install-workbuddy-skin.ps1` 生成的桌面 / 开始菜单快捷方式默认加 `-WindowStyle Hidden` + `WindowStyle = 7`（最小化）双保险。双击后不再看到黑色 PS 窗口在 30 秒验证轮询期间碍眼，直接等托盘图标出现即可。旧快捷方式重跑 install 或用一行 WScript.Shell 脚本原地打补丁生效。
+
 ### 开源发布准备（ROADMAP § J）
 
 * 新增 `LICENSE`（MIT），版权行 "Copyright (c) 2026 WorkBuddy Dream Skin contributors"，与上游 `Fei-Away/Codex-Dream-Skin` 兼容。

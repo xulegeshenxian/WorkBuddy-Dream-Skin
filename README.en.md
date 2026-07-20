@@ -35,8 +35,14 @@ Current build: `0.7.3`. Verified against WorkBuddy `5.2.6` on Electron `37`.
 | `deep-sea-layered` | Deep-Sea Night Watch | Ink blue / teal / dark panels |
 | `gilded-night-banquet` | Gilded Night Salon | Classical figure, gold highlights, night scene |
 | `sunlit-campus` | Sunlit Campus Notes | Campus photo, green highlights, polaroid decoration |
-
-Two more palettes (`pink-dream`, `mint-bloom`) exist in the stylesheet and can be applied via `customize-workbuddy-theme.ps1`; they don't have shipped presets yet.
+| `mint-bloom-studio` | Mint Bloom Studio | Mint green, leaves, airy light panels |
+| `crimson-scifi` | Crimson HUD Deck | Red & white HUD, radar grid, black panels |
+| `neon-hatsune` | Neon Idol Stage | Teal neon, pink accent, cyber floor |
+| `violet-midnight` | Violet Nebula Hours | Nebula purple, star field, deep-night panels |
+| `stage-blackgold` | Blackgold Keynote | Spotlight, gold trim, black stage |
+| `fortune-crimson` | Cinnabar Fortune Hall | Cinnabar red, gold coins, lanterns, festive vibe |
+| `zero-bug-shrine` | Green Build Shrine | Terminal green, torii vermilion, omamori, dev talismans (miko variant) |
+| `zero-bug-shrine-maid` | Debug Catgirl Patrol | Terminal green + soft pink, catgirl terminal, hearts & nya~ (sweet variant) |
 
 Sample screenshots are under [`Pictures/`](./Pictures/); a proper gallery + demo GIF is on the [roadmap](./ROADMAP.md#j-开源发布准备).
 
