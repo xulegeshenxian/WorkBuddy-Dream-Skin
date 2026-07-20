@@ -1,0 +1,47 @@
+﻿{
+    "schemaVersion":  2,
+    "id":  "sunlit-campus",
+    "name":  "晴日校园",
+    "eyebrow":  "SUNLIT CAMPUS NOTES",
+    "tagline":  "把青春、书页与树影写进今天的计划。",
+    "status":  "LOCAL LINK ACTIVE",
+    "images":  {
+                   "background":  "background-image.jpg",
+                   "hero":  "hero-image.jpg",
+                   "character":  null
+               },
+    "layout":  {
+                   "backgroundPosition":  "50% 50%",
+                   "backgroundSize":  "cover",
+                   "heroPosition":  "50% 50%",
+                   "heroSize":  "cover",
+                   "characterPosition":  "right 16px top 180px",
+                   "characterSize":  "160px auto"
+               },
+    "effects":  {
+                    "backgroundOverlay":  0.34,
+                    "heroOverlay":  0.12,
+                    "characterOpacity":  0.96,
+                    "panelOpacity":  0.88
+                },
+    "colors":  {
+                   "background":  "#F5F6E9",
+                   "panel":  "#FFFDF3",
+                   "panelAlt":  "#E8EED2",
+                   "accent":  "#80A92E",
+                   "accentAlt":  "#4B6D20",
+                   "secondary":  "#77A990",
+                   "highlight":  "#E9AD36",
+                   "text":  "#344126",
+                   "muted":  "#626D50",
+                   "line":  "rgba(104, 133, 49, .24)"
+               },
+    "decoration":  {
+                       "mode":  "auto",
+                       "style":  "sunlit-campus",
+                       "source":  "hero-full",
+                       "variant":  "full-image-card"
+                   },
+    "style":  "sunlit-campus",
+    "appearance":  "light"
+}

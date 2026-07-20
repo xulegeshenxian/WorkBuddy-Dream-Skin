@@ -11,6 +11,15 @@ node_modules/
 artifacts/
 tmp/
 
+# Original AI-generated hero source images (multi-MB PNGs). The shipped
+# palette-driven versions live under assets/theme-presets/<name>/*.jpg
+# (compressed q88). Legacy Pictures/1-3.png stay tracked for backwards
+# compatibility; new source PNGs are kept local only.
+Pictures/*.png
+!Pictures/1.png
+!Pictures/2.png
+!Pictures/3.png
+
 # OS / editor
 Thumbs.db
 Desktop.ini

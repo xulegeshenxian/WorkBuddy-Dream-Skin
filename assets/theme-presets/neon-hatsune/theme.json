@@ -1,0 +1,47 @@
+﻿{
+    "schemaVersion":  2,
+    "id":  "neon-hatsune",
+    "name":  "电音葱绿",
+    "eyebrow":  "NEON IDOL STAGE",
+    "tagline":  "让键盘敲出属于自己的电音。",
+    "status":  "LOCAL LINK ACTIVE",
+    "images":  {
+                   "background":  "shared-image.jpg",
+                   "hero":  "shared-image.jpg",
+                   "character":  null
+               },
+    "layout":  {
+                   "backgroundPosition":  "50% 50%",
+                   "backgroundSize":  "cover",
+                   "heroPosition":  "68% 50%",
+                   "heroSize":  "cover",
+                   "characterPosition":  "right 20px top 176px",
+                   "characterSize":  "170px auto"
+               },
+    "effects":  {
+                    "backgroundOverlay":  0.68,
+                    "heroOverlay":  0.5,
+                    "characterOpacity":  0.9,
+                    "panelOpacity":  0.92
+                },
+    "colors":  {
+                   "background":  "#0B1220",
+                   "panel":  "#111A2E",
+                   "panelAlt":  "#1A2740",
+                   "accent":  "#39C5BF",
+                   "accentAlt":  "#7BE9E4",
+                   "secondary":  "#FF7EB6",
+                   "highlight":  "#FFE066",
+                   "text":  "#EAF6FF",
+                   "muted":  "#8CA0BE",
+                   "line":  "rgba(57, 197, 191, .26)"
+               },
+    "decoration":  {
+                       "mode":  "off",
+                       "style":  "neon-hatsune",
+                       "source":  "none",
+                       "variant":  "none"
+                   },
+    "style":  "neon-hatsune",
+    "appearance":  "dark"
+}

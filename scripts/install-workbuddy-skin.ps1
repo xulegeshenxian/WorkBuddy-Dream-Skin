@@ -5,7 +5,8 @@ param(
   [switch]$StartNow,
   [switch]$RestartExisting,
   [switch]$NoDesktopShortcut,
-  [switch]$NoTray
+  [switch]$NoTray,
+  [switch]$ResetBuiltinPresets
 )
 
 $ErrorActionPreference = 'Stop'
@@ -79,6 +80,30 @@ if (-not $NoDesktopShortcut) {
 
 Write-Host "WorkBuddy Dream Skin was installed to $destinationRoot"
 Write-Host 'The official WorkBuddy files were not modified.'
+
+# Seed built-in theme presets into the user's theme library. First-time users
+# get all 11 shipped themes ready to switch to from the tray. Existing preset
+# directories are left alone unless -ResetBuiltinPresets is passed, so any
+# user tweaks (renames, palette overrides, hero image swaps) survive re-install.
+$presetSource = Join-Path $destinationRoot 'assets\theme-presets'
+if (Test-Path -LiteralPath $presetSource) {
+  New-Item -ItemType Directory -Force -Path $script:ThemeLibraryRoot | Out-Null
+  $seeded = 0; $skipped = 0
+  foreach ($srcPreset in (Get-ChildItem -LiteralPath $presetSource -Directory)) {
+    $targetPreset = Join-Path $script:ThemeLibraryRoot $srcPreset.Name
+    if (Test-Path -LiteralPath $targetPreset) {
+      if ($ResetBuiltinPresets) {
+        Remove-Item -LiteralPath $targetPreset -Recurse -Force
+      } else {
+        $skipped += 1
+        continue
+      }
+    }
+    Copy-Item -LiteralPath $srcPreset.FullName -Destination $targetPreset -Recurse -Force
+    $seeded += 1
+  }
+  Write-Host "Built-in preset seeding: $seeded new, $skipped kept as-is (use -ResetBuiltinPresets to overwrite)."
+}
 
 if ($StartNow) {
   & $startScript -WorkBuddyPath $WorkBuddyPath -RestartExisting:$RestartExisting -NoTray:$NoTray

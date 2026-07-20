@@ -1,0 +1,47 @@
+﻿{
+    "schemaVersion":  2,
+    "id":  "zero-bug-shrine-maid",
+    "name":  "除虫女仆",
+    "eyebrow":  "DEBUG CATGIRL PATROL",
+    "tagline":  "让猫耳女仆替你捉光所有 bug。",
+    "status":  "LOCAL LINK ACTIVE",
+    "images":  {
+                   "background":  "shared-image.jpg",
+                   "hero":  "shared-image.jpg",
+                   "character":  null
+               },
+    "layout":  {
+                   "backgroundPosition":  "50% 50%",
+                   "backgroundSize":  "cover",
+                   "heroPosition":  "62% 50%",
+                   "heroSize":  "cover",
+                   "characterPosition":  "right 18px top 180px",
+                   "characterSize":  "168px auto"
+               },
+    "effects":  {
+                    "backgroundOverlay":  0.65,
+                    "heroOverlay":  0.45,
+                    "characterOpacity":  0.92,
+                    "panelOpacity":  0.93
+                },
+    "colors":  {
+                   "background":  "#0E1613",
+                   "panel":  "#152420",
+                   "panelAlt":  "#1D3630",
+                   "accent":  "#4ADE80",
+                   "accentAlt":  "#86EFAC",
+                   "secondary":  "#F4A8C0",
+                   "highlight":  "#FFD36E",
+                   "text":  "#F1FFF7",
+                   "muted":  "#9CC0AF",
+                   "line":  "rgba(74, 222, 128, .28)"
+               },
+    "decoration":  {
+                       "mode":  "off",
+                       "style":  "zero-bug-shrine",
+                       "source":  "none",
+                       "variant":  "none"
+                   },
+    "style":  "zero-bug-shrine",
+    "appearance":  "dark"
+}

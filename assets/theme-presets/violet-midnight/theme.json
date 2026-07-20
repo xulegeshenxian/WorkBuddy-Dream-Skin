@@ -1,0 +1,47 @@
+﻿{
+    "schemaVersion":  2,
+    "id":  "violet-midnight",
+    "name":  "紫夜限定",
+    "eyebrow":  "VIOLET NEBULA HOURS",
+    "tagline":  "让夜色替你稳住笔尖。",
+    "status":  "LOCAL LINK ACTIVE",
+    "images":  {
+                   "background":  "shared-image.jpg",
+                   "hero":  "shared-image.jpg",
+                   "character":  null
+               },
+    "layout":  {
+                   "backgroundPosition":  "50% 50%",
+                   "backgroundSize":  "cover",
+                   "heroPosition":  "72% 50%",
+                   "heroSize":  "cover",
+                   "characterPosition":  "right 18px top 182px",
+                   "characterSize":  "168px auto"
+               },
+    "effects":  {
+                    "backgroundOverlay":  0.7,
+                    "heroOverlay":  0.5,
+                    "characterOpacity":  0.9,
+                    "panelOpacity":  0.94
+                },
+    "colors":  {
+                   "background":  "#140A1F",
+                   "panel":  "#1D1230",
+                   "panelAlt":  "#2A1B45",
+                   "accent":  "#8A5CF6",
+                   "accentAlt":  "#B79BFF",
+                   "secondary":  "#5D4A8A",
+                   "highlight":  "#F5C0FF",
+                   "text":  "#F1EAFF",
+                   "muted":  "#A292C0",
+                   "line":  "rgba(138, 92, 246, .26)"
+               },
+    "decoration":  {
+                       "mode":  "off",
+                       "style":  "violet-midnight",
+                       "source":  "none",
+                       "variant":  "none"
+                   },
+    "style":  "violet-midnight",
+    "appearance":  "dark"
+}

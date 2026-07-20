@@ -1,0 +1,48 @@
+﻿{
+    "schemaVersion":  2,
+    "id":  "gilded-night",
+    "name":  "鎏金夜宴",
+    "eyebrow":  "GILDED MOON SALON",
+    "tagline":  "让金色月影照亮沉静而专注的时刻。",
+    "status":  "LOCAL LINK ACTIVE",
+    "images":  {
+                   "background":  "shared-image.jpg",
+                   "hero":  "shared-image.jpg",
+                   "character":  null
+               },
+    "layout":  {
+                   "backgroundPosition":  "50% 22%",
+                   "backgroundSize":  "cover",
+                   "heroPosition":  "50% 22%",
+                   "heroSize":  "cover",
+                   "characterPosition":  "right 16px top 180px",
+                   "characterSize":  "166px auto"
+               },
+    "effects":  {
+                    "backgroundOverlay":  0.82,
+                    "heroOverlay":  0.66,
+                    "characterOpacity":  0.92,
+                    "panelOpacity":  0.94
+                },
+    "colors":  {
+                   "background":  "#120C08",
+                   "panel":  "#1B120D",
+                   "panelAlt":  "#35251A",
+                   "accent":  "#D8B06B",
+                   "accentAlt":  "#F5DEAA",
+                   "secondary":  "#7B4E35",
+                   "highlight":  "#E7C277",
+                   "text":  "#FFF7EA",
+                   "muted":  "#C8B79F",
+                   "line":  "rgba(216, 176, 107, .25)"
+               },
+    "decoration":  {
+                       "mode":  "auto",
+                       "style":  "gilded-night",
+                       "source":  "hero-full",
+                       "variant":  "full-image-card",
+                       "shape":  "polaroid"
+                   },
+    "style":  "gilded-night",
+    "appearance":  "dark"
+}

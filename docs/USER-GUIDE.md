@@ -49,11 +49,12 @@ cd <你把仓库放在哪>\WorkBuddy-Dream-Skin
 .\scripts\install-workbuddy-skin.ps1 -StartNow -RestartExisting
 ```
 
-这行做四件事：
-1. 在桌面和开始菜单建 `WorkBuddy Dream Skin` 快捷方式
-2. 启动 WorkBuddy 并注入皮肤
-3. 拉起系统托盘（右下角小图标）
-4. 应用默认主题 `deep-sea-layered`（深海夜航）
+这行做五件事：
+1. 在桌面和开始菜单建 `WorkBuddy Dream Skin` 快捷方式（隐藏 PS 窗口，双击后直接后台跑）
+2. 把仓库内置的 11 套主题预设拷到 `%LOCALAPPDATA%\WorkBuddyDreamSkin\themes\`（**首次拷贝，已存在的不覆盖**，用 `-ResetBuiltinPresets` 强制刷新到仓库最新版）
+3. 启动 WorkBuddy 并注入皮肤
+4. 拉起系统托盘（右下角小图标）
+5. 应用默认主题 `deep-sea-layered`（深海夜航）
 
 看到 WorkBuddy 长得不一样了 + 托盘出现皮肤图标 → 装好了。
 

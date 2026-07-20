@@ -24,6 +24,12 @@
 
 * 新增 [`docs/USER-GUIDE.md`](docs/USER-GUIDE.md)，任务导向：装完 5 分钟上手 + 托盘每项菜单说明 + 9 个 Q&A（托盘不见、CSS 挂了、绕过启动器、执行策略、Node 找不到、配色跑偏、定时切换、升级不兼容、隐私安全）。README 文档索引里把它排在第一条 + 加粗。
 
+### 内置 11 套 preset 随仓库发布，clone 即用
+
+* 新增 `assets/theme-presets/` 目录，仓库内置全部 11 套主题预设（`theme.json` + 压缩到 JPG q88 的 hero 图，合计 ~4MB，源 PNG 约 22MB 压掉 82%）。视觉几乎无损，Electron 对 JPG / PNG 一视同仁。
+* `install-workbuddy-skin.ps1` 加入首次种子逻辑：把 `assets/theme-presets/*` 拷到 `%LOCALAPPDATA%\WorkBuddyDreamSkin\themes\`，**已存在的目录默认保留不覆盖**，防止踩掉用户改过的本地 preset。加 `-ResetBuiltinPresets` switch 可强制覆盖到仓库最新版。
+* `.gitignore` 排除 `Pictures/*.png`（AI 源图上百 MB），保留已跟踪的 `1/2/3.png` 兼容既有历史。仓库里的正式发布图放在 `assets/theme-presets/<name>/*.jpg`。
+
 ### 快捷方式启动不再弹 PS 窗口
 
 * `install-workbuddy-skin.ps1` 生成的桌面 / 开始菜单快捷方式默认加 `-WindowStyle Hidden` + `WindowStyle = 7`（最小化）双保险。双击后不再看到黑色 PS 窗口在 30 秒验证轮询期间碍眼，直接等托盘图标出现即可。旧快捷方式重跑 install 或用一行 WScript.Shell 脚本原地打补丁生效。
