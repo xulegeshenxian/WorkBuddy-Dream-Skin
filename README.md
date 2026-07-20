@@ -47,6 +47,7 @@ WorkBuddy Dream Skin 是面向腾讯 WorkBuddy Windows 桌面端的外置换肤�
 | `deep-sea-layered` | 深海夜航 | 墨蓝、青绿、深色面板 |
 | `gilded-night-banquet` | 鎏金夜宴 | 古风人物、金色高光、夜景背景 |
 | `sunlit-campus` | 晴日校园 | 校园图片、绿色高光、拍立得装饰卡 |
+| `pink-dream-petals` | 绯樱少女 | 樱粉、花瓣、亮面板 |
 | `mint-bloom-studio` | 薄荷花房 | 叶片、薄荷绿、亮面板 |
 | `crimson-scifi` | 赤霄科幻 | 红白 HUD、黑面板、雷达网格 |
 | `neon-hatsune` | 电音葱绿 | 青葱霓虹、粉红辅色、赛博地面 |

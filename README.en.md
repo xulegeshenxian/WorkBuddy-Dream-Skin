@@ -35,6 +35,7 @@ Current build: `0.7.3`. Verified against WorkBuddy `5.2.6` on Electron `37`.
 | `deep-sea-layered` | Deep-Sea Night Watch | Ink blue / teal / dark panels |
 | `gilded-night-banquet` | Gilded Night Salon | Classical figure, gold highlights, night scene |
 | `sunlit-campus` | Sunlit Campus Notes | Campus photo, green highlights, polaroid decoration |
+| `pink-dream-petals` | Rose Petal Daydream | Cherry pink, petals, airy light panels |
 | `mint-bloom-studio` | Mint Bloom Studio | Mint green, leaves, airy light panels |
 | `crimson-scifi` | Crimson HUD Deck | Red & white HUD, radar grid, black panels |
 | `neon-hatsune` | Neon Idol Stage | Teal neon, pink accent, cyber floor |

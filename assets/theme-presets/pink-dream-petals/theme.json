@@ -1,0 +1,47 @@
+{
+    "schemaVersion": 2,
+    "id": "pink-dream-petals",
+    "name": "绯樱少女",
+    "eyebrow": "ROSE PETAL DAYDREAM",
+    "tagline": "让灵感落在柔软的花瓣与晨光之间。",
+    "status": "LOCAL LINK ACTIVE",
+    "images": {
+        "background": "shared-image.jpg",
+        "hero": "shared-image.jpg",
+        "character": null
+    },
+    "layout": {
+        "backgroundPosition": "50% 50%",
+        "backgroundSize": "cover",
+        "heroPosition": "72% 45%",
+        "heroSize": "cover",
+        "characterPosition": "right 14px top 170px",
+        "characterSize": "154px auto"
+    },
+    "effects": {
+        "backgroundOverlay": 0.35,
+        "heroOverlay": 0.15,
+        "characterOpacity": 0.94,
+        "panelOpacity": 0.9
+    },
+    "colors": {
+        "background": "#FFF5F8",
+        "panel": "#FFF9FB",
+        "panelAlt": "#FCE8EF",
+        "accent": "#E96F9A",
+        "accentAlt": "#C84275",
+        "secondary": "#F4A8C0",
+        "highlight": "#FFD36E",
+        "text": "#4D2636",
+        "muted": "#8F6473",
+        "line": "rgba(211, 91, 135, .24)"
+    },
+    "decoration": {
+        "mode": "off",
+        "style": "pink-dream",
+        "source": "none",
+        "variant": "none"
+    },
+    "style": "pink-dream",
+    "appearance": "light"
+}

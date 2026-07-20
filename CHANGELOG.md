@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-### 主题库扩充到 11 套
+### 主题库扩充到 12 套
 
 * 修正 `deep-sea-layered` preset 的 `name` 字段，去掉"分层版"后缀，托盘"切换主题"菜单恢复为纯 "深海夜航"。
 * 补齐 `mint-bloom-studio`（薄荷花房）preset，之前只在 `style-palettes.json` 里有 palette、库里没预设，附带一张 SVG 主视觉（叶片）。`pink-dream` 由用户自定义的 `my-theme` 覆盖，未再新增占位 preset。
@@ -24,9 +24,9 @@
 
 * 新增 [`docs/USER-GUIDE.md`](docs/USER-GUIDE.md)，任务导向：装完 5 分钟上手 + 托盘每项菜单说明 + 9 个 Q&A（托盘不见、CSS 挂了、绕过启动器、执行策略、Node 找不到、配色跑偏、定时切换、升级不兼容、隐私安全）。README 文档索引里把它排在第一条 + 加粗。
 
-### 内置 11 套 preset 随仓库发布，clone 即用
+### 内置 12 套 preset 随仓库发布，clone 即用
 
-* 新增 `assets/theme-presets/` 目录，仓库内置全部 11 套主题预设（`theme.json` + 压缩到 JPG q88 的 hero 图，合计 ~4MB，源 PNG 约 22MB 压掉 82%）。视觉几乎无损，Electron 对 JPG / PNG 一视同仁。
+* 新增 `assets/theme-presets/` 目录，仓库内置全部 12 套主题预设（`theme.json` + 压缩到 JPG q88 的 hero 图，合计 ~4.2MB，源 PNG 约 24MB 压掉 82%）。视觉几乎无损，Electron 对 JPG / PNG 一视同仁。补齐 `pink-dream-petals`（绯樱少女）作为公开发布版本；清理开发期遗留的 `Pictures/1-3.png` 早期源图（代码零引用）。
 * `install-workbuddy-skin.ps1` 加入首次种子逻辑：把 `assets/theme-presets/*` 拷到 `%LOCALAPPDATA%\WorkBuddyDreamSkin\themes\`，**已存在的目录默认保留不覆盖**，防止踩掉用户改过的本地 preset。加 `-ResetBuiltinPresets` switch 可强制覆盖到仓库最新版。
 * `.gitignore` 排除 `Pictures/*.png`（AI 源图上百 MB），保留已跟踪的 `1/2/3.png` 兼容既有历史。仓库里的正式发布图放在 `assets/theme-presets/<name>/*.jpg`。
 
