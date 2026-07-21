@@ -12,9 +12,9 @@
 
 已观察 Electron 版本：`37`
 
-项目目录：`D:\code\Codex\dream-skin\WorkBuddy-Dream-Skin`
+项目目录：`<path-to-repo>\WorkBuddy-Dream-Skin`
 
-原始参考仓库：`D:\code\Codex\dream-skin\Codex-Dream-Skin-main`
+原始参考仓库：与项目同级的 `<path-to-repo>\Codex-Dream-Skin-main`（可选）
 
 上游地址：`https://github.com/Fei-Away/Codex-Dream-Skin`
 
