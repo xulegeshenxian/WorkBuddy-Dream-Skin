@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### `zero-bug-shrine` 重命名为 "Bug神社"
+
+* 显示名从 "无 Bug 神社" 改为 "Bug神社"（中间无空格）。preset id / style 不变，切换、状态和主题库路径都不受影响。同步了 `assets/theme-presets/zero-bug-shrine/theme.json` 与 `assets/style-palettes.json`。
+
 ### 主题库扩充到 12 套
 
 * 修正 `deep-sea-layered` preset 的 `name` 字段，去掉"分层版"后缀，托盘"切换主题"菜单恢复为纯 "深海夜航"。

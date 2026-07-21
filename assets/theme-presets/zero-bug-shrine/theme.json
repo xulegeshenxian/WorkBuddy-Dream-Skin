@@ -1,7 +1,7 @@
 ﻿{
     "schemaVersion":  2,
     "id":  "zero-bug-shrine",
-    "name":  "无 Bug 神社",
+    "name":  "Bug神社",
     "eyebrow":  "GREEN BUILD SHRINE",
     "tagline":  "让每一次编译都一次通过。",
     "status":  "LOCAL LINK ACTIVE",
