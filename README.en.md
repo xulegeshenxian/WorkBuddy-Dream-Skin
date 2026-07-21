@@ -44,6 +44,8 @@ Current build: `0.7.3`. Verified against WorkBuddy `5.2.6` on Electron `37`.
 | `fortune-crimson` | Cinnabar Fortune Hall | Cinnabar red, gold coins, lanterns, festive vibe |
 | `zero-bug-shrine` | Green Build Shrine | Terminal green, torii vermilion, omamori, dev talismans (miko variant) |
 | `zero-bug-shrine-maid` | Debug Catgirl Patrol | Terminal green + soft pink, catgirl terminal, hearts & nya~ (sweet variant) |
+| `porcelain-bloom` | Porcelain Bloom Atelier | Pearl white, mint green, bright morning florist studio (bright) |
+| `amber-nightlamp` | Amber Nightlamp Hour | Honey amber, cream white, warm satin lamplight (warm & bright) |
 
 Sample screenshots are under [`Pictures/`](./Pictures/); a proper gallery + demo GIF is on the [roadmap](./ROADMAP.md#j-开源发布准备).
 

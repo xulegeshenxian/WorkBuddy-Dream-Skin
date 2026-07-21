@@ -56,6 +56,8 @@ WorkBuddy Dream Skin 是面向腾讯 WorkBuddy Windows 桌面端的外置换肤�
 | `fortune-crimson` | 红火财神 | 中国红、金币、灯笼、招财喜庆 |
 | `zero-bug-shrine` | Bug神社 | 通过绿、鸟居朱、御守、终端图腾（巫女向） |
 | `zero-bug-shrine-maid` | 除虫女仆 | 通过绿 + 甜粉、猫耳终端、爱心 & nya~（甜妹向） |
+| `porcelain-bloom` | 白瓷花房 | 珍珠白、薄荷绿、清晨高亮花艺工坊（明亮向） |
+| `amber-nightlamp` | 琥珀夜灯 | 蜂蜜金、奶油白、暖光缎面（暖亮向） |
 
 ## 技术栈
 

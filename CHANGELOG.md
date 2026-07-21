@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+### 补齐 2 套明亮向 preset（`porcelain-bloom` + `amber-nightlamp`）
+
+* 之前的主题库偏暗调（10/14 dark、4/14 light）。新增 2 套 light appearance preset 平衡整体气质：
+  - `porcelain-bloom`（白瓷花房）—— 珍珠白 + 薄荷绿，源自 `Pictures/9.png` 高亮花艺工坊场景。低遮罩（`heroOverlay: 0.10 / backgroundOverlay: 0.22`）让画面白亮直接透进面板；跟 `mint-bloom-studio`（温感午后）区别：这套走**冷白+清晨**。
+  - `amber-nightlamp`（琥珀夜灯）—— 蜂蜜金 + 奶油白，源自 `Pictures/10.png` 缎面暖灯场景。图片本身偏暗，通过 `panelOpacity: 0.93` 让米色面板占主导，暖调只在半透明处溢出，UI 读感是**暖亮如蜜**而非黑夜。
+* `assets/style-palettes.json` 同步登记两套新 style；style 值非典范，`manage-workbuddy-themes.ps1` 的 palette-heal 自动跳过。
+* 主题库从 12 套扩到 14 套。
+
 ### `zero-bug-shrine` 重命名为 "Bug神社"
 
 * 显示名从 "无 Bug 神社" 改为 "Bug神社"（中间无空格）。preset id / style 不变，切换、状态和主题库路径都不受影响。同步了 `assets/theme-presets/zero-bug-shrine/theme.json` 与 `assets/style-palettes.json`。

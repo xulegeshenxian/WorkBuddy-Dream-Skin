@@ -9,7 +9,7 @@
 
 给腾讯 WorkBuddy Windows 桌面端换外观的工具。**不改官方安装包**，注入的是可撤销的 CSS + 图片；不喜欢一条命令就恢复原样。
 
-- 内置 11 套主题（深海夜航、鎏金夜宴、赤霄科幻、电音葱绿、红火财神、Bug神社等，见 [README 主题表](../README.md#当前能力)）
+- 内置 14 套主题（深海夜航、鎏金夜宴、赤霄科幻、电音葱绿、红火财神、Bug神社、白瓷花房、琥珀夜灯等，见 [README 主题表](../README.md#当前能力)）
 - 支持自己丢一张图，脚本按图片色调自动匹配 UI 配色
 - Windows 系统托盘一键切换主题、换图、恢复外观
 
@@ -51,7 +51,7 @@ cd <你把仓库放在哪>\WorkBuddy-Dream-Skin
 
 这行做五件事：
 1. 在桌面和开始菜单建 `WorkBuddy Dream Skin` 快捷方式（隐藏 PS 窗口，双击后直接后台跑）
-2. 把仓库内置的 11 套主题预设拷到 `%LOCALAPPDATA%\WorkBuddyDreamSkin\themes\`（**首次拷贝，已存在的不覆盖**，用 `-ResetBuiltinPresets` 强制刷新到仓库最新版）
+2. 把仓库内置的 14 套主题预设拷到 `%LOCALAPPDATA%\WorkBuddyDreamSkin\themes\`（**首次拷贝，已存在的不覆盖**，用 `-ResetBuiltinPresets` 强制刷新到仓库最新版）
 3. 启动 WorkBuddy 并注入皮肤
 4. 拉起系统托盘（右下角小图标）
 5. 应用默认主题 `deep-sea-layered`（深海夜航）

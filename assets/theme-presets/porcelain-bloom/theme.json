@@ -1,0 +1,47 @@
+{
+    "schemaVersion": 2,
+    "id": "porcelain-bloom",
+    "name": "白瓷花房",
+    "eyebrow": "PORCELAIN BLOOM ATELIER",
+    "tagline": "让白色的花把清晨捧到桌面。",
+    "status": "LOCAL LINK ACTIVE",
+    "images": {
+        "background": "shared-image.jpg",
+        "hero": "shared-image.jpg",
+        "character": null
+    },
+    "layout": {
+        "backgroundPosition": "50% 50%",
+        "backgroundSize": "cover",
+        "heroPosition": "55% 45%",
+        "heroSize": "cover",
+        "characterPosition": "right 14px top 170px",
+        "characterSize": "154px auto"
+    },
+    "effects": {
+        "backgroundOverlay": 0.22,
+        "heroOverlay": 0.1,
+        "characterOpacity": 0.94,
+        "panelOpacity": 0.88
+    },
+    "colors": {
+        "background": "#F7FAF8",
+        "panel": "#FFFFFF",
+        "panelAlt": "#EAF3EE",
+        "accent": "#4E9081",
+        "accentAlt": "#2F6B5C",
+        "secondary": "#B8D5C6",
+        "highlight": "#F4C7B0",
+        "text": "#22403A",
+        "muted": "#5F7E72",
+        "line": "rgba(78, 144, 129, .24)"
+    },
+    "decoration": {
+        "mode": "off",
+        "style": "porcelain-bloom",
+        "source": "none",
+        "variant": "none"
+    },
+    "style": "porcelain-bloom",
+    "appearance": "light"
+}
