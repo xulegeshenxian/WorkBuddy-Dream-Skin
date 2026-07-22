@@ -125,6 +125,96 @@ function Get-ThemeStyleFromImage {
   }
 }
 
+function ConvertTo-HexColor {
+  param([double]$Hue, [double]$Saturation, [double]$Value)
+  # HSV → hex (#RRGGBB). Hue in [0,360), S/V in [0,1].
+  $c = $Value * $Saturation
+  $seg = ($Hue / 60) % 6
+  $x = $c * (1 - [math]::Abs(($seg % 2) - 1))
+  $m = $Value - $c
+  if ($Hue -lt 60) { $r = $c; $g = $x; $b = 0 }
+  elseif ($Hue -lt 120) { $r = $x; $g = $c; $b = 0 }
+  elseif ($Hue -lt 180) { $r = 0; $g = $c; $b = $x }
+  elseif ($Hue -lt 240) { $r = 0; $g = $x; $b = $c }
+  elseif ($Hue -lt 300) { $r = $x; $g = 0; $b = $c }
+  else { $r = $c; $g = 0; $b = $x }
+  $R = [int][math]::Round(($r + $m) * 255)
+  $G = [int][math]::Round(($g + $m) * 255)
+  $B = [int][math]::Round(($b + $m) * 255)
+  return ('#{0:X2}{1:X2}{2:X2}' -f $R, $G, $B)
+}
+
+function Get-VividAccentFromImage {
+  # Extract the dominant vivid color from an image and normalize into a
+  # UI-friendly range. Returns $null if the image is too flat / grayscale
+  # to yield a stable accent (fallback to canonical palette).
+  param([string]$Path, [string]$Appearance = 'dark')
+  try {
+    $resolved = Test-ThemeImagePath $Path
+    Add-Type -AssemblyName System.Drawing
+    $source = [Drawing.Image]::FromFile($resolved)
+    $sample = $null
+    try {
+      $sample = New-Object Drawing.Bitmap 128, 128
+      $graphics = [Drawing.Graphics]::FromImage($sample)
+      try { $graphics.DrawImage($source, 0, 0, 128, 128) } finally { $graphics.Dispose() }
+      $bucketCount = 24
+      $counts = New-Object 'double[]' $bucketCount
+      $hSum = New-Object 'double[]' $bucketCount
+      $sSum = New-Object 'double[]' $bucketCount
+      $vSum = New-Object 'double[]' $bucketCount
+      $vivid = 0
+      for ($y = 0; $y -lt 128; $y += 2) {
+        for ($x = 0; $x -lt 128; $x += 2) {
+          $c = $sample.GetPixel($x, $y)
+          $h = [double]$c.GetHue()
+          $s = [double]$c.GetSaturation()
+          $v = [double]$c.GetBrightness()
+          if ($s -lt 0.28 -or $v -lt 0.15 -or $v -gt 0.92) { continue }
+          $idx = [int][math]::Floor($h / 15) % $bucketCount
+          $w = $s * (0.4 + $v * 0.6)
+          $counts[$idx] += $w
+          $hSum[$idx] += $h * $w
+          $sSum[$idx] += $s * $w
+          $vSum[$idx] += $v * $w
+          $vivid += 1
+        }
+      }
+      if ($vivid -lt 200) { return $null }
+      $bestIdx = 0
+      $bestScore = 0.0
+      for ($i = 0; $i -lt $bucketCount; $i++) {
+        if ($counts[$i] -gt $bestScore) { $bestScore = $counts[$i]; $bestIdx = $i }
+      }
+      if ($bestScore -le 0) { return $null }
+      $H = $hSum[$bestIdx] / $counts[$bestIdx]
+      $S = $sSum[$bestIdx] / $counts[$bestIdx]
+      $V = $vSum[$bestIdx] / $counts[$bestIdx]
+      # Normalize into UI-friendly range so button text stays readable.
+      $targetS = [math]::Max($S, 0.55)
+      if ($Appearance -eq 'light') {
+        $targetV = [math]::Min([math]::Max($V, 0.4), 0.58)
+        $altV = [math]::Min($targetV + 0.12, 0.7)
+      } else {
+        $targetV = [math]::Min([math]::Max($V, 0.58), 0.82)
+        $altV = [math]::Min($targetV + 0.12, 0.95)
+      }
+      $altS = [math]::Max($targetS - 0.15, 0.35)
+      return [pscustomobject]@{
+        Hue = $H
+        AccentHex = ConvertTo-HexColor $H $targetS $targetV
+        AccentAltHex = ConvertTo-HexColor $H $altS $altV
+      }
+    } finally {
+      if ($sample) { $sample.Dispose() }
+      $source.Dispose()
+    }
+  } catch {
+    Write-Warning "Accent extraction failed: $($_.Exception.Message)"
+    return $null
+  }
+}
+
 function Resolve-ThemeStyle {
   param([string]$RequestedStyle, [string]$ImageForAnalysis)
   $styleMap = @{ PinkDream = 'pink-dream'; MintBloom = 'mint-bloom'; SunlitCampus = 'sunlit-campus'; GildedNight = 'gilded-night'; DeepSea = 'deep-sea' }
@@ -235,6 +325,38 @@ if ($resolvedStyle) {
   $theme.effects.heroOverlay = [double]$palette.heroOverlay
   $theme.effects.panelOpacity = [double]$palette.panelOpacity
   Write-Host "Image style palette selected: $resolvedStyle"
+
+  # 方案 A: derive accent + accentAlt from the imported image itself.
+  # Keeps the canonical palette's structural values (background / panel /
+  # text / muted / line-alpha) so contrast and hover states stay safe, but
+  # lets the UI's main color respond to whatever image the user just
+  # imported (紫色宇宙图 → 紫色 accent; 橙红夕阳 → 橙红 accent).
+  # Only applied when the user did NOT explicitly pass -Accent / -AccentAlt.
+  $primaryImage = if ($ImagePath) { $ImagePath }
+    elseif ($HeroImagePath) { $HeroImagePath }
+    elseif ($BackgroundImagePath) { $BackgroundImagePath }
+    else { $null }
+  if ($primaryImage) {
+    $accentResult = Get-VividAccentFromImage $primaryImage ([string]$palette.appearance)
+    if ($accentResult) {
+      if (-not $PSBoundParameters.ContainsKey('Accent')) {
+        $theme.colors.accent = $accentResult.AccentHex
+      }
+      if (-not $PSBoundParameters.ContainsKey('AccentAlt')) {
+        $theme.colors.accentAlt = $accentResult.AccentAltHex
+      }
+      if (-not $PSBoundParameters.ContainsKey('Line')) {
+        $accentHex = $theme.colors.accent
+        $rr = [Convert]::ToInt32($accentHex.Substring(1,2), 16)
+        $gg = [Convert]::ToInt32($accentHex.Substring(3,2), 16)
+        $bb = [Convert]::ToInt32($accentHex.Substring(5,2), 16)
+        $theme.colors.line = "rgba($rr, $gg, $bb, .28)"
+      }
+      Write-Host "Image accent applied: accent=$($theme.colors.accent) accentAlt=$($theme.colors.accentAlt)"
+    } else {
+      Write-Host "Image accent extraction fell back to canonical palette (image too flat / grayscale)."
+    }
+  }
 }
 
 foreach ($role in @('background', 'hero', 'character')) {

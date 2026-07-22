@@ -2,6 +2,21 @@
 
 ## Unreleased
 
+### 导入图片时 accent 跟随图片主色（方案 A）
+
+* `customize-workbuddy-theme.ps1` 新增 `Get-VividAccentFromImage`：从导入图片提取主色相桶（24 桶 × 15°），归一化到 UI 可读的饱和度/亮度区间后，覆盖当前 palette 的 `accent` / `accentAlt` / `line` 三个字段。
+* 面板 / 文字 / 明暗 / 悬停等结构色仍来自 5 套 canonical palette，保证 contrast 和 focus/hover 状态不翻车。
+* **效果**：紫色宇宙图 → 紫色 accent（原本只能是粉/绿/青/金/蓝之一）；橙红夕阳 → 橙红 accent。用户显式传 `-Accent` / `-AccentAlt` / `-Line` 时不会覆盖。
+* 灰阶或极端纯色图（vivid 像素 < 200）自动 fallback 到 canonical accent，不硬凑。
+
+### 托盘新增「保存当前主题为预设...」
+
+* `workbuddy-skin-tray.ps1` 在"导入或更换图片"下面加菜单项。
+* 走 `Microsoft.VisualBasic.Interaction.InputBox` 弹输入框，输入合法 id（`^[a-z0-9][a-z0-9-]{1,38}[a-z0-9]$`）→ 从 `%LOCALAPPDATA%\WorkBuddyDreamSkin\theme\` 复制到 `%LOCALAPPDATA%\WorkBuddyDreamSkin\themes\<id>\`，同步 `presetId` 字段。
+* 保留名 `_autosave-current` 拒绝；同名 preset 弹二次确认。
+* 保存后气泡通知，"切换主题"子菜单下次打开就能看到。
+* 菜单契约 `$menuContract` 加了 `save-preset` 一项，`Probe` 输出保持结构化。
+
 ### 补齐 2 套明亮向 preset（`porcelain-bloom` + `amber-nightlamp`）
 
 * 之前的主题库偏暗调（10/14 dark、4/14 light）。新增 2 套 light appearance preset 平衡整体气质：

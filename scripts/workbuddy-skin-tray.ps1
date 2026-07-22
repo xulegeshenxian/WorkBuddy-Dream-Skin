@@ -7,10 +7,11 @@ $ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot 'common-workbuddy.ps1')
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
+Add-Type -AssemblyName Microsoft.VisualBasic
 
 $menuContract = @(
   'status', 'refresh', 'restart', 'themes', 'decoration', 'import-image',
-  'open-theme-folder', 'restore', 'restore-restart', 'exit'
+  'save-preset', 'open-theme-folder', 'restore', 'restore-restart', 'exit'
 )
 if ($Probe) {
   $themeIds = @()
@@ -235,6 +236,64 @@ $decorationItem.DropDown.Add_Opening({
 [void]$menu.Items.Add((New-Object Windows.Forms.ToolStripSeparator))
 [void](Add-TrayItem $menu.Items (Get-UiText '5a+85YWl5oiW5pu05o2i5Zu+54mH') {
   Start-SkinCommand (Join-Path $PSScriptRoot 'customize-workbuddy-theme.ps1')
+})
+[void](Add-TrayItem $menu.Items (Get-UiText '5L+d5a2Y5b2T5YmN5Li76aKY5Li66aKE6K6+Li4u') {
+  # Save the currently applied theme (in $ThemeRoot) as a named preset in
+  # $ThemeLibraryRoot so it survives the next theme switch.
+  $activeThemePath = Join-Path $script:ThemeRoot 'theme.json'
+  if (-not (Test-Path -LiteralPath $activeThemePath)) {
+    [void][Windows.Forms.MessageBox]::Show(
+      (Get-UiText '5b2T5YmN5rKh5pyJ55Sf5pWI55qE5Li76aKY77yM6K+35YWI5YiH5o2i5oiW5a+85YWl5Zu+54mH5YaN5L+d5a2Y44CC'),
+      'WorkBuddy Dream Skin', 'OK', 'Information')
+    return
+  }
+  $prompt = Get-UiText '57uZ6L+Z5aWX5Li76aKY6LW35LiqIGlk77ya6Iux5paH5bCP5YaZ5a2X5q+N44CB5pWw5a2X44CB6L+e5a2X56ym77yM6ZW/5bqmIDMtNDDvvIzpppblsL7kuI3og73mmK/ov57lrZfnrKbjgII='
+  $title = Get-UiText 'V29ya0J1ZGR5IERyZWFtIFNraW4gLSDlj6blrZjkuLrpooTorr4='
+  $default = ('my-theme-{0:yyyyMMdd-HHmm}' -f (Get-Date))
+  $rawName = [Microsoft.VisualBasic.Interaction]::InputBox($prompt, $title, $default)
+  if ([string]::IsNullOrWhiteSpace($rawName)) { return }
+  $name = $rawName.Trim().ToLowerInvariant()
+  if ($name -notmatch '^[a-z0-9][a-z0-9-]{1,38}[a-z0-9]$') {
+    [void][Windows.Forms.MessageBox]::Show(
+      (Get-UiText 'aWQg5Y+q6IO95YyF5ZCrIGEteuOAgTAtOeOAgei/nuWtl+espu+8jOmVv+W6piAzLTQw77yM6aaW5bC+5b+F6aG75piv5a2X5q+N5oiW5pWw5a2X44CC'),
+      'WorkBuddy Dream Skin', 'OK', 'Warning')
+    return
+  }
+  if ($name -eq '_autosave-current') {
+    [void][Windows.Forms.MessageBox]::Show(
+      (Get-UiText '5LiN6IO95L+d5a2Y5Yiw5L+d55WZ5ZCNICJfYXV0b3NhdmUtY3VycmVudCLvvIzor7fmjaLkuIDkuKrlkI3lrZfjgII='),
+      'WorkBuddy Dream Skin', 'OK', 'Warning')
+    return
+  }
+  try {
+    New-Item -ItemType Directory -Force -Path $script:ThemeLibraryRoot | Out-Null
+    $targetPreset = Join-Path $script:ThemeLibraryRoot $name
+    if (Test-Path -LiteralPath $targetPreset) {
+      $confirm = [Windows.Forms.MessageBox]::Show(
+        ((Get-UiText 'aWQgInswfSIg5bey5a2Y5Zyo77yM6KaG55uW5ZCX77yf') -f $name),
+        'WorkBuddy Dream Skin', 'YesNo', 'Question')
+      if ($confirm -ne [Windows.Forms.DialogResult]::Yes) { return }
+      Remove-Item -LiteralPath $targetPreset -Recurse -Force
+    }
+    Copy-Item -LiteralPath $script:ThemeRoot -Destination $targetPreset -Recurse -Force
+    # Stamp presetId so the tray's active-preset checkmark matches the new dir.
+    $savedThemePath = Join-Path $targetPreset 'theme.json'
+    $savedTheme = Get-Content -LiteralPath $savedThemePath -Raw -Encoding UTF8 | ConvertFrom-Json
+    $savedTheme | Add-Member -NotePropertyName presetId -NotePropertyValue $name -Force
+    Write-JsonUtf8NoBom $savedThemePath $savedTheme
+    # Mirror the presetId back into the currently applied theme.json too so
+    # the running skin knows it's now "the saved preset", not a floating temp.
+    $activeTheme = Get-Content -LiteralPath $activeThemePath -Raw -Encoding UTF8 | ConvertFrom-Json
+    $activeTheme | Add-Member -NotePropertyName presetId -NotePropertyValue $name -Force
+    Write-JsonUtf8NoBom $activeThemePath $activeTheme
+    $notifyIcon.ShowBalloonTip(2500, 'WorkBuddy Dream Skin',
+      ((Get-UiText '5bey5L+d5a2Y5Yiw5Li76aKY5bqT77yaezB9') -f $name),
+      [Windows.Forms.ToolTipIcon]::Info)
+  } catch {
+    [void][Windows.Forms.MessageBox]::Show(
+      ((Get-UiText '5L+d5a2Y5aSx6LSl77yaezB9') -f $_.Exception.Message),
+      'WorkBuddy Dream Skin', 'OK', 'Error')
+  }
 })
 [void](Add-TrayItem $menu.Items (Get-UiText '5omT5byA5Li76aKY55uu5b2V') {
   New-Item -ItemType Directory -Force -Path $script:ThemeRoot | Out-Null
