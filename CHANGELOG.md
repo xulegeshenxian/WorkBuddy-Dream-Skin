@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### 修：`customize-workbuddy-theme.ps1` 加了 UTF-8 BOM
+
+* 上一提交 `f80ee9b` 在文件里加了中文字符串字面量（`"自定义 · <图>"` / `"CUSTOM IMPORT · ..."` / `"从你导入的图片生成。"`），但文件是 UTF-8 无 BOM。PowerShell 5.1 读没 BOM 的 `.ps1` 时按系统 ANSI 解码，中文 Windows 上的 CP936 把 UTF-8 字节序列吃错，触发 `L352 Unexpected token 'CUSTOM'` + `L310 Missing closing '}'` 的解析错误——整个脚本加载不了，所有走 `customize-workbuddy-theme.ps1` 的托盘动作（切换主题、导入图片、挂件模式）**全部静默失败**。
+* 修复：把 `customize-workbuddy-theme.ps1` 重新保存为 **UTF-8 with BOM**（`EF BB BF`）。`[Parser]::ParseFile()` 现在 0 errors。
+* 其他 `.ps1` 的非 ASCII 都只在注释里，注释不参与解析，暂不受影响；但今后往任何 `.ps1` 加非 ASCII **字符串字面量**前必须确保带 BOM。
+
 ### 导入图片时 accent 跟随图片主色（方案 A）
 
 * `customize-workbuddy-theme.ps1` 新增 `Get-VividAccentFromImage`：从导入图片提取主色相桶（24 桶 × 15°），归一化到 UI 可读的饱和度/亮度区间后，覆盖当前 palette 的 `accent` / `accentAlt` / `line` 三个字段。
