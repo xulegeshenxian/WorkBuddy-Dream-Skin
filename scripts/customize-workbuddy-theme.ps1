@@ -337,6 +337,28 @@ if ($resolvedStyle) {
     elseif ($BackgroundImagePath) { $BackgroundImagePath }
     else { $null }
   if ($primaryImage) {
+    # Give the imported theme its own identity instead of pretending to be
+    # the canonical preset whose palette we borrowed. Without this, the
+    # WorkBuddy top-left badge reads "晴日校园 / SUNLIT CAMPUS NOTES" even
+    # though the hero image is the user's own photo, and the tray's
+    # "切换主题" menu ends up ticking the built-in `sunlit-campus` row
+    # via its fallback name-match. Structure colors and accent still come
+    # from the canonical palette + image extraction — only the identity
+    # strings change.
+    if (-not $PSBoundParameters.ContainsKey('Name')) {
+      $imageBaseName = [IO.Path]::GetFileNameWithoutExtension($primaryImage)
+      $theme.id = 'custom-import'
+      $theme.name = if ($imageBaseName) { "自定义 · $imageBaseName" } else { '自定义主题' }
+      $theme.eyebrow = ('CUSTOM IMPORT · {0}' -f (Get-Date).ToString('yyyy-MM-dd HH:mm'))
+      $theme.tagline = '从你导入的图片生成。'
+      # Clear presetId if it was inherited from a previous switch, so the
+      # tray's active-preset check mark does not stick to the wrong row.
+      if ($theme.PSObject.Properties['presetId']) {
+        $theme.PSObject.Properties.Remove('presetId')
+      }
+      Write-Host "Custom import identity: $($theme.name)"
+    }
+
     $accentResult = Get-VividAccentFromImage $primaryImage ([string]$palette.appearance)
     if ($accentResult) {
       if (-not $PSBoundParameters.ContainsKey('Accent')) {

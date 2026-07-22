@@ -8,6 +8,7 @@
 * 面板 / 文字 / 明暗 / 悬停等结构色仍来自 5 套 canonical palette，保证 contrast 和 focus/hover 状态不翻车。
 * **效果**：紫色宇宙图 → 紫色 accent（原本只能是粉/绿/青/金/蓝之一）；橙红夕阳 → 橙红 accent。用户显式传 `-Accent` / `-AccentAlt` / `-Line` 时不会覆盖。
 * 灰阶或极端纯色图（vivid 像素 < 200）自动 fallback 到 canonical accent，不硬凑。
+* **导入的主题身份改为"自定义"**：以前借用了 canonical palette 就把 `id` / `name` / `eyebrow` / `tagline` 也贴上去，导致 WorkBuddy 左上角徽章误报"晴日校园 / SUNLIT CAMPUS NOTES"、托盘"切换主题"里内置晴日校园还会被 fallback 名称匹配打上勾。修好后，导入图片会得到独立身份：`id: custom-import` / `name: "自定义 · <图片名>"` / `eyebrow: "CUSTOM IMPORT · YYYY-MM-DD HH:mm"` / `tagline: "从你导入的图片生成。"`。同时清掉可能残留的 `presetId`，托盘勾选逻辑不会再误认。用户显式传 `-Name` 时保留用户值。
 
 ### 托盘新增「保存当前主题为预设...」
 

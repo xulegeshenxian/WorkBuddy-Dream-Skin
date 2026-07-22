@@ -90,6 +90,7 @@ cd <你把仓库放在哪>\WorkBuddy-Dream-Skin
 1. 分析图片色调，选一套结构 palette（粉 / 绿 / 青 / 金 / 蓝五档）作为面板/文字/明暗的骨架
 2. **从图片里提取主色**作为 accent、accentAlt 和 line，让 UI 真正跟你的图"呼应"（紫色宇宙图 → 紫色 accent，橙红夕阳 → 橙红 accent）
 3. 生成一套新主题并应用
+4. **给主题一个明确的"自定义"身份**：左上角徽章会显示 `自定义 · <图片名>` + `CUSTOM IMPORT · <时间戳>`，不会冒充成内置的"晴日校园"或"鎏金夜宴"
 
 想强制指定某套 canonical palette 不让它取色？命令行走：
 ```powershell
