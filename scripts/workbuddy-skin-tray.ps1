@@ -7,7 +7,6 @@ $ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot 'common-workbuddy.ps1')
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
-Add-Type -AssemblyName Microsoft.VisualBasic
 
 $menuContract = @(
   'status', 'refresh', 'restart', 'themes', 'decoration', 'import-image',
@@ -55,6 +54,98 @@ function Start-SkinCommand {
   $parts = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', (ConvertTo-CommandArgument $ScriptPath))
   $parts += @($Arguments | ForEach-Object { ConvertTo-CommandArgument $_ })
   Start-Process -FilePath $powershell -ArgumentList ($parts -join ' ') -WindowStyle Hidden | Out-Null
+}
+
+function Show-SavePresetDialog {
+  # Custom WinForms replacement for [Microsoft.VisualBasic.Interaction]::InputBox
+  # (which looks like a Windows 95 dialog). Segoe UI, live validation, live
+  # save-button enable/disable, Enter/Esc keys. Returns validated id or $null.
+  param([string]$DefaultName = '', [Drawing.Icon]$Icon = $null)
+  $form = New-Object Windows.Forms.Form
+  $form.Text = Get-UiText 'V29ya0J1ZGR5IERyZWFtIFNraW4g4oCUIOS/neWtmOS4uumihOiuvg=='
+  $form.StartPosition = 'CenterScreen'
+  $form.FormBorderStyle = 'FixedDialog'
+  $form.MaximizeBox = $false
+  $form.MinimizeBox = $false
+  $form.ShowInTaskbar = $false
+  $form.Font = New-Object Drawing.Font('Segoe UI', 10)
+  $form.ClientSize = New-Object Drawing.Size(480, 210)
+  if ($Icon) { $form.Icon = $Icon }
+
+  $lblPrompt = New-Object Windows.Forms.Label
+  $lblPrompt.Text = Get-UiText '5Li66L+Z5aWX6Ieq5a6a5LmJ5Li76aKY6LW35LiqIGlk'
+  $lblPrompt.Location = New-Object Drawing.Point(24, 22)
+  $lblPrompt.Size = New-Object Drawing.Size(432, 22)
+  [void]$form.Controls.Add($lblPrompt)
+
+  $txt = New-Object Windows.Forms.TextBox
+  $txt.Location = New-Object Drawing.Point(24, 50)
+  $txt.Size = New-Object Drawing.Size(432, 26)
+  $txt.Font = New-Object Drawing.Font('Consolas', 11)
+  $txt.Text = $DefaultName
+  $txt.MaxLength = 40
+  [void]$form.Controls.Add($txt)
+
+  $lblValid = New-Object Windows.Forms.Label
+  $lblValid.Location = New-Object Drawing.Point(24, 86)
+  $lblValid.Size = New-Object Drawing.Size(432, 22)
+  $lblValid.Font = New-Object Drawing.Font('Segoe UI', 9)
+  [void]$form.Controls.Add($lblValid)
+
+  $lblRules = New-Object Windows.Forms.Label
+  $lblRules.Text = Get-UiText '6KeE5YiZ77yaYS16IC8gMC05IC8g6L+e5a2X56ym77yM6ZW/5bqmIDMtNDDvvIzpppblsL7lv4XpobvmmK/lrZfmr43miJbmlbDlrZc='
+  $lblRules.Location = New-Object Drawing.Point(24, 116)
+  $lblRules.Size = New-Object Drawing.Size(432, 22)
+  $lblRules.ForeColor = [Drawing.Color]::Gray
+  $lblRules.Font = New-Object Drawing.Font('Segoe UI', 9)
+  [void]$form.Controls.Add($lblRules)
+
+  $btnSave = New-Object Windows.Forms.Button
+  $btnSave.Text = Get-UiText '5L+d5a2Y'
+  $btnSave.Location = New-Object Drawing.Point(360, 158)
+  $btnSave.Size = New-Object Drawing.Size(96, 32)
+  $btnSave.DialogResult = [Windows.Forms.DialogResult]::OK
+  [void]$form.Controls.Add($btnSave)
+
+  $btnCancel = New-Object Windows.Forms.Button
+  $btnCancel.Text = Get-UiText '5Y+W5raI'
+  $btnCancel.Location = New-Object Drawing.Point(256, 158)
+  $btnCancel.Size = New-Object Drawing.Size(96, 32)
+  $btnCancel.DialogResult = [Windows.Forms.DialogResult]::Cancel
+  [void]$form.Controls.Add($btnCancel)
+
+  $form.AcceptButton = $btnSave
+  $form.CancelButton = $btnCancel
+
+  $validate = {
+    $n = $txt.Text.Trim().ToLowerInvariant()
+    $ok = $false
+    if ($n.Length -lt 3) {
+      $msg = Get-UiText '4pyXIOiHs+WwkeimgSAzIOS4quWtl+espg=='
+    } elseif ($n.Length -gt 40) {
+      $msg = Get-UiText '4pyXIOacgOWkmiA0MCDkuKrlrZfnrKY='
+    } elseif ($n -eq '_autosave-current') {
+      $msg = Get-UiText '4pyXICJfYXV0b3NhdmUtY3VycmVudCIg5piv5L+d55WZ5ZCN'
+    } elseif ($n -notmatch '^[a-z0-9-]+$') {
+      $msg = Get-UiText '4pyXIOWPquWFgeiuuCBhLXrjgIEwLTnjgIHov57lrZfnrKY='
+    } elseif ($n -match '^-|-$') {
+      $msg = Get-UiText '4pyXIOmmluWwvuW/hemhu+aYr+Wtl+avjeaIluaVsOWtl++8jOS4jeiDveaYr+i/nuWtl+espg=='
+    } else {
+      $ok = $true
+      $msg = Get-UiText '4pyTIOi/meS4quWQjeWtl+WPr+S7peeUqA=='
+    }
+    $lblValid.Text = $msg
+    $lblValid.ForeColor = if ($ok) { [Drawing.Color]::FromArgb(46, 160, 67) } else { [Drawing.Color]::FromArgb(207, 34, 46) }
+    $btnSave.Enabled = $ok
+  }
+  $txt.Add_TextChanged($validate)
+  & $validate
+  $form.Add_Shown({ $txt.Focus(); $txt.SelectAll() })
+
+  $result = $form.ShowDialog()
+  $out = if ($result -eq [Windows.Forms.DialogResult]::OK) { $txt.Text.Trim().ToLowerInvariant() } else { $null }
+  $form.Dispose()
+  return $out
 }
 
 function Test-ActiveSkinEndpoint {
@@ -247,24 +338,9 @@ $decorationItem.DropDown.Add_Opening({
       'WorkBuddy Dream Skin', 'OK', 'Information')
     return
   }
-  $prompt = Get-UiText '57uZ6L+Z5aWX5Li76aKY6LW35LiqIGlk77ya6Iux5paH5bCP5YaZ5a2X5q+N44CB5pWw5a2X44CB6L+e5a2X56ym77yM6ZW/5bqmIDMtNDDvvIzpppblsL7kuI3og73mmK/ov57lrZfnrKbjgII='
-  $title = Get-UiText 'V29ya0J1ZGR5IERyZWFtIFNraW4gLSDlj6blrZjkuLrpooTorr4='
   $default = ('my-theme-{0:yyyyMMdd-HHmm}' -f (Get-Date))
-  $rawName = [Microsoft.VisualBasic.Interaction]::InputBox($prompt, $title, $default)
-  if ([string]::IsNullOrWhiteSpace($rawName)) { return }
-  $name = $rawName.Trim().ToLowerInvariant()
-  if ($name -notmatch '^[a-z0-9][a-z0-9-]{1,38}[a-z0-9]$') {
-    [void][Windows.Forms.MessageBox]::Show(
-      (Get-UiText 'aWQg5Y+q6IO95YyF5ZCrIGEteuOAgTAtOeOAgei/nuWtl+espu+8jOmVv+W6piAzLTQw77yM6aaW5bC+5b+F6aG75piv5a2X5q+N5oiW5pWw5a2X44CC'),
-      'WorkBuddy Dream Skin', 'OK', 'Warning')
-    return
-  }
-  if ($name -eq '_autosave-current') {
-    [void][Windows.Forms.MessageBox]::Show(
-      (Get-UiText '5LiN6IO95L+d5a2Y5Yiw5L+d55WZ5ZCNICJfYXV0b3NhdmUtY3VycmVudCLvvIzor7fmjaLkuIDkuKrlkI3lrZfjgII='),
-      'WorkBuddy Dream Skin', 'OK', 'Warning')
-    return
-  }
+  $name = Show-SavePresetDialog -DefaultName $default -Icon $notifyIcon.Icon
+  if (-not $name) { return }
   try {
     New-Item -ItemType Directory -Force -Path $script:ThemeLibraryRoot | Out-Null
     $targetPreset = Join-Path $script:ThemeLibraryRoot $name
