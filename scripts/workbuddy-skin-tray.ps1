@@ -7,9 +7,6 @@ $ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot 'common-workbuddy.ps1')
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
-Add-Type -AssemblyName PresentationFramework
-Add-Type -AssemblyName PresentationCore
-Add-Type -AssemblyName WindowsBase
 
 $menuContract = @(
   'status', 'refresh', 'restart', 'themes', 'decoration', 'import-image',
@@ -60,185 +57,65 @@ function Start-SkinCommand {
 }
 
 function Show-SavePresetDialog {
-  # Modern WPF dialog for naming a new preset. Fluent-styled: rounded corners,
-  # accent-strip header, solid-accent primary button, ghost secondary button,
-  # live validation with green/red inline feedback. Auto-adapts to Windows
-  # apps light/dark mode via HKCU AppsUseLightTheme. Returns validated id or
-  # $null (on cancel/close/invalid input).
-  #
-  # Icon is a Drawing.Icon (from the tray notify icon). WPF wants an
-  # ImageSource, so we skip embedding it - WPF picks up the app default,
-  # which for a PowerShell host looks clean enough.
+  # Custom WinForms replacement for [Microsoft.VisualBasic.Interaction]::InputBox
+  # (which looks like a Windows 95 dialog). Segoe UI, live validation, live
+  # save-button enable/disable, Enter/Esc keys. Returns validated id or $null.
   param([string]$DefaultName = '', [Drawing.Icon]$Icon = $null)
+  $form = New-Object Windows.Forms.Form
+  $form.Text = Get-UiText 'V29ya0J1ZGR5IERyZWFtIFNraW4g4oCUIOS/neWtmOS4uumihOiuvg=='
+  $form.StartPosition = 'CenterScreen'
+  $form.FormBorderStyle = 'FixedDialog'
+  $form.MaximizeBox = $false
+  $form.MinimizeBox = $false
+  $form.ShowInTaskbar = $false
+  $form.Font = New-Object Drawing.Font('Segoe UI', 10)
+  $form.ClientSize = New-Object Drawing.Size(480, 210)
+  if ($Icon) { $form.Icon = $Icon }
 
-  # Detect Windows apps light/dark mode; default to light on failure.
-  $isLight = $true
-  try {
-    $reg = Get-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize' -Name 'AppsUseLightTheme' -ErrorAction Stop
-    $isLight = ($reg.AppsUseLightTheme -eq 1)
-  } catch {}
+  $lblPrompt = New-Object Windows.Forms.Label
+  $lblPrompt.Text = Get-UiText '5Li66L+Z5aWX6Ieq5a6a5LmJ5Li76aKY6LW35LiqIGlk'
+  $lblPrompt.Location = New-Object Drawing.Point(24, 22)
+  $lblPrompt.Size = New-Object Drawing.Size(432, 22)
+  [void]$form.Controls.Add($lblPrompt)
 
-  if ($isLight) {
-    $c = @{
-      BG          = '#F3F3F3'
-      TEXT        = '#1B1B1B'
-      MUTED       = '#606060'
-      BORDER      = '#D1D1D1'
-      INPUT_BG    = '#FFFFFF'
-      ACCENT      = '#0067C0'
-      ACCENT_FG   = '#FFFFFF'
-      ACCENT_HOV  = '#005AA5'
-      HOVER_BG    = '#E9E9E9'
-      DISABLED    = '#B0B0B0'
-      SUCCESS     = '#107C10'
-      ERROR       = '#C42B1C'
-    }
-  } else {
-    $c = @{
-      BG          = '#202020'
-      TEXT        = '#F5F5F5'
-      MUTED       = '#A6A6A6'
-      BORDER      = '#3D3D3D'
-      INPUT_BG    = '#2B2B2B'
-      ACCENT      = '#4CC2FF'
-      ACCENT_FG   = '#000000'
-      ACCENT_HOV  = '#62CCFF'
-      HOVER_BG    = '#2E2E2E'
-      DISABLED    = '#4A4A4A'
-      SUCCESS     = '#6CCB5F'
-      ERROR       = '#FF99A4'
-    }
-  }
-
-  $c['TITLE']      = Get-UiText 'V29ya0J1ZGR5IERyZWFtIFNraW4g4oCUIOS/neWtmOS4uumihOiuvg=='
-  $c['HEADER']     = Get-UiText '5Y+m5a2Y5Li66aKE6K6+'
-  $c['PROMPT']     = Get-UiText '5Li66L+Z5aWX6Ieq5a6a5LmJ5Li76aKY6LW35LiqIGlk'
-  $c['RULES']      = Get-UiText '6KeE5YiZ77yaYS16IC8gMC05IC8g6L+e5a2X56ym77yM6ZW/5bqmIDMtNDDvvIzpppblsL7lv4XpobvmmK/lrZfmr43miJbmlbDlrZc='
-  $c['BTN_SAVE']   = Get-UiText '5L+d5a2Y'
-  $c['BTN_CANCEL'] = Get-UiText '5Y+W5raI'
-  $c['DEFAULT']    = [System.Security.SecurityElement]::Escape($DefaultName)
-
-  $xaml = @'
-<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="__TITLE__"
-        Width="560" Height="340"
-        WindowStartupLocation="CenterScreen"
-        ResizeMode="NoResize"
-        ShowInTaskbar="False"
-        Background="__BG__"
-        FontFamily="Segoe UI">
-  <Window.Resources>
-    <Style x:Key="PrimaryButton" TargetType="Button">
-      <Setter Property="Background" Value="__ACCENT__"/>
-      <Setter Property="Foreground" Value="__ACCENT_FG__"/>
-      <Setter Property="FontWeight" Value="SemiBold"/>
-      <Setter Property="FontSize" Value="12"/>
-      <Setter Property="MinWidth" Value="100"/>
-      <Setter Property="Padding" Value="20,10"/>
-      <Setter Property="Cursor" Value="Hand"/>
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="Button">
-            <Border x:Name="B" Background="{TemplateBinding Background}" CornerRadius="5">
-              <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            </Border>
-            <ControlTemplate.Triggers>
-              <Trigger Property="IsMouseOver" Value="True">
-                <Setter TargetName="B" Property="Background" Value="__ACCENT_HOV__"/>
-              </Trigger>
-              <Trigger Property="IsEnabled" Value="False">
-                <Setter TargetName="B" Property="Background" Value="__DISABLED__"/>
-              </Trigger>
-            </ControlTemplate.Triggers>
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
-    </Style>
-    <Style x:Key="GhostButton" TargetType="Button">
-      <Setter Property="Background" Value="Transparent"/>
-      <Setter Property="Foreground" Value="__TEXT__"/>
-      <Setter Property="FontSize" Value="12"/>
-      <Setter Property="MinWidth" Value="92"/>
-      <Setter Property="Padding" Value="20,10"/>
-      <Setter Property="Cursor" Value="Hand"/>
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="Button">
-            <Border x:Name="B" Background="{TemplateBinding Background}" BorderBrush="__BORDER__" BorderThickness="1" CornerRadius="5">
-              <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            </Border>
-            <ControlTemplate.Triggers>
-              <Trigger Property="IsMouseOver" Value="True">
-                <Setter TargetName="B" Property="Background" Value="__HOVER_BG__"/>
-              </Trigger>
-            </ControlTemplate.Triggers>
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
-    </Style>
-  </Window.Resources>
-
-  <Grid>
-    <Grid.RowDefinitions>
-      <RowDefinition Height="4"/>
-      <RowDefinition Height="*"/>
-    </Grid.RowDefinitions>
-    <Rectangle Grid.Row="0" Fill="__ACCENT__"/>
-
-    <Grid Grid.Row="1" Margin="30,24,30,24">
-      <Grid.RowDefinitions>
-        <RowDefinition Height="Auto"/>
-        <RowDefinition Height="Auto"/>
-        <RowDefinition Height="Auto"/>
-        <RowDefinition Height="Auto"/>
-        <RowDefinition Height="Auto"/>
-        <RowDefinition Height="*"/>
-        <RowDefinition Height="Auto"/>
-      </Grid.RowDefinitions>
-
-      <TextBlock Grid.Row="0" Text="__HEADER__" FontSize="17" FontWeight="SemiBold" Foreground="__TEXT__"/>
-      <TextBlock Grid.Row="1" Text="__PROMPT__" Margin="0,6,0,0" FontSize="11" Foreground="__MUTED__"/>
-
-      <Border x:Name="InputBorder" Grid.Row="2" Margin="0,18,0,0"
-              Background="__INPUT_BG__" BorderBrush="__BORDER__" BorderThickness="1"
-              CornerRadius="5" Padding="14,10">
-        <TextBox x:Name="TxtName" MaxLength="40" FontFamily="Consolas" FontSize="14"
-                 BorderThickness="0" Background="Transparent" Foreground="__TEXT__"
-                 CaretBrush="__ACCENT__"/>
-      </Border>
-
-      <TextBlock Grid.Row="3" x:Name="LblValid" Margin="2,10,0,0" FontSize="11"/>
-
-      <TextBlock Grid.Row="4" Text="__RULES__" Margin="2,14,0,0" FontSize="10.5"
-                 Foreground="__MUTED__" TextWrapping="Wrap"/>
-
-      <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
-        <Button x:Name="BtnCancel" Content="__BTN_CANCEL__" Style="{StaticResource GhostButton}" IsCancel="True"/>
-        <Button x:Name="BtnSave" Content="__BTN_SAVE__" Style="{StaticResource PrimaryButton}" Margin="12,0,0,0" IsDefault="True"/>
-      </StackPanel>
-    </Grid>
-  </Grid>
-</Window>
-'@
-
-  foreach ($k in $c.Keys) { $xaml = $xaml.Replace("__${k}__", $c[$k]) }
-
-  $window = [Windows.Markup.XamlReader]::Parse($xaml)
-  $txt      = $window.FindName('TxtName')
-  $lblValid = $window.FindName('LblValid')
-  $btnSave  = $window.FindName('BtnSave')
-  $btnCancel = $window.FindName('BtnCancel')
-  $input    = $window.FindName('InputBorder')
-
+  $txt = New-Object Windows.Forms.TextBox
+  $txt.Location = New-Object Drawing.Point(24, 50)
+  $txt.Size = New-Object Drawing.Size(432, 26)
+  $txt.Font = New-Object Drawing.Font('Consolas', 11)
   $txt.Text = $DefaultName
+  $txt.MaxLength = 40
+  [void]$form.Controls.Add($txt)
 
-  $borderNormal = [Windows.Media.BrushConverter]::new().ConvertFromString($c['BORDER'])
-  $borderFocus  = [Windows.Media.BrushConverter]::new().ConvertFromString($c['ACCENT'])
-  $colorSuccess = [Windows.Media.BrushConverter]::new().ConvertFromString($c['SUCCESS'])
-  $colorError   = [Windows.Media.BrushConverter]::new().ConvertFromString($c['ERROR'])
+  $lblValid = New-Object Windows.Forms.Label
+  $lblValid.Location = New-Object Drawing.Point(24, 86)
+  $lblValid.Size = New-Object Drawing.Size(432, 22)
+  $lblValid.Font = New-Object Drawing.Font('Segoe UI', 9)
+  [void]$form.Controls.Add($lblValid)
 
-  $script:dialogResult = $null
+  $lblRules = New-Object Windows.Forms.Label
+  $lblRules.Text = Get-UiText '6KeE5YiZ77yaYS16IC8gMC05IC8g6L+e5a2X56ym77yM6ZW/5bqmIDMtNDDvvIzpppblsL7lv4XpobvmmK/lrZfmr43miJbmlbDlrZc='
+  $lblRules.Location = New-Object Drawing.Point(24, 116)
+  $lblRules.Size = New-Object Drawing.Size(432, 22)
+  $lblRules.ForeColor = [Drawing.Color]::Gray
+  $lblRules.Font = New-Object Drawing.Font('Segoe UI', 9)
+  [void]$form.Controls.Add($lblRules)
+
+  $btnSave = New-Object Windows.Forms.Button
+  $btnSave.Text = Get-UiText '5L+d5a2Y'
+  $btnSave.Location = New-Object Drawing.Point(360, 158)
+  $btnSave.Size = New-Object Drawing.Size(96, 32)
+  $btnSave.DialogResult = [Windows.Forms.DialogResult]::OK
+  [void]$form.Controls.Add($btnSave)
+
+  $btnCancel = New-Object Windows.Forms.Button
+  $btnCancel.Text = Get-UiText '5Y+W5raI'
+  $btnCancel.Location = New-Object Drawing.Point(256, 158)
+  $btnCancel.Size = New-Object Drawing.Size(96, 32)
+  $btnCancel.DialogResult = [Windows.Forms.DialogResult]::Cancel
+  [void]$form.Controls.Add($btnCancel)
+
+  $form.AcceptButton = $btnSave
+  $form.CancelButton = $btnCancel
 
   $validate = {
     $n = $txt.Text.Trim().ToLowerInvariant()
@@ -258,28 +135,17 @@ function Show-SavePresetDialog {
       $msg = Get-UiText '4pyTIOi/meS4quWQjeWtl+WPr+S7peeUqA=='
     }
     $lblValid.Text = $msg
-    $lblValid.Foreground = if ($ok) { $colorSuccess } else { $colorError }
-    $btnSave.IsEnabled = $ok
+    $lblValid.ForeColor = if ($ok) { [Drawing.Color]::FromArgb(46, 160, 67) } else { [Drawing.Color]::FromArgb(207, 34, 46) }
+    $btnSave.Enabled = $ok
   }
   $txt.Add_TextChanged($validate)
   & $validate
+  $form.Add_Shown({ $txt.Focus(); $txt.SelectAll() })
 
-  # Focus ring on input
-  $txt.Add_GotFocus({ $input.BorderBrush = $borderFocus; $input.BorderThickness = New-Object Windows.Thickness 2 })
-  $txt.Add_LostFocus({ $input.BorderBrush = $borderNormal; $input.BorderThickness = New-Object Windows.Thickness 1 })
-
-  $btnSave.Add_Click({
-    $script:dialogResult = $txt.Text.Trim().ToLowerInvariant()
-    $window.Close()
-  })
-  $btnCancel.Add_Click({
-    $script:dialogResult = $null
-    $window.Close()
-  })
-
-  $window.Add_Loaded({ $txt.Focus(); $txt.SelectAll() })
-  [void]$window.ShowDialog()
-  return $script:dialogResult
+  $result = $form.ShowDialog()
+  $out = if ($result -eq [Windows.Forms.DialogResult]::OK) { $txt.Text.Trim().ToLowerInvariant() } else { $null }
+  $form.Dispose()
+  return $out
 }
 
 function Test-ActiveSkinEndpoint {
