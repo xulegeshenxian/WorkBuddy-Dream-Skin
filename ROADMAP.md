@@ -18,6 +18,13 @@
   - `loadPayload` 按 manifest 顺序拼接；载荷字节完全一致（113621 bytes）
   - `AUDIT_MODES` 表统一了 `parseArgs` 的 6 个 `--audit-*` 分支、`runOneShot` 的 7 路三元、底部 6 个 `exitCode`
 
+- [x] **WorkBuddy v5.3.3 新 UI 适配**（TBD hash, 2026-07-23）—— 用户 2026-07-23 反馈截图，鎏金夜宴主题下三处 UI 未被主题覆盖，露出 WorkBuddy 原生亮色：
+  - 左侧栏任务列表上方新增的"任务搜索/筛选"输入框 + 筛选按钮 + "任务 (21)" 分区标签，全部渲染成白底黑字。跑 `node scripts/injector.mjs --probe --port <state.port>` 定位到真实类名：`.my-files-search`（240×32 wrapper div, `#fff` bg）、`.my-files-filter-btn`（116×32 button, `#fff` bg）、`.conversation-section-label` / `.conversation-section-label-pinned`（`#F2F2F2` bg）。`60-chrome.css` 直接对着这三个类写规则，wrapper 走 `--wbds-panel-alt` + `--wbds-line`，子元素统一继承色 + 背景透明，input 独立处理 caret / placeholder。**教训**：v5.3.3 侧栏搜索区不用 `conversation-list-*` 或 `sidebar-next-*` 家族命名，用了独立的 `my-files-*`——不 probe 猜不到
+  - 侧栏"专家·技能·连接器"点开的 `.um-tab` 悬浮子菜单没有 popover 底板。`30-composer.css` 在通用 popover 段末尾新增 `.um-tab / [class*="um-tab" i] / [class*="um-popover" i] / [class*="um-menu" i] / [data-radix-popper-content-wrapper]:has(.um-tab)` 一组，套背景 + `--wbds-line` 边框 + 阴影 + backdrop-blur，子项 hover 走 accent
+  - 技能/连接器/专家页顶部"找家 / 我安装的 17 / 添加技能" pill 按钮 + 顶部 [专家/技能/连接器] 分段 tab 未被覆盖。`40-pages.css` 在 skillhub-categories 段末尾新增 `.skills-view` 作用域下 `_topBar_ / _toolbar_ / _header_ / _pageHeader_ / _actionBar_` 通配，覆盖 header 输入框、次级 pill（`:not([class*="primary" i])`）、`_installedBadge_ / _installedCount_`、`[role="tablist"]` 分段 tab（含 `aria-selected / .is-active / [class*="active" i]` 三态）
+  - `50-overlays.css:205` `button[class*="primary"]` 补 `i` flag，兼容 v5.3.3 的 CSS-Modules 大写 `_Primary_` 类名（"添加技能"这类主按钮会命中）
+  - 补丁纯选择器扩展，无变量新增；14 套主题继承 wbds-* token 自动适配
+
 ---
 
 ## 待办（按 ROI 从高到低）
@@ -127,7 +134,7 @@
 - [ ] `CODE_OF_CONDUCT.md`（Contributor Covenant 2.1 模板）
 - [ ] `SECURITY.md`：CDP 端口只绑 127.0.0.1、注入的 payload 是本地 CSS、无远程执行；漏洞反馈邮箱
 - [ ] **主视觉 GIF / 视频**：截 3 段主题切换 + 挂件展示，README 第一屏放。换肤类项目社区看的就是视觉说服力
-- [ ] **Theme gallery** README section：2×3 或 3×2 网格截图，每套主题一张。preset 已扩充到 9 套（+ pink-dream-petals / mint-bloom-studio / crimson-scifi / neon-hatsune / violet-midnight / stage-blackgold, 2026-07-20），只差截图
+- [x] **Theme gallery** README section：2×3 或 3×2 网格截图，每套主题一张。已在 `README.md` / `README.en.md` 落地 3×2 网格（pink-dream-petals / mint-bloom-studio / sunlit-campus / fortune-crimson / zero-bug-shrine + decoration GIF 演示），截图归档于 `docs/screenshots/`（2026-07-24）
 - [x] `docs/AI-HANDOFF.md` → `.github/AI/HANDOFF.md`：从公共文档索引里挪出，`AGENTS.md` / `README` 链接同步更新（本次 commit）
 - [ ] FAQ + Troubleshooting 段：WorkBuddy 找不到 / 端口冲突 / CDP 连不上 / GPU 合成器卡住（本会话遇到过）。装完必踩
 - [ ] `Set-ExecutionPolicy Bypass` 前面加一段说明"只影响当前进程会话，不改系统策略"，避免新用户害怕

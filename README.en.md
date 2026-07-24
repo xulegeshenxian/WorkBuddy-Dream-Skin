@@ -19,7 +19,7 @@ Drops a picture in, get a matching UI:
 - **Windows tray control** — refresh, switch themes, toggle decoration, import an image, restore.
 - **Automated audit** — 7 headless audit gates (hover, composer, scenes, pages, details, settings, verify) capture screenshots and structured JSON so you can prove a theme still ships cleanly on a WorkBuddy update.
 
-Current build: `0.7.3`. Verified against WorkBuddy `5.2.6` on Electron `37`.
+Current build: `0.7.6`. Verified against WorkBuddy `5.3.3` on Electron `37`.
 
 ## How it works (30-second version)
 
@@ -47,12 +47,22 @@ Current build: `0.7.3`. Verified against WorkBuddy `5.2.6` on Electron `37`.
 | `porcelain-bloom` | Porcelain Bloom Atelier | Pearl white, mint green, bright morning florist studio (bright) |
 | `amber-nightlamp` | Amber Nightlamp Hour | Honey amber, cream white, warm satin lamplight (warm & bright) |
 
-Sample screenshots are under [`Pictures/`](./Pictures/); a proper gallery + demo GIF is on the [roadmap](./ROADMAP.md#j-开源发布准备).
+### Gallery
+
+Captured against WorkBuddy `5.3.3`. The last tile is a live demo of the theme-owned decoration widget.
+
+| Rose Petal Daydream (`pink-dream-petals`) | Mint Bloom Studio (`mint-bloom-studio`) |
+| :---: | :---: |
+| ![Rose Petal Daydream](./docs/screenshots/pink-dream-petals.png) | ![Mint Bloom Studio](./docs/screenshots/mint-bloom-studio.png) |
+| **Sunlit Campus Notes (`sunlit-campus`)** | **Cinnabar Fortune Hall (`fortune-crimson`)** |
+| ![Sunlit Campus](./docs/screenshots/sunlit-campus.png) | ![Cinnabar Fortune Hall](./docs/screenshots/fortune-crimson.png) |
+| **Green Build Shrine (`zero-bug-shrine`)** | **Decoration widget (animated)** |
+| ![Green Build Shrine](./docs/screenshots/zero-bug-shrine.png) | ![Decoration widget](./docs/screenshots/decoration-demo.gif) |
 
 ## Requirements
 
 - Windows 10 or 11
-- WorkBuddy desktop client (any recent build; `5.2.6` is the verified target)
+- WorkBuddy desktop client (any recent build; `5.3.3` is the verified target)
 - Node.js `>= 22`
 - Windows PowerShell `5.1` or PowerShell `7`
 

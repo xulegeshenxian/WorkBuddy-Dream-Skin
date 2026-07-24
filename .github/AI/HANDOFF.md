@@ -4,11 +4,11 @@
 
 项目名称：WorkBuddy Dream Skin
 
-当前版本：`0.7.3`
+当前版本：`0.7.6`
 
 目标应用：腾讯 WorkBuddy Windows 桌面端
 
-已验证应用版本：WorkBuddy `5.2.6`
+已验证应用版本：WorkBuddy `5.3.3`
 
 已观察 Electron 版本：`37`
 

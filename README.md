@@ -12,7 +12,7 @@ WorkBuddy Dream Skin 是面向腾讯 WorkBuddy Windows 桌面端的外置换肤�
 
 整个实现不会修改 `WorkBuddy.exe`、`app.asar`、签名文件或 WorkBuddy 安装目录。关闭注入器并执行恢复脚本后，WorkBuddy 会回到官方界面。
 
-当前版本为 `0.7.3`，已针对 WorkBuddy `5.2.6` 与 Electron `37` 完成适配和实机验证。
+当前版本为 `0.7.6`，已针对 WorkBuddy `5.3.3` 与 Electron `37` 完成适配和实机验证。
 
 ## 项目来源
 
@@ -39,6 +39,20 @@ WorkBuddy Dream Skin 是面向腾讯 WorkBuddy Windows 桌面端的外置换肤�
 15. 项目内置 `skills/workbuddy-skin-maker`，用于从图片风格推导明暗界面、制作动态挂件，并执行带历史任务滚动证据和人工复核清单的严格审计。
 
 项目按照最初分析确定的两个阶段推进。阶段一完成可行性验证和安全运行闭环，阶段二完成全页面体验优化、图片分层、主题资产化和自动化验收。详细完成记录见 [阶段实施记录](./docs/PROJECT-STAGES.md)。
+
+## 皮肤预览
+
+以下截图取自 WorkBuddy `5.3.3` 实机运行环境，展示了不同主题下主界面（侧栏 + 主视觉 + 输入区）的整体质感。
+
+| 绯樱少女 (`pink-dream-petals`) | 薄荷花房 (`mint-bloom-studio`) |
+| :---: | :---: |
+| ![绯樱少女](./docs/screenshots/pink-dream-petals.png) | ![薄荷花房](./docs/screenshots/mint-bloom-studio.png) |
+| **晴日校园 (`sunlit-campus`)** | **红火财神 (`fortune-crimson`)** |
+| ![晴日校园](./docs/screenshots/sunlit-campus.png) | ![红火财神](./docs/screenshots/fortune-crimson.png) |
+| **Bug 神社 (`zero-bug-shrine`)** | **动态挂件演示** |
+| ![Bug 神社](./docs/screenshots/zero-bug-shrine.png) | ![动态挂件演示](./docs/screenshots/decoration-demo.gif) |
+
+> GIF 图展示了主题专属动态挂件在主界面上的呼吸、摆动和光点效果。更多主题清单见下方表格，全部支持通过 `switch-workbuddy-theme.ps1` 一键切换。
 
 当前内置和已保存主题包括：
 

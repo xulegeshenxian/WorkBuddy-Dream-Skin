@@ -193,7 +193,7 @@ Set-ExecutionPolicy -Scope Process Bypass
 
 ### Q8：WorkBuddy 更新之后皮肤挂了
 
-WorkBuddy 主版本升级偶尔会改渲染器结构。本项目当前适配 WorkBuddy `5.2.6` + Electron `37`。如遇不兼容：
+WorkBuddy 主版本升级偶尔会改渲染器结构。本项目当前适配 WorkBuddy `5.3.3` + Electron `37`。如遇不兼容：
 
 1. 先跑「恢复官方外观」保证 WorkBuddy 能正常用
 2. 到 [Issues](https://github.com/anthropics/claude-code/issues) 提 bug（贴 WorkBuddy 版本号）

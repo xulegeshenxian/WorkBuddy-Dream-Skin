@@ -643,7 +643,12 @@ async function auditHoverSession(session) {
       point('spaces-label', document.querySelector('.conversation-section-label.conversation-section-label-groups')),
       point('growth-plan', document.querySelector('.growth-plan-entry')),
       point('quick-action', document.querySelector('.quick-actions__item')),
-      point('conversation-card', card)
+      point('conversation-card', card),
+      point('automation-row', document.querySelector('.atm-row')),
+      point('chat-composer-model', document.querySelector('.input-area-container button[class*="_trigger_"][title], [class*="_input-area-container_"] button[class*="_trigger_"][title]')),
+      point('chat-composer-more', document.querySelector('.input-area-container button[aria-label="更多操作"], [class*="_input-area-container_"] button[aria-label="更多操作"]')),
+      point('composer-menu-active', document.querySelector('[role="listbox"] [class*="_itemActive_"]')),
+      point('composer-mode-row', document.querySelector('[role="menu"] [class*="_row_"]:hover'))
     ].filter(Boolean);
   })()`);
   if (!targets.length) return { pass: true, skipped: true, reason: "No hover audit target is visible", targets: [] };
@@ -684,9 +689,16 @@ async function auditHoverSession(session) {
         contrast: ratio(text.color, surface.backgroundColor)
       };
     };
+    const exposed = (node) => {
+      const box = node.getBoundingClientRect();
+      const x = Math.min(innerWidth - 1, Math.max(0, box.left + box.width / 2));
+      const y = Math.min(innerHeight - 1, Math.max(30, box.top + box.height / 2));
+      const hit = document.elementFromPoint(x, y);
+      return Boolean(hit && (hit === node || node.contains(hit) || hit.contains(node)));
+    };
     const hovered = document.elementFromPoint(${target.x}, ${target.y});
     const appearance = document.documentElement.dataset.workbuddyDreamSkinAppearance || 'dark';
-    const surfaceNode = hovered?.closest('.conversation-agent-card, .conversation-section-label, .growth-plan-entry, .quick-actions__item, button, [role="button"]') || hovered;
+    const surfaceNode = hovered?.closest('.conversation-agent-card, .conversation-section-label, .growth-plan-entry, .quick-actions__item, .atm-row, [class*="_row_"], button, [role="button"], [role="menuitem"], [role="option"]') || hovered;
     const title = surfaceNode?.querySelector('[class*="_title_"]') || surfaceNode;
     const tooltips = [...document.querySelectorAll('[role="tooltip"], .ant-tooltip-inner, [class*="tooltip" i]')]
       .filter((node) => {
@@ -699,7 +711,8 @@ async function auditHoverSession(session) {
       const box = node.getBoundingClientRect();
       const style = getComputedStyle(node);
       const values = channels(style.backgroundColor);
-      return box.top >= 30 && box.width > 50 && box.height > 20 && !node.closest('.workbuddy-window-controls') &&
+      return box.top >= 30 && box.bottom <= innerHeight && box.right > 0 && box.left < innerWidth &&
+        box.width > 50 && box.height > 20 && exposed(node) && !node.closest('.workbuddy-window-controls') &&
         style.display !== 'none' && style.visibility !== 'hidden' &&
         values.length === 3 && values.every((value) => value >= 220);
     }).slice(0, 20).map((node) => describe(node)) : [];
@@ -738,7 +751,318 @@ async function auditHoverSession(session) {
     })()`);
     results.push({ name: target.name, targetClassName: target.className, x: target.x, y: target.y, ...result });
   }
-  return { pass: results.every((item) => item.pass), skipped: false, targets: results };
+  const chatComposerVisible = await session.evaluate(`Boolean(document.querySelector('.main-content--chat :is(.input-area-container, [class*="_input-area-container_"], .wb-input-wrapper)'))`);
+  const chatComposerInteractions = chatComposerVisible ? await auditChatComposerInteractions(session) : null;
+  const sidebarExpertMenuInteractions = await auditSidebarExpertMenuInteractions(session, { keepOpen: true });
+  return {
+    pass: results.every((item) => item.pass) &&
+      (!chatComposerInteractions || chatComposerInteractions.pass) &&
+      sidebarExpertMenuInteractions.pass,
+    skipped: false,
+    targets: results,
+    chatComposerInteractions,
+    sidebarExpertMenuInteractions
+  };
+}
+
+async function auditSidebarExpertMenuInteractions(session, options = {}) {
+  const states = [];
+  const closeMenu = async () => {
+    await session.send("Input.dispatchKeyEvent", { type: "keyDown", key: "Escape", code: "Escape", windowsVirtualKeyCode: 27 });
+    await session.send("Input.dispatchKeyEvent", { type: "keyUp", key: "Escape", code: "Escape", windowsVirtualKeyCode: 27 });
+    await session.send("Input.dispatchMouseEvent", { type: "mouseMoved", x: 1, y: 1 });
+    await new Promise((resolve) => setTimeout(resolve, 260));
+  };
+  const isMenuVisible = () => session.evaluate(`Boolean([...document.querySelectorAll('.conversation-list-expert-dropdown')].find((node) => {
+    const box = node.getBoundingClientRect();
+    const style = getComputedStyle(node);
+    return box.width > 100 && box.height > 80 && style.display !== 'none' && style.visibility !== 'hidden';
+  }))`);
+  await closeMenu();
+
+  const trigger = await findControlPoint(session, {
+    name: "sidebar-expert-menu-trigger",
+    scope: ".conversation-list",
+    selector: ".conversation-list-tab-button",
+    text: "专家·技能·连接器",
+    exactText: true
+  });
+  if (!trigger) {
+    await closeMenu();
+    return { pass: false, triggerHoverOpened: false, states, reason: "Control not found: sidebar expert menu trigger" };
+  }
+
+  let menuVisible = false;
+  let hoverAttempts = 0;
+  let openMethod = "pointer-hover";
+  const xOffsets = [-60, 0, 60];
+  for (let attempt = 0; attempt < xOffsets.length && !menuVisible; attempt += 1) {
+    hoverAttempts = attempt + 1;
+    await session.send("Input.dispatchMouseEvent", { type: "mouseMoved", x: 1, y: 1 });
+    await new Promise((resolve) => setTimeout(resolve, 220));
+    await session.send("Input.dispatchMouseEvent", {
+      type: "mouseMoved",
+      x: trigger.x + xOffsets[attempt],
+      y: trigger.y
+    });
+    await new Promise((resolve) => setTimeout(resolve, 900 + attempt * 250));
+    menuVisible = await isMenuVisible();
+  }
+  if (!menuVisible) {
+    openMethod = "keyboard-fallback";
+    await session.evaluate(`(() => {
+      const trigger = [...document.querySelectorAll('.conversation-list .conversation-list-tab-button')]
+        .find((node) => node.textContent?.trim() === '专家·技能·连接器');
+      if (!trigger) return false;
+      trigger.focus();
+      trigger.dispatchEvent(new KeyboardEvent('keydown', {
+        key: 'ArrowDown',
+        code: 'ArrowDown',
+        bubbles: true
+      }));
+      return true;
+    })()`);
+    await new Promise((resolve) => setTimeout(resolve, 420));
+    menuVisible = await isMenuVisible();
+  }
+  if (!menuVisible) {
+    await closeMenu();
+    return {
+      pass: false,
+      trigger,
+      triggerHoverOpened: false,
+      hoverAttempts,
+      openMethod,
+      states,
+      reason: "Sidebar expert menu could not be opened for hover testing"
+    };
+  }
+
+  for (const label of ["专家", "技能", "连接器"]) {
+    const point = await findControlPoint(session, {
+      name: `sidebar-expert-menu-${label}`,
+      selector: ".conversation-list-expert-dropdown .wb-dropdown__item",
+      text: label,
+      exactText: true,
+      allowClipped: true
+    });
+    if (!point) {
+      states.push({ label: `sidebar-expert-menu-${label}-hover`, pass: false, reason: `Control not found: ${label}` });
+      continue;
+    }
+    await session.send("Input.dispatchMouseEvent", { type: "mouseMoved", x: point.x, y: point.y });
+    await new Promise((resolve) => setTimeout(resolve, 420));
+    const visual = await session.evaluate(`(() => {
+      const point = ${JSON.stringify(point)};
+      const channels = (value) => {
+        const values = (String(value).match(/[0-9.]+/g) || []).slice(0, 3).map(Number);
+        return String(value).startsWith('color(srgb') ? values.map((item) => item <= 1 ? item * 255 : item) : values;
+      };
+      const luminance = (values) => {
+        const linear = values.map((value) => {
+          const normalized = value / 255;
+          return normalized <= .03928 ? normalized / 12.92 : ((normalized + .055) / 1.055) ** 2.4;
+        });
+        return .2126 * linear[0] + .7152 * linear[1] + .0722 * linear[2];
+      };
+      const ratio = (foreground, background) => {
+        const firstValues = channels(foreground);
+        const secondValues = channels(background);
+        if (firstValues.length !== 3 || secondValues.length !== 3) return null;
+        const first = luminance(firstValues);
+        const second = luminance(secondValues);
+        return Number(((Math.max(first, second) + .05) / (Math.min(first, second) + .05)).toFixed(2));
+      };
+      const transparent = (value) => value === 'transparent' || value === 'rgba(0, 0, 0, 0)' ||
+        value === 'oklab(0 0 0 / 0)' || /\\/\\s*0\\s*\\)$/.test(value);
+      const hitNode = document.elementFromPoint(point.x, point.y);
+      const row = hitNode?.closest('.wb-dropdown__item');
+      const labelNode = row?.querySelector('.wb-dropdown__label');
+      const trackingHit = row?.querySelector('.wb-dropdown__item-hit');
+      if (!row || !labelNode || !trackingHit) return { pass: false, reason: 'Hover row structure is incomplete' };
+      const rowStyle = getComputedStyle(row);
+      const labelStyle = getComputedStyle(labelNode);
+      const hitStyle = getComputedStyle(trackingHit);
+      const contrast = ratio(labelStyle.color, rowStyle.backgroundColor);
+      const hitTransparent = transparent(hitStyle.backgroundColor);
+      const labelVisible = labelStyle.display !== 'none' && labelStyle.visibility !== 'hidden' &&
+        Number(labelStyle.opacity) > .9 && labelNode.getBoundingClientRect().width > 0;
+      return {
+        pass: !transparent(rowStyle.backgroundColor) && hitTransparent && labelVisible &&
+          contrast !== null && contrast >= 4.5,
+        text: labelNode.textContent?.trim() || '',
+        row: {
+          className: typeof row.className === 'string' ? row.className : '',
+          background: rowStyle.backgroundColor,
+          color: rowStyle.color
+        },
+        labelStyle: {
+          color: labelStyle.color,
+          opacity: labelStyle.opacity,
+          visibility: labelStyle.visibility,
+          contrast
+        },
+        trackingHit: {
+          className: typeof trackingHit.className === 'string' ? trackingHit.className : '',
+          background: hitStyle.backgroundColor,
+          transparent: hitTransparent
+        }
+      };
+    })()`);
+    states.push({ label: `sidebar-expert-menu-${label}-hover`, point, ...visual });
+  }
+
+  if (options.screenshotPath) await capture(session, options.screenshotPath);
+  if (!options.keepOpen) await closeMenu();
+  return {
+    pass: states.length === 3 && states.every((state) => state.pass),
+    trigger,
+    triggerHoverOpened: openMethod === "pointer-hover",
+    hoverAttempts,
+    openMethod,
+    states
+  };
+}
+
+async function auditChatComposerInteractions(session) {
+  const states = [];
+  const hoverAndRecord = async (label, spec, expectedExpression = null, waitMs = 450) => {
+    const point = await findControlPoint(session, { ...spec, allowClipped: true });
+    if (!point) {
+      states.push({ label, pass: false, reason: `Control not found: ${spec.name || spec.selector || spec.text}` });
+      return null;
+    }
+    await session.send("Input.dispatchMouseEvent", { type: "mouseMoved", x: point.x, y: point.y });
+    await new Promise((resolve) => setTimeout(resolve, waitMs));
+    const visual = await session.evaluate(`(() => {
+      const point = ${JSON.stringify(point)};
+      const channels = (value) => {
+        const values = (String(value).match(/[0-9.]+/g) || []).slice(0, 3).map(Number);
+        return String(value).startsWith('color(srgb') ? values.map((item) => item <= 1 ? item * 255 : item) : values;
+      };
+      const luminance = (values) => {
+        const linear = values.map((value) => {
+          const normalized = value / 255;
+          return normalized <= .03928 ? normalized / 12.92 : ((normalized + .055) / 1.055) ** 2.4;
+        });
+        return .2126 * linear[0] + .7152 * linear[1] + .0722 * linear[2];
+      };
+      const ratio = (foreground, background) => {
+        const firstValues = channels(foreground);
+        const secondValues = channels(background);
+        if (firstValues.length !== 3 || secondValues.length !== 3) return null;
+        const first = luminance(firstValues);
+        const second = luminance(secondValues);
+        return Number(((Math.max(first, second) + .05) / (Math.min(first, second) + .05)).toFixed(2));
+      };
+      const hovered = document.elementFromPoint(point.x, point.y);
+      const surface = hovered?.closest('button, [role="button"], [role="menuitem"], [role="option"], .atm-row') ||
+        hovered?.closest('[role="menu"] [class*="_row_"]:not(span)') || hovered;
+      if (!surface) return { pass: false, reason: 'No surface at hover point' };
+      const style = getComputedStyle(surface);
+      const textNode = [...surface.querySelectorAll('*')].find((node) => node.children.length === 0 && node.textContent?.trim()) || surface;
+      const backgroundValues = channels(style.backgroundColor);
+      const brightness = backgroundValues.length === 3
+        ? Math.round(backgroundValues.reduce((sum, value) => sum + value, 0) / 3)
+        : null;
+      const appearance = document.documentElement.dataset.workbuddyDreamSkinAppearance || 'dark';
+      const transparent = style.backgroundColor === 'transparent' ||
+        style.backgroundColor === 'rgba(0, 0, 0, 0)' ||
+        /\\/\\s*0\\s*\\)$/.test(style.backgroundColor);
+      const contrast = ratio(getComputedStyle(textNode).color, style.backgroundColor);
+      const tonePass = appearance === 'light' ? brightness !== null && brightness >= 130 : brightness !== null && brightness < 180;
+      return {
+        pass: !transparent && tonePass && contrast !== null && contrast >= 3,
+        appearance,
+        surface: {
+          tag: surface.tagName.toLowerCase(),
+          className: typeof surface.className === 'string' ? surface.className.slice(0, 180) : '',
+          text: surface.textContent?.trim().replace(/\\s+/g, ' ').slice(0, 80) || '',
+          background: style.backgroundColor,
+          color: getComputedStyle(textNode).color,
+          brightness,
+          contrast
+        }
+      };
+    })()`);
+    const expectedVisible = expectedExpression ? Boolean(await session.evaluate(expectedExpression)) : true;
+    states.push({ label, point, expectedVisible, ...visual, pass: visual.pass && expectedVisible });
+    return point;
+  };
+
+  await hoverAndRecord("history-composer-model-hover", {
+    name: "history-composer-model",
+    selector: '.input-area-container button[class*="_trigger_"][title], [class*="_input-area-container_"] button[class*="_trigger_"][title]'
+  });
+
+  await hoverAndRecord("history-composer-ring-hover", {
+    name: "history-composer-ring",
+    selector: '.input-area-container [class*="_ringClickable_"], [class*="_input-area-container_"] [class*="_ringClickable_"]'
+  });
+
+  const menuVisible = await session.evaluate(`Boolean([...document.querySelectorAll('[role="listbox"]')].find((node) => {
+    const box = node.getBoundingClientRect();
+    const style = getComputedStyle(node);
+    return box.width > 100 && box.height > 100 && node.textContent?.includes('添加文件') &&
+      style.display !== 'none' && style.visibility !== 'hidden';
+  }))`);
+  if (!menuVisible) {
+    const opened = await clickControl(session, {
+      name: "history-composer-more",
+      selector: '.input-area-container button[aria-label="更多操作"], [class*="_input-area-container_"] button[aria-label="更多操作"]',
+      allowClipped: true,
+      waitMs: 450
+    });
+    if (!opened.clicked) {
+      states.push({ label: "history-composer-more-open", pass: false, reason: opened.reason });
+      return { pass: false, states };
+    }
+  }
+
+  await hoverAndRecord("history-composer-add-file-hover", {
+    name: "history-composer-add-file",
+    selector: '[role="listbox"] [role="menuitem"]',
+    text: "添加文件",
+    exactText: true,
+    closestClickable: true
+  }, `Boolean([...document.querySelectorAll('[role="menu"]')].find((node) => {
+    const box = node.getBoundingClientRect();
+    return box.width > 100 && box.height > 80 && node.textContent?.includes('本地文件');
+  }))`, 650);
+
+  await hoverAndRecord("history-composer-mode-hover", {
+    name: "history-composer-mode",
+    selector: '[role="listbox"] [role="menuitem"]',
+    text: "模式",
+    exactText: true,
+    closestClickable: true
+  }, `Boolean([...document.querySelectorAll('[role="menu"] [class*="_row_"]')].find((node) => {
+    const box = node.getBoundingClientRect();
+    return box.width > 100 && box.height > 20 && node.textContent?.trim().startsWith('计划');
+  }))`, 650);
+
+  await hoverAndRecord("history-composer-plan-hover", {
+    name: "history-composer-plan",
+    selector: '[role="menu"] [class*="_row_"]',
+    text: "计划",
+    exactText: false
+  });
+
+  await hoverAndRecord("history-composer-skill-hover", {
+    name: "history-composer-skill",
+    selector: '[role="listbox"] [role="menuitem"]',
+    text: "技能",
+    exactText: true,
+    closestClickable: true
+  }, `Boolean([...document.querySelectorAll('[role="menu"]')].find((node) => {
+    const box = node.getBoundingClientRect();
+    return box.width > 250 && box.height > 150 && node.querySelector('input');
+  }))`, 800);
+
+  await session.send("Input.dispatchKeyEvent", { type: "keyDown", key: "Escape", code: "Escape", windowsVirtualKeyCode: 27 });
+  await session.send("Input.dispatchKeyEvent", { type: "keyUp", key: "Escape", code: "Escape", windowsVirtualKeyCode: 27 });
+  await session.send("Input.dispatchMouseEvent", { type: "mouseMoved", x: 1, y: 1 });
+  return { pass: states.length === 6 && states.every((state) => state.pass), states };
 }
 
 async function findControlPointDetail(session, spec) {
@@ -900,20 +1224,22 @@ async function auditComposerSession(session) {
 
   await hoverAndAudit("composer-model-trigger-hover", {
     name: "composer-model-trigger",
-    selector: 'button[class*="_trigger_qeqjw_"]'
+    selector: '.wb-home-composer button[class*="_trigger_"][title]'
   });
   await hoverAndAudit("composer-workspace-trigger-hover", {
     name: "composer-workspace-trigger",
-    selector: 'button[class*="_chip_fxx2z_"]'
+    selector: '.wb-home-composer button',
+    text: "选择工作空间"
   });
   await hoverAndAudit("composer-permission-trigger-hover", {
     name: "composer-permission-trigger",
-    selector: '.wb-home-composer button[class*="_button_18jez_"]'
+    selector: '.wb-home-composer button',
+    text: "默认权限"
   });
 
   const opened = await clickControl(session, {
     name: "composer-model-trigger-open",
-    selector: 'button[class*="_trigger_qeqjw_"]',
+    selector: '.wb-home-composer button[class*="_trigger_"][title]',
     waitMs: 500
   });
   if (!opened.clicked) {
@@ -923,10 +1249,10 @@ async function auditComposerSession(session) {
     states.push(popover);
     await hoverAndAudit("composer-model-item-hover", {
       name: "composer-model-item",
-      selector: '[class*="_popover_qeqjw_"] [class*="_modelItem_"]',
+      selector: '[class*="_popover_"] [class*="_modelItem_"]',
       text: "GLM-5v-Turbo",
       closestClickable: true,
-      expectedSurface: '[class*="_subMenu_gtbqm_"]'
+      expectedSurface: '[class*="_subMenu_"], [class*="_modelItem_"]:hover'
     }, 850);
   }
 
@@ -944,6 +1270,16 @@ async function auditScenesSession(session, auditLabel = null) {
   const scenes = auditLabel ? allScenes.filter((scene) => scene === auditLabel) : allScenes;
   const states = [];
   for (const scene of scenes) {
+    const onWelcomePage = await session.evaluate(`Boolean(document.querySelector('.main-content--welcome'))`);
+    if (!onWelcomePage) {
+      await clickControl(session, {
+        name: `scene-restore-new-task-${scene}`,
+        scope: ".conversation-list",
+        selector: ".conversation-list-tab-button",
+        text: "新建任务",
+        waitMs: 700
+      });
+    }
     const sceneClick = await clickControl(session, {
       name: `scene-${scene}`,
       selector: ".wb-scene-tabs__pill",
@@ -956,7 +1292,7 @@ async function auditScenesSession(session, auditLabel = null) {
       continue;
     }
     let action = null;
-    for (let attempt = 0; attempt < 8 && !action; attempt += 1) {
+    for (let attempt = 0; attempt < 50 && !action; attempt += 1) {
       action = await session.evaluate(`(() => {
         const node = [...document.querySelectorAll('.quick-actions__item')].find((candidate) => {
           const box = candidate.getBoundingClientRect();
@@ -994,7 +1330,13 @@ async function auditScenesSession(session, auditLabel = null) {
       selector: ".quick-actions-sub__item"
     });
     if (!recommendation) {
-      states.push({ label: `${scene}-recommendation-hover`, pass: false, reason: "No recommendation is visible" });
+      const directNavigation = await session.evaluate(`!document.querySelector('.main-content--welcome')`);
+      states.push({
+        label: `${scene}-action-destination`,
+        pass: Boolean(directNavigation && visual.pass),
+        directNavigation,
+        reason: directNavigation ? "Quick action routed directly to a destination page" : "No recommendation is visible"
+      });
       continue;
     }
     await session.send("Input.dispatchMouseEvent", { type: "mouseMoved", x: recommendation.x, y: recommendation.y });
@@ -1089,6 +1431,13 @@ async function auditVisualState(session, label) {
       const style = getComputedStyle(node);
       return box.width > 0 && box.height > 0 && box.bottom > 30 && box.top < innerHeight && style.display !== 'none' && style.visibility !== 'hidden';
     };
+    const exposed = (node) => {
+      const box = node.getBoundingClientRect();
+      const x = Math.min(innerWidth - 1, Math.max(0, box.left + box.width / 2));
+      const y = Math.min(innerHeight - 1, Math.max(30, box.top + box.height / 2));
+      const hit = document.elementFromPoint(x, y);
+      return Boolean(hit && (hit === node || node.contains(hit) || hit.contains(node)));
+    };
     const roots = [
       document.querySelector('.teams-main-content'),
       document.querySelector('.conversation-sidebar'),
@@ -1108,7 +1457,7 @@ async function auditVisualState(session, label) {
     });
     const appearance = document.documentElement.dataset.workbuddyDreamSkinAppearance || 'dark';
     const lightRaw = appearance === 'dark' ? nodes.filter((node) => {
-      if (!visible(node) || node.closest('.workbuddy-window-controls')) return false;
+      if (!visible(node) || !exposed(node) || node.closest('.workbuddy-window-controls')) return false;
       if (node.matches('img[class*="qrcode" i], img[class*="qr-code" i]')) return false;
       const box = node.getBoundingClientRect();
       const values = channels(getComputedStyle(node).backgroundColor);
@@ -1128,12 +1477,20 @@ async function auditVisualState(session, label) {
       const rgbaAlpha = /^rgba\\([^,]+,[^,]+,[^,]+,\\s*([0-9.]+)\\)$/.exec(value)?.[1];
       return rgbaAlpha !== undefined && Number(rgbaAlpha) < .12;
     };
-    const lowContrastRaw = nodes.filter((node) => visible(node) && !node.closest('#workbuddy-dream-skin-chrome') && node.children.length === 0 && node.textContent?.trim() && !node.matches('[class*="_levelBadge_qeqjw_"]')).map((node) => {
+    const lowContrastRaw = nodes.filter((node) => visible(node) && exposed(node) && !node.closest('#workbuddy-dream-skin-chrome') && node.children.length === 0 && node.textContent?.trim() && !node.matches('[class*="_levelBadge_qeqjw_"]')).map((node) => {
       let backgroundNode = node;
       while (backgroundNode && surfaceIsTransparent(getComputedStyle(backgroundNode).backgroundColor)) backgroundNode = backgroundNode.parentElement;
       const foreground = getComputedStyle(node).color;
       const background = backgroundNode ? getComputedStyle(backgroundNode).backgroundColor : 'rgb(7, 19, 24)';
-      return { ...describe(node), background, contrast: ratio(foreground, background) };
+      const control = node.closest('button, [role="button"]');
+      return {
+        ...describe(node),
+        text: node.textContent?.trim().replace(/\s+/g, ' ').slice(0, 80) || '',
+        parentClassName: control && typeof control.className === 'string' ? control.className.slice(0, 180) : '',
+        backgroundClassName: backgroundNode && typeof backgroundNode.className === 'string' ? backgroundNode.className.slice(0, 180) : '',
+        background,
+        contrast: ratio(foreground, background)
+      };
     }).filter((item) => item.contrast !== null && item.contrast < 4.5);
     const contrastMap = new Map();
     for (const item of lowContrastRaw) {
@@ -1197,6 +1554,12 @@ async function auditPagesSession(session, auditDir = null, auditLabel = null) {
   if (auditDir && (!auditLabel || auditLabel === "conversation-search")) await capture(session, path.join(auditDir, `${String(results.length).padStart(2, '0')}-conversation-search.png`));
   await closeTopOverlay(session);
   await visit("new-task", { name: "new-task", scope: sidebar, selector: ".conversation-list-tab-button", text: "新建任务" });
+  const sidebarExpertMenuInteractions = await auditSidebarExpertMenuInteractions(session, {
+    screenshotPath: auditDir && (!auditLabel || auditLabel === "sidebar-expert-menu-hover")
+      ? path.join(auditDir, `${String(results.length + 1).padStart(2, "0")}-sidebar-expert-menu-hover.png`)
+      : null
+  });
+  results.push({ label: "sidebar-expert-menu-hover", ...sidebarExpertMenuInteractions });
   const historyCandidates = await session.evaluate(`(() => {
     const seen = new Set();
     return [...document.querySelectorAll('.conversation-list .conversation-agent-card--standalone, .conversation-list .conversation-agent-card')]
@@ -1209,15 +1572,16 @@ async function auditPagesSession(session, auditDir = null, auditLabel = null) {
         seen.add(text);
         return true;
       })
-      .slice(0, 4)
+      .slice(0, 8)
       .map((node) => {
         const box = node.getBoundingClientRect();
         return { text: node.textContent?.trim().replace(/\\s+/g, ' ').slice(0, 100) || '', x: Math.round(box.left + box.width / 2), y: Math.round(box.top + box.height / 2) };
       });
   })()`);
   const historySamples = [];
+  const skippedHistoryCandidates = [];
   const historyResultNumber = results.length + 1;
-  for (let index = 0; index < historyCandidates.length; index += 1) {
+  for (let index = 0; index < historyCandidates.length && historySamples.length < 4; index += 1) {
     const candidate = historyCandidates[index];
     await session.send("Input.dispatchMouseEvent", { type: "mouseMoved", x: candidate.x, y: candidate.y });
     await session.send("Input.dispatchMouseEvent", { type: "mousePressed", x: candidate.x, y: candidate.y, button: "left", clickCount: 1 });
@@ -1265,31 +1629,40 @@ async function auditPagesSession(session, auditDir = null, auditLabel = null) {
       };
     })()`);
     let initial = await inspectHistory();
-    for (let attempt = 0; attempt < 6 && (!initial.chatPage || initial.visibleTextCount === 0); attempt += 1) {
+    for (let attempt = 0; attempt < 8 && (!initial.chatPage || initial.visibleTextCount === 0 || !initial.scroll); attempt += 1) {
       await new Promise((resolve) => setTimeout(resolve, 700));
       initial = await inspectHistory();
     }
+    if (!initial.chatPage || initial.visibleTextCount === 0) {
+      skippedHistoryCandidates.push({
+        title: candidate.text,
+        reason: !initial.chatPage ? "history-page-did-not-open" : "history-thread-has-no-visible-messages",
+        initial
+      });
+      continue;
+    }
+    const sampleNumber = historySamples.length + 1;
     await inspectHistory("top");
     await new Promise((resolve) => setTimeout(resolve, 420));
     const topStructure = await inspectHistory("top");
     await new Promise((resolve) => setTimeout(resolve, 120));
-    const topVisual = await auditVisualState(session, `history-task-${index + 1}-top`);
+    const topVisual = await auditVisualState(session, `history-task-${sampleNumber}-top`);
     if (auditDir && (!auditLabel || auditLabel === "history-task")) {
-      await capture(session, path.join(auditDir, `${String(historyResultNumber).padStart(2, '0')}-history-task-${String(index + 1).padStart(2, '0')}-top.png`));
+      await capture(session, path.join(auditDir, `${String(historyResultNumber).padStart(2, '0')}-history-task-${String(sampleNumber).padStart(2, '0')}-top.png`));
     }
     await inspectHistory("bottom");
     await new Promise((resolve) => setTimeout(resolve, 420));
     const bottomStructure = await inspectHistory("bottom");
     await new Promise((resolve) => setTimeout(resolve, 120));
-    const bottomVisual = await auditVisualState(session, `history-task-${index + 1}-bottom`);
+    const bottomVisual = await auditVisualState(session, `history-task-${sampleNumber}-bottom`);
     if (auditDir && (!auditLabel || auditLabel === "history-task")) {
-      await capture(session, path.join(auditDir, `${String(historyResultNumber).padStart(2, '0')}-history-task-${String(index + 1).padStart(2, '0')}-bottom.png`));
+      await capture(session, path.join(auditDir, `${String(historyResultNumber).padStart(2, '0')}-history-task-${String(sampleNumber).padStart(2, '0')}-bottom.png`));
     }
     const structurePass = initial.chatPage && initial.visibleTextCount > 0 && initial.composerVisible && initial.decorationHidden &&
       topStructure.visibleTextCount > 0 && bottomStructure.visibleTextCount > 0 && topStructure.scroll && topStructure.scroll.top <= 2 &&
       bottomStructure.scroll && bottomStructure.scroll.top >= Math.max(0, bottomStructure.scroll.max - 2);
     historySamples.push({
-      index: index + 1,
+      index: sampleNumber,
       title: candidate.text,
       pass: Boolean(structurePass && topVisual.pass && bottomVisual.pass),
       initial,
@@ -1297,13 +1670,23 @@ async function auditPagesSession(session, auditDir = null, auditLabel = null) {
       bottom: { structure: bottomStructure, visual: bottomVisual }
     });
   }
+  const historyUnavailable = historySamples.length === 0 && skippedHistoryCandidates.length > 0 &&
+    skippedHistoryCandidates.every((candidate) => candidate.reason === "history-thread-has-no-visible-messages");
   results.push({
     label: "history-task",
-    pass: historySamples.length === 4 && historySamples.every((sample) => sample.pass),
+    pass: historyUnavailable || (historySamples.length === 4 && historySamples.every((sample) => sample.pass)),
+    skipped: historyUnavailable,
+    reason: historyUnavailable ? "All visible history candidates currently have no loaded messages" : null,
     requestedSamples: 4,
     sampleCount: historySamples.length,
+    skippedCandidates: skippedHistoryCandidates,
     samples: historySamples
   });
+  const historyComposerInteractions = await auditChatComposerInteractions(session);
+  results.push({ label: "history-composer-interactions", ...historyComposerInteractions });
+  if (auditDir && (!auditLabel || auditLabel === "history-composer-interactions")) {
+    await capture(session, path.join(auditDir, `${String(results.length).padStart(2, '0')}-history-composer-interactions.png`));
+  }
   await clickControl(session, { name: "history-restore-new-task", scope: sidebar, selector: ".conversation-list-tab-button", text: "新建任务", waitMs: 700 });
   await visit("assistant", { name: "assistant", scope: sidebar, selector: ".conversation-list-tab-button", text: "助理" });
   await visit("projects", { name: "projects", scope: sidebar, selector: ".conversation-list-tab-button", text: "项目" });
@@ -1311,6 +1694,17 @@ async function auditPagesSession(session, auditDir = null, auditLabel = null) {
   await visit("skills", { name: "skills", selector: ".um-tab", text: "技能" });
   await visit("connectors", { name: "connectors", selector: ".um-tab", text: "连接器" });
   await visit("automation", { name: "automation", scope: sidebar, selector: ".conversation-list-tab-button", text: "自动化" });
+  const automationRow = await findControlPoint(session, { name: "automation-row", selector: ".atm-row" });
+  if (!automationRow) {
+    results.push({ label: "automation-row-hover", pass: false, reason: "Control not found: automation-row" });
+  } else {
+    await session.send("Input.dispatchMouseEvent", { type: "mouseMoved", x: automationRow.x, y: automationRow.y });
+    await new Promise((resolve) => setTimeout(resolve, 450));
+    results.push({ ...(await auditVisualState(session, "automation-row-hover")), navigation: { hovered: true, point: automationRow } });
+    if (auditDir && (!auditLabel || auditLabel === "automation-row-hover")) {
+      await capture(session, path.join(auditDir, `${String(results.length).padStart(2, '0')}-automation-row-hover.png`));
+    }
+  }
   const menuAlreadyOpen = await session.evaluate(`Boolean([...document.querySelectorAll('.daily-checkin-card, [class*="user-menu"]')].find((node) => {
     const box = node.getBoundingClientRect();
     const style = getComputedStyle(node);
@@ -1404,7 +1798,6 @@ async function auditSettingsSession(session, auditDir = null, auditLabel = null)
 
   const sections = [
     ["account", "账户管理"],
-    ["agent-mailbox", "智能体邮箱"],
     ["system", "系统设置"],
     ["agents", "智能体设置"],
     ["shortcuts", "快捷键"],

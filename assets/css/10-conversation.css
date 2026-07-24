@@ -42,7 +42,7 @@ html.workbuddy-dream-skin :is(.conversation-search-modal__close, .conversation-s
 }
 
 html.workbuddy-dream-skin :is(.conversation-search-modal__close, .conversation-search-modal__item):is(:hover, :focus-visible, :active) {
-  color: var(--wbds-accent-alt) !important;
+  color: var(--wbds-interactive-text) !important;
   border-color: color-mix(in srgb, var(--wbds-accent) 22%, transparent) !important;
   background: color-mix(in srgb, var(--wbds-accent) 13%, var(--wbds-panel)) !important;
 }
@@ -60,7 +60,7 @@ html.workbuddy-dream-skin .conversation-section-label:is(.conversation-section-l
 
 html.workbuddy-dream-skin .conversation-show-more-button:is(:hover, :focus-visible, :active),
 html.workbuddy-dream-skin .conversation-section-label:is(.conversation-section-label-tasks, .conversation-section-label-groups):is(:hover, :focus-within) {
-  color: var(--wbds-accent-alt) !important;
+  color: var(--wbds-interactive-text) !important;
   border-color: color-mix(in srgb, var(--wbds-accent) 24%, transparent) !important;
   background: color-mix(in srgb, var(--wbds-accent) 13%, var(--wbds-panel)) !important;
   box-shadow: inset 3px 0 var(--wbds-accent), 0 8px 18px rgba(0, 0, 0, .16) !important;
@@ -84,4 +84,3 @@ html.workbuddy-dream-skin .main-content--chat {
     linear-gradient(105deg, var(--wbds-background-overlay-strong), var(--wbds-background-overlay) 62%, var(--wbds-background-overlay-strong)),
     var(--wbds-background-art) var(--wbds-background-position) / var(--wbds-background-size) no-repeat fixed !important;
 }
-

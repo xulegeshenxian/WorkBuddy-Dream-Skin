@@ -15,4 +15,8 @@ if (-not $Id) {
 }
 
 & $manager -Action Apply -Id $Id -NoApply:$NoApply -RestartExisting:$RestartExisting
-exit $LASTEXITCODE
+if (-not $?) {
+  if ($LASTEXITCODE) { exit $LASTEXITCODE }
+  exit 1
+}
+exit 0

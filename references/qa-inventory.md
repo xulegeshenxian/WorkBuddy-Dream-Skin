@@ -27,12 +27,12 @@
 * Hover audit covers conversation cards, the More entry, quick actions and the growth plan entry
 * Hover surfaces stay dark and keep a text contrast ratio of at least 4.5
 * Visible tooltips and overlay text keep a contrast ratio of at least 4.5
-* Composer audit covers model trigger hover, workspace trigger hover, permission trigger hover, model popover open and model description hover
+* Composer audit covers model trigger hover, workspace trigger hover, permission trigger hover, model popover open and model item hover
 * Hover audit covers show more, collapse and workspace section label states in the conversation sidebar
 * Verification checks visible Markdown code blocks, code headers and tables for dark readable surfaces
 * Verification checks the task preparation overlay whenever it is visible
-* Composer audit requires the model description submenu to be visibly rendered before accepting the result
-* Scene audit opens Office, Coding and Design, then checks recommendation chips in both idle and hover states
+* Composer audit requires the hovered model item surface to be visibly rendered, and accepts the legacy model description submenu when that surface still exists
+* Scene audit opens Office, Coding and Design, then checks recommendation chips in idle and hover states or validates the themed destination when WorkBuddy routes an action directly
 * Page audit covers New Task, History Task, Assistant, Projects, Experts, Skills, Connectors, Automation, User Menu and Settings
 * History Task audit opens four existing conversations and requires a visible chat page, at least one visible message, a visible composer and hidden welcome decorations in every sample
 * Every History Task sample scrolls to the top and back to the bottom, then repeats contrast, pseudo element and horizontal overflow checks at both positions

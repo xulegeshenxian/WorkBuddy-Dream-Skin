@@ -33,7 +33,7 @@ html.workbuddy-dream-skin .main-content--chat :is(.cb-chat-message--user .cb-cha
 }
 
 html.workbuddy-dream-skin .main-content--chat [class*="_userMessageBubble_"] :is([class*="_tag_"], [class*="_skillTag_"], [class*="_fileTag_"], .wb-tag) {
-  color: var(--wbds-accent-alt) !important;
+  color: var(--wbds-interactive-text) !important;
   border: 1px solid color-mix(in srgb, var(--wbds-accent) 26%, transparent) !important;
   border-radius: 999px !important;
   background: color-mix(in srgb, var(--wbds-accent) 10%, var(--wbds-panel)) !important;
@@ -133,7 +133,7 @@ html.workbuddy-dream-skin .main-content--chat .artifact-slot-panel__action-btn {
   padding: 7px 12px !important;
   border: 1px solid color-mix(in srgb, var(--wbds-accent) 20%, transparent) !important;
   border-radius: 999px !important;
-  color: var(--wbds-accent-alt) !important;
+  color: var(--wbds-interactive-text) !important;
   background: color-mix(in srgb, var(--wbds-accent) 9%, var(--wbds-panel)) !important;
 }
 
@@ -149,4 +149,3 @@ html.workbuddy-dream-skin .main-content--chat :is(.cb-file-content, [class*="_fi
   background: color-mix(in srgb, var(--wbds-panel) 96%, transparent) !important;
   box-shadow: 0 12px 28px color-mix(in srgb, var(--wbds-background) 14%, transparent), inset 0 1px rgba(255, 255, 255, .48) !important;
 }
-

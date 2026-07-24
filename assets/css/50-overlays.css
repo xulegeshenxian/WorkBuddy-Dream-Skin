@@ -76,7 +76,11 @@ html.workbuddy-dream-skin :is(.tencent-docs-auth-guide__permissions, .tencent-do
 }
 
 html.workbuddy-dream-skin .tencent-docs-auth-guide__permission-icon {
-  color: var(--wbds-accent-alt) !important;
+  color: var(--wbds-interactive-text) !important;
+}
+
+html.workbuddy-dream-skin .tencent-docs-auth-guide__connect-arrow {
+  color: var(--wbds-interactive-text) !important;
 }
 
 html.workbuddy-dream-skin .tencent-docs-auth-guide__btn {
@@ -107,7 +111,7 @@ html.workbuddy-dream-skin :is(.atm-tabs, .atm-toolbar-btn, .wb-segmented__item) 
 }
 
 html.workbuddy-dream-skin .wb-segmented__item--active {
-  color: var(--wbds-accent-alt) !important;
+  color: var(--wbds-interactive-text) !important;
   background: color-mix(in srgb, var(--wbds-accent) 13%, var(--wbds-panel)) !important;
 }
 
@@ -117,6 +121,36 @@ html.workbuddy-dream-skin :is(.atm-task-group-label, .atm-row-name, .atm-row-pro
 
 html.workbuddy-dream-skin :is(.atm-row-paused-label, .atm-row-display-status) {
   color: var(--wbds-muted) !important;
+}
+
+html.workbuddy-dream-skin .atm-row {
+  color: var(--wbds-text) !important;
+  border: 1px solid transparent !important;
+  background: transparent !important;
+}
+
+html.workbuddy-dream-skin .atm-row:is(:hover, :focus-visible, :focus-within) {
+  color: var(--wbds-interactive-text) !important;
+  border-color: color-mix(in srgb, var(--wbds-accent) 32%, transparent) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 12%, var(--wbds-panel)) !important;
+}
+
+html.workbuddy-dream-skin .atm-row:is(:hover, :focus-visible, :focus-within) :is(
+  .atm-row-left,
+  .atm-row-content,
+  .atm-row-meta,
+  .atm-row-name,
+  .atm-row-project,
+  .atm-row-schedule,
+  .atm-row-right,
+  svg,
+  path
+) {
+  color: inherit !important;
+}
+
+html.workbuddy-dream-skin .atm-row:is(:hover, :focus-visible, :focus-within) .atm-row-display-status {
+  color: color-mix(in srgb, var(--wbds-text) 76%, var(--wbds-muted)) !important;
 }
 
 /* User menu */
@@ -142,8 +176,14 @@ html.workbuddy-dream-skin :is(.daily-checkin-btn-primary, .daily-checkin-actions
   background: var(--wbds-accent) !important;
 }
 
+html.workbuddy-dream-skin .plan-action-btn {
+  color: var(--wbds-on-accent) !important;
+  border-color: color-mix(in srgb, var(--wbds-accent) 70%, transparent) !important;
+  background: var(--wbds-accent) !important;
+}
+
 html.workbuddy-dream-skin :is(.daily-checkin-credit, .daily-checkin-accent) {
-  color: var(--wbds-accent-alt) !important;
+  color: var(--wbds-interactive-text) !important;
   background: transparent !important;
 }
 
@@ -199,13 +239,63 @@ html.workbuddy-dream-skin .colleague-chat-empty-profile__title {
   letter-spacing: -.015em;
 }
 
+/* WorkBuddy 5.3.3 uses grey buttons on connector and routed recommendation pages. */
+html.workbuddy-dream-skin .wb-button--grey {
+  color: var(--wbds-text) !important;
+  border-color: color-mix(in srgb, var(--wbds-line) 82%, transparent) !important;
+  background: color-mix(in srgb, var(--wbds-panel-alt) 94%, transparent) !important;
+}
+
+html.workbuddy-dream-skin .wb-button--grey * {
+  color: inherit !important;
+}
+
+html.workbuddy-dream-skin .wb-button--grey:is(:hover, :focus-visible, :active) {
+  color: var(--wbds-interactive-text) !important;
+  border-color: color-mix(in srgb, var(--wbds-accent) 46%, transparent) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 12%, var(--wbds-panel)) !important;
+}
+
+html.workbuddy-dream-skin .wb-button {
+  color: var(--wbds-text) !important;
+}
+
+html.workbuddy-dream-skin .wb-button__content {
+  color: var(--wbds-text) !important;
+}
+
+html.workbuddy-dream-skin .wb-button:is([class*="primary" i], [class*="danger" i]) {
+  color: var(--wbds-on-accent) !important;
+}
+
+html.workbuddy-dream-skin .wb-button:is([class*="primary" i], [class*="danger" i]) .wb-button__content {
+  color: var(--wbds-on-accent) !important;
+}
+
+html.workbuddy-dream-skin :is(.connector-selector-field__trigger, .atm-modal-notice) {
+  color: var(--wbds-text) !important;
+  border-color: var(--wbds-line) !important;
+  background: color-mix(in srgb, var(--wbds-panel-alt) 96%, transparent) !important;
+}
+
+html.workbuddy-dream-skin :is(.connector-selector-field__trigger-text, .atm-modal-notice__content) {
+  color: var(--wbds-text) !important;
+}
+
+html.workbuddy-dream-skin .atm-modal-notice__badge {
+  color: var(--wbds-interactive-text) !important;
+  border-color: color-mix(in srgb, var(--wbds-accent) 34%, transparent) !important;
+  background: color-mix(in srgb, var(--wbds-accent) 10%, var(--wbds-panel)) !important;
+}
+
 html.workbuddy-dream-skin .claw-sidebar-drawer__create-btn,
 html.workbuddy-dream-skin .claw-sidebar-drawer__create-entry,
 html.workbuddy-dream-skin .colleagues-chat-float__task-list-new,
-html.workbuddy-dream-skin button[class*="primary"] {
+html.workbuddy-dream-skin button[class*="primary" i] {
   color: var(--wbds-on-accent) !important;
   border-color: color-mix(in srgb, var(--wbds-accent) 70%, white) !important;
   background: linear-gradient(135deg, var(--wbds-accent-alt), var(--wbds-accent)) !important;
+  background-color: var(--wbds-accent) !important;
   box-shadow: 0 8px 24px color-mix(in srgb, var(--wbds-accent) 19%, transparent), inset 0 1px rgba(255,255,255,.42) !important;
 }
 
@@ -231,7 +321,7 @@ html.workbuddy-dream-skin [aria-current="page"],
 html.workbuddy-dream-skin [aria-selected="true"],
 html.workbuddy-dream-skin .colleagues-chat-float__task-list-item:hover,
 html.workbuddy-dream-skin .colleague-detail-nav-item:hover {
-  color: var(--wbds-accent-alt) !important;
+  color: var(--wbds-interactive-text) !important;
   background: linear-gradient(90deg, color-mix(in srgb, var(--wbds-accent) 15%, transparent), transparent) !important;
   box-shadow: inset 2px 0 var(--wbds-accent) !important;
 }
@@ -307,6 +397,7 @@ html.workbuddy-dream-skin :is(.input-area-container, [class*="_input-area-contai
 
 html.workbuddy-dream-skin [data-cb-chat-input-toolbar-right] > [role="button"],
 html.workbuddy-dream-skin .voice-mic-trigger,
+html.workbuddy-dream-skin :is(.input-area-container, [class*="_input-area-container_"], .wb-input-wrapper) [class*="_ringClickable_"],
 html.workbuddy-dream-skin :is([data-track-name*="提示"], [aria-label*="提示"], [title*="提示"], [data-track-name*="语音"], [aria-label*="语音"], [title*="语音"]) {
   color: var(--wbds-text) !important;
   border: 1px solid transparent !important;
@@ -317,8 +408,9 @@ html.workbuddy-dream-skin :is([data-track-name*="提示"], [aria-label*="提示"
 
 html.workbuddy-dream-skin [data-cb-chat-input-toolbar-right] > [role="button"]:is(:hover, :focus-visible, [aria-expanded="true"]),
 html.workbuddy-dream-skin .voice-mic-trigger:is(:hover, :focus-visible, :active),
+html.workbuddy-dream-skin :is(.input-area-container, [class*="_input-area-container_"], .wb-input-wrapper) [class*="_ringClickable_"]:is(:hover, :focus-visible, :active),
 html.workbuddy-dream-skin :is([data-track-name*="提示"], [aria-label*="提示"], [title*="提示"], [data-track-name*="语音"], [aria-label*="语音"], [title*="语音"]):is(:hover, :focus-visible, [aria-expanded="true"]) {
-  color: var(--wbds-accent-alt) !important;
+  color: var(--wbds-interactive-text) !important;
   border-color: color-mix(in srgb, var(--wbds-accent) 30%, transparent) !important;
   background: color-mix(in srgb, var(--wbds-accent) 15%, var(--wbds-panel)) !important;
   box-shadow: 0 8px 20px rgba(0, 0, 0, .22), 0 0 0 3px color-mix(in srgb, var(--wbds-accent) 8%, transparent) !important;
@@ -353,4 +445,3 @@ html.workbuddy-dream-skin [class*="artifact"] {
   border-color: var(--wbds-line) !important;
   background: linear-gradient(180deg, color-mix(in srgb, var(--wbds-panel-alt) 98%, transparent), color-mix(in srgb, var(--wbds-background) 98%, transparent)) !important;
 }
-

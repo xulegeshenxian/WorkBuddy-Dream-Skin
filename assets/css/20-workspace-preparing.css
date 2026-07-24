@@ -78,7 +78,7 @@ html.workbuddy-dream-skin .cb-markdown :is(th, td) {
 }
 
 html.workbuddy-dream-skin .cb-markdown th {
-  color: var(--wbds-accent-alt) !important;
+  color: var(--wbds-interactive-text) !important;
   background: color-mix(in srgb, var(--wbds-panel-alt) 98%, transparent) !important;
 }
 
@@ -99,4 +99,3 @@ html.workbuddy-dream-skin .wb-home-composer__input-slot {
   background: linear-gradient(180deg, color-mix(in srgb, var(--wbds-panel) 96%, transparent), color-mix(in srgb, var(--wbds-background) 96%, transparent)) !important;
   box-shadow: 0 26px 64px rgba(0, 0, 0, .28) !important;
 }
-

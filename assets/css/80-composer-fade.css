@@ -51,7 +51,7 @@ html.workbuddy-dream-skin.wbds-has-character body:has(.main-content--welcome) im
 
 .wbds-brand strong {
   display: block;
-  color: var(--wbds-accent-alt);
+  color: var(--wbds-interactive-text);
   font-size: 13px;
   font-weight: 760;
   letter-spacing: .08em;
