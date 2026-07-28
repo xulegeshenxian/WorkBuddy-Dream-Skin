@@ -53,10 +53,29 @@ function Resolve-WorkBuddyExecutable {
 }
 
 function Resolve-NodeExecutable {
-  $command = Get-Command node -ErrorAction Stop
+  $command = Get-Command node -ErrorAction SilentlyContinue
+  if (-not $command) {
+    $candidates = New-Object System.Collections.Generic.List[string]
+    if ($env:ProgramFiles) { $candidates.Add((Join-Path $env:ProgramFiles 'nodejs\node.exe')) }
+    if (${env:ProgramFiles(x86)}) { $candidates.Add((Join-Path ${env:ProgramFiles(x86)} 'nodejs\node.exe')) }
+    if ($env:LOCALAPPDATA) { $candidates.Add((Join-Path $env:LOCALAPPDATA 'Programs\nodejs\node.exe')) }
+    $managedRoot = Join-Path $env:USERPROFILE '.workbuddy\binaries\node\versions'
+    if (Test-Path -LiteralPath $managedRoot) {
+      Get-ChildItem -Directory -LiteralPath $managedRoot -ErrorAction SilentlyContinue |
+        Sort-Object Name -Descending |
+        ForEach-Object { $candidates.Add((Join-Path $_.FullName 'node.exe')) }
+    }
+    foreach ($path in $candidates) {
+      if ($path -and (Test-Path -LiteralPath $path)) {
+        $command = [PSCustomObject]@{ Source = $path }
+        break
+      }
+    }
+  }
+  if (-not $command) { throw "Node.js 22 or newer is required. 'node' was not found on PATH or in common install locations (Program Files\nodejs, LOCALAPPDATA\Programs\nodejs, %USERPROFILE%\.workbuddy\binaries\node)." }
   $versionText = & $command.Source --version
   $major = [int](($versionText -replace '^v', '').Split('.')[0])
-  if ($major -lt 22) { throw "Node.js 22 or newer is required. Found $versionText." }
+  if ($major -lt 22) { throw "Node.js 22 or newer is required. Found $versionText at $($command.Source)." }
   return $command.Source
 }
 
